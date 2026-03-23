@@ -12,6 +12,7 @@ import DMHandoff from "./pages/DMHandoff";
 import Confirmation from "./pages/Confirmation";
 import MentorPreferences from "./pages/MentorPreferences";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
