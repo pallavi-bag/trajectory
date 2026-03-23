@@ -16,6 +16,7 @@ export interface SeekerInput {
   goal: string;
   topic: string;
   careerStage: string;
+  industry?: string;   // optional — seeker's declared sector
 }
 
 export interface MatchResult {
