@@ -274,7 +274,7 @@ const LandingPage = () => {
                 Answer three quick questions and get a ranked list of WIP members whose experience aligns with your career goals.
               </p>
               <button
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/mentee")}
                 className="bg-primary text-primary-foreground font-medium text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity self-start"
               >
                 Find my mentor →

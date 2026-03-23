@@ -84,7 +84,7 @@ const Results = () => {
 
   useEffect(() => {
     if (!seekerInput.topic && !matchResults.length) {
-      navigate("/", { replace: true });
+      navigate("/mentee", { replace: true });
     }
   }, [matchResults, seekerInput, navigate]);
 
@@ -99,7 +99,7 @@ const Results = () => {
           Try broadening your search — change your topic or career stage to surface more mentors.
         </p>
         <button
-          onClick={() => navigate("/")}
+           onClick={() => navigate("/mentee")}
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
         >
           Edit my search
@@ -111,7 +111,7 @@ const Results = () => {
   return (
     <div className="max-w-2xl mx-auto py-8 px-6">
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/mentee")}
         className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />

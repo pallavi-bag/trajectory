@@ -25,13 +25,13 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route element={<Layout />}>
-              <Route path="/" element={<Landing />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/mentee" element={<Landing />} />
               <Route path="/results" element={<Results />} />
               <Route path="/mentor/:id" element={<MentorProfile />} />
               <Route path="/dm/:id" element={<DMHandoff />} />
               <Route path="/confirmation/:id" element={<Confirmation />} />
               <Route path="/become-mentor" element={<MentorPreferences />} />
-              <Route path="/home" element={<LandingPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
