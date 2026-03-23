@@ -72,6 +72,8 @@ export const mentors: Mentor[] = [
     bio: "7 yrs in Fintech, moved from IC to manager at a Series B startup.",
     superpower: "Making career pivots less scary.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Moved from IC to manager at a Series B startup.",
+    createdAt: 1700000000,
   },
   {
     id: "maya-johnson",
