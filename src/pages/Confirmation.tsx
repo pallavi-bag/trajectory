@@ -29,7 +29,7 @@ const Confirmation = () => {
         <h1 className="text-xl font-bold text-nav-foreground mb-2">
           Message sent to {mentor?.name ?? "your mentor"}
         </h1>
-        <p className="text-[hsl(248,20%,58%)] text-sm mb-8">
+        <p className="text-[hsl(270,30%,65%)] text-sm mb-8">
           She'll receive it in her WIP inbox.
         </p>
 

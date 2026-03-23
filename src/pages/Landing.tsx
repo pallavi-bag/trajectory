@@ -31,13 +31,16 @@ const Landing = () => {
   return (
     <div className="flex flex-col flex-1">
       {/* Hero */}
-      <div className="bg-nav px-6 pt-16 pb-20 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-nav-foreground leading-[1.1] mb-4 text-balance">
-          Find your mentor in the WIP community
-        </h1>
-        <p className="text-[hsl(248,20%,58%)] text-lg max-w-xl mx-auto leading-relaxed text-pretty">
-          Connect with an experienced PM who's been where you are — and knows what's next.
-        </p>
+      <div className="bg-nav px-6 pt-16 pb-20 text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-30" style={{background: "linear-gradient(135deg, hsl(270 50% 30%), hsl(330 40% 25%), hsl(260 50% 15%))"}} />
+        <div className="relative z-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-nav-foreground leading-[1.1] mb-4 text-balance">
+            Find your mentor in the WIP community
+          </h1>
+          <p className="text-[hsl(270,30%,70%)] text-lg max-w-xl mx-auto leading-relaxed text-pretty">
+            Connect with an experienced PM who's been where you are — and knows what's next.
+          </p>
+        </div>
       </div>
 
       {/* Form card */}
