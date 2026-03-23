@@ -71,9 +71,9 @@ export const mentors: Mentor[] = [
     topics: ["Career transition", "Interview prep", "FAANG / big tech"],
     bio: "7 yrs in Fintech, moved from IC to manager at a Series B startup.",
     superpower: "Making career pivots less scary.",
+    transitionNote: "moved from IC3 to Manager at a Series B fintech startup",
     linkedin: "https://linkedin.com/in/",
-    transitionNote: "Moved from IC to manager at a Series B startup.",
-    createdAt: 1700000000,
+    createdAt: 1710000001,
   },
   {
     id: "maya-johnson",
@@ -86,9 +86,9 @@ export const mentors: Mentor[] = [
     topics: ["Leadership development", "Stakeholder management", "Roadmap strategy"],
     bio: "Led cross-functional product teams of 30+ across three business units. Passionate about growing the next generation of PM leaders.",
     superpower: "Turning messy stakeholder dynamics into clear roadmaps.",
+    transitionNote: "grew from IC PM to managing a team of 8 PMs across 3 product lines",
     linkedin: "https://linkedin.com/in/",
-    transitionNote: "Scaled from 5-person team to leading 30+ across three BUs.",
-    createdAt: 1700100000,
+    createdAt: 1710000002,
   },
   {
     id: "sara-lin",
@@ -101,24 +101,24 @@ export const mentors: Mentor[] = [
     topics: ["Interview prep", "Career transition", "Work-life balance"],
     bio: "Broke into PM from a non-traditional background. Now building patient-facing products at a digital health startup.",
     superpower: "Helping underrepresented candidates break into PM.",
+    transitionNote: "transitioned into PM from a non-traditional background with no CS degree",
     linkedin: "https://linkedin.com/in/",
-    transitionNote: "Broke into PM from a non-traditional background.",
-    createdAt: 1700200000,
+    createdAt: 1710000003,
   },
   {
     id: "priya-nair",
     name: "Priya Nair",
-    title: "Director",
+    title: "Director of Product",
     seniorityLabel: "Director · Dir+",
     seniorityLevel: 6,
     industry: "Consumer / E-commerce",
     availability: "Async only",
     topics: ["Salary negotiation", "Promotion strategy", "Leadership development"],
-    bio: "15 years shipping consumer products at scale. Negotiated my way from IC to VP and helped dozens of women do the same.",
-    superpower: "Getting women paid what they're worth.",
+    bio: "15 years in consumer product. Two-time Director. Known for negotiation coaching.",
+    superpower: "Helping PMs get paid what they're worth.",
+    transitionNote: "went from Senior PM to Director twice at two different consumer companies",
     linkedin: "https://linkedin.com/in/",
-    transitionNote: "Negotiated my way from IC to VP.",
-    createdAt: 1700300000,
+    createdAt: 1710000004,
   },
   {
     id: "anika-patel",
@@ -129,11 +129,11 @@ export const mentors: Mentor[] = [
     industry: "Enterprise SaaS",
     availability: "1–2/month",
     topics: ["Building in public", "Roadmap strategy", "Entrepreneurship / founding"],
-    bio: "Built and launched three enterprise products from 0→1. Currently advising early-stage founders on product-market fit.",
+    bio: "Currently advising early-stage founders on product-market fit.",
     superpower: "Translating vision into execution.",
+    transitionNote: "moved from IC5 at a public company to advising 3 early-stage startups",
     linkedin: "https://linkedin.com/in/",
-    transitionNote: "Built and launched three enterprise products from 0→1.",
-    createdAt: 1700400000,
+    createdAt: 1710000005,
   },
 ];
 
@@ -151,19 +151,68 @@ function scoreSeniorityGap(mentorLevel: number, seekerLevel: number): number {
   return 0;
 }
 
-function scoreSectorAlignment(mentorIndustry: string, goalText: string): number {
+// Sector clusters — mentors and seekers in the same cluster score 12 pts (adjacent)
+const SECTOR_CLUSTERS: string[][] = [
+  ["fintech", "insurtech", "banking", "payments"],
+  ["health tech", "healthtech", "health", "medtech", "digital health"],
+  ["b2b saas", "saas", "enterprise saas", "enterprise"],
+  ["consumer", "e-commerce", "ecommerce", "marketplace", "retail"],
+  ["edtech", "education", "learning"],
+];
+
+function getSectorCluster(industry: string): number {
+  const lower = industry.toLowerCase();
+  return SECTOR_CLUSTERS.findIndex((cluster) =>
+    cluster.some((kw) => lower.includes(kw))
+  );
+}
+
+function scoreSectorAlignment(
+  mentorIndustry: string,
+  seekerIndustry: string | undefined,
+  goalText: string
+): number {
+  // Signal 1: declared seeker industry (primary signal)
+  if (seekerIndustry && seekerIndustry.trim()) {
+    const seekerLower = seekerIndustry.toLowerCase();
+    const mentorLower = mentorIndustry.toLowerCase();
+
+    // Exact / near-exact match
+    if (mentorLower.includes(seekerLower) || seekerLower.includes(mentorLower)) return 25;
+
+    // Adjacent cluster match
+    const seekerCluster = getSectorCluster(seekerIndustry);
+    const mentorCluster = getSectorCluster(mentorIndustry);
+    if (seekerCluster !== -1 && seekerCluster === mentorCluster) return 12;
+
+    // No sector overlap — fall through to goal scan fallback
+  }
+
+  // Signal 2: keyword scan of goal text (fallback when no declared industry)
   const lower = goalText.toLowerCase();
   const industryLower = mentorIndustry.toLowerCase();
   const keywords = industryLower.split(/[\s\/]+/);
   for (const kw of keywords) {
     if (kw.length > 2 && lower.includes(kw)) return 25;
   }
-  return 8;
+
+  return 8; // no overlap found
 }
+
+const STOP_WORDS = new Set([
+  "want", "need", "help", "with", "into", "move", "work", "like",
+  "more", "make", "find", "have", "been", "that", "this", "from",
+  "just", "also", "some", "them", "they", "will", "would", "could",
+  "about", "their", "there", "these", "those", "which", "other",
+  "looking", "trying", "become", "better", "really", "always",
+]);
 
 function scoreGoalKeyword(goal: string, bio: string, superpower: string): number {
   if (!goal.trim()) return 12;
-  const words = goal.toLowerCase().split(/\s+/).filter((w) => w.length > 3);
+  const words = goal
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((w) => w.length > 3 && !STOP_WORDS.has(w));
   const combined = (bio + " " + superpower).toLowerCase();
   let hits = 0;
   for (const w of words) {
@@ -191,8 +240,10 @@ function scoreCompanyType(industry: string): number {
 }
 
 function buildReason(mentor: Mentor, topic: string, isTopicMatch: boolean): string {
-  const topicPart = isTopicMatch ? `offers ${topic}` : `related experience in ${mentor.topics[0]}`;
-  return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, "${mentor.superpower}"`;
+  const topicPart = isTopicMatch
+    ? `offers ${topic.toLowerCase()}`
+    : `related experience in ${mentor.topics[0].toLowerCase()}`;
+  return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
 }
 
 export function runMatching(input: SeekerInput): MatchResult[] {
@@ -201,21 +252,20 @@ export function runMatching(input: SeekerInput): MatchResult[] {
   // Hard filter: topic match
   const topicMatches = mentors.filter((m) => m.topics.includes(input.topic));
   const usePartial = topicMatches.length < 2;
-
   const candidates = usePartial ? mentors : topicMatches;
 
   const scored: MatchResult[] = [];
 
   for (const mentor of candidates) {
     const seniorityScore = scoreSeniorityGap(mentor.seniorityLevel, seekerLevel);
-    if (seniorityScore < 0) continue; // exclude below seeker
+    if (seniorityScore < 0) continue; // exclude mentors below seeker level
 
     const isTopicMatch = mentor.topics.includes(input.topic);
     const topicBonus = isTopicMatch ? 0 : -10;
 
     const score =
       seniorityScore +
-      scoreSectorAlignment(mentor.industry, input.goal) +
+      scoreSectorAlignment(mentor.industry, input.industry, input.goal) +
       scoreGoalKeyword(input.goal, mentor.bio, mentor.superpower) +
       scoreAvailability(mentor.availability) +
       scoreCompanyType(mentor.industry) +
@@ -229,6 +279,11 @@ export function runMatching(input: SeekerInput): MatchResult[] {
     });
   }
 
-  scored.sort((a, b) => b.score - a.score);
+  // Sort by score DESC, tie-break by createdAt ASC (earlier profile wins)
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return a.mentor.createdAt - b.mentor.createdAt;
+  });
+
   return scored;
 }
