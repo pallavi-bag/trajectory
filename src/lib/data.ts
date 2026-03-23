@@ -240,8 +240,10 @@ function scoreCompanyType(industry: string): number {
 }
 
 function buildReason(mentor: Mentor, topic: string, isTopicMatch: boolean): string {
-  const topicPart = isTopicMatch ? `offers ${topic}` : `related experience in ${mentor.topics[0]}`;
-  return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, "${mentor.superpower}"`;
+  const topicPart = isTopicMatch
+    ? `offers ${topic.toLowerCase()}`
+    : `related experience in ${mentor.topics[0].toLowerCase()}`;
+  return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
 }
 
 export function runMatching(input: SeekerInput): MatchResult[] {
