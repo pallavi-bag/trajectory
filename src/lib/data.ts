@@ -10,6 +10,8 @@ export interface Mentor {
   bio: string;
   superpower: string;
   linkedin: string;
+  transitionNote: string;  // one sentence shown in match reason
+  createdAt: number;       // unix timestamp — used for tie-breaking
 }
 
 export interface SeekerInput {
@@ -70,6 +72,8 @@ export const mentors: Mentor[] = [
     bio: "7 yrs in Fintech, moved from IC to manager at a Series B startup.",
     superpower: "Making career pivots less scary.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Moved from IC to manager at a Series B startup.",
+    createdAt: 1700000000,
   },
   {
     id: "maya-johnson",
@@ -83,6 +87,8 @@ export const mentors: Mentor[] = [
     bio: "Led cross-functional product teams of 30+ across three business units. Passionate about growing the next generation of PM leaders.",
     superpower: "Turning messy stakeholder dynamics into clear roadmaps.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Scaled from 5-person team to leading 30+ across three BUs.",
+    createdAt: 1700100000,
   },
   {
     id: "sara-lin",
@@ -96,6 +102,8 @@ export const mentors: Mentor[] = [
     bio: "Broke into PM from a non-traditional background. Now building patient-facing products at a digital health startup.",
     superpower: "Helping underrepresented candidates break into PM.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Broke into PM from a non-traditional background.",
+    createdAt: 1700200000,
   },
   {
     id: "priya-nair",
@@ -109,6 +117,8 @@ export const mentors: Mentor[] = [
     bio: "15 years shipping consumer products at scale. Negotiated my way from IC to VP and helped dozens of women do the same.",
     superpower: "Getting women paid what they're worth.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Negotiated my way from IC to VP.",
+    createdAt: 1700300000,
   },
   {
     id: "anika-patel",
@@ -122,6 +132,8 @@ export const mentors: Mentor[] = [
     bio: "Built and launched three enterprise products from 0→1. Currently advising early-stage founders on product-market fit.",
     superpower: "Translating vision into execution.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Built and launched three enterprise products from 0→1.",
+    createdAt: 1700400000,
   },
 ];
 
