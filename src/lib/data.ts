@@ -199,9 +199,20 @@ function scoreSectorAlignment(
   return 8; // no overlap found
 }
 
+const STOP_WORDS = new Set([
+  "want", "need", "help", "with", "into", "move", "work", "like",
+  "more", "make", "find", "have", "been", "that", "this", "from",
+  "just", "also", "some", "them", "they", "will", "would", "could",
+  "about", "their", "there", "these", "those", "which", "other",
+  "looking", "trying", "become", "better", "really", "always",
+]);
+
 function scoreGoalKeyword(goal: string, bio: string, superpower: string): number {
   if (!goal.trim()) return 12;
-  const words = goal.toLowerCase().split(/\s+/).filter((w) => w.length > 3);
+  const words = goal
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((w) => w.length > 3 && !STOP_WORDS.has(w));
   const combined = (bio + " " + superpower).toLowerCase();
   let hits = 0;
   for (const w of words) {
