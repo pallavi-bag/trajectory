@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useAppState } from "@/lib/context";
 import { mentors } from "@/lib/data";
 import { Button } from "@/components/ui/button";
@@ -10,10 +11,12 @@ const DMHandoff = () => {
   const { seekerInput, introNote, seekerName } = useAppState();
 
   const mentor = mentors.find((m) => m.id === id);
-  if (!mentor) {
-    navigate("/");
-    return null;
-  }
+
+  useEffect(() => {
+    if (!mentor) navigate("/", { replace: true });
+  }, [mentor, navigate]);
+
+  if (!mentor) return null;
 
   return (
     <div className="max-w-lg mx-auto py-12 px-6">
@@ -23,9 +26,11 @@ const DMHandoff = () => {
         </h1>
 
         {/* Context block */}
-        <div className="bg-coral-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-4 text-xs text-foreground space-y-0.5">
+        <div className="bg-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-4 text-xs text-foreground space-y-0.5">
           <p className="font-semibold mb-1">Sent via NextPhase · WIP Mentor Match</p>
-          <p>{seekerName} · {seekerInput.careerStage} · {seekerInput.topic}</p>
+          <p>
+            {seekerName} · {seekerInput.careerStage} · {seekerInput.topic}
+          </p>
           <p>Goal: {seekerInput.goal}</p>
         </div>
 
