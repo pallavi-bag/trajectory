@@ -2,21 +2,32 @@ import { useNavigate } from "react-router-dom";
 import { useAppState } from "@/lib/context";
 import { ArrowLeft } from "lucide-react";
 import type { MatchResult } from "@/lib/data";
+import { useEffect } from "react";
 
-const MentorCard = ({ result, index, onClick }: { result: MatchResult; index: number; onClick: () => void }) => {
+const MentorCard = ({
+  result,
+  index,
+  seekerTopic,
+  onClick,
+}: {
+  result: MatchResult;
+  index: number;
+  seekerTopic: string;
+  onClick: () => void;
+}) => {
   const { mentor, reason, isPartialMatch } = result;
   const isBest = index === 0;
 
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left bg-card border border-border rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow ${
+      className={`w-full text-left bg-card border border-border rounded-lg p-5 shadow-sm hover:shadow-md transition-[box-shadow] ${
         isBest ? "border-l-[3px] border-l-primary" : ""
       }`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-coral-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
+          <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
             {mentor.name.split(" ").map((n) => n[0]).join("")}
           </div>
           <div>
@@ -24,9 +35,9 @@ const MentorCard = ({ result, index, onClick }: { result: MatchResult; index: nu
             <p className="text-muted-foreground text-xs">{mentor.seniorityLabel}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {isBest && (
-            <span className="text-xs font-medium text-primary bg-coral-tint px-2 py-0.5 rounded-full">
+            <span className="text-xs font-medium text-primary bg-tint px-2 py-0.5 rounded-full">
               Best match
             </span>
           )}
@@ -46,12 +57,14 @@ const MentorCard = ({ result, index, onClick }: { result: MatchResult; index: nu
 
       <div className="flex flex-wrap gap-1.5 mb-3">
         {mentor.topics.map((t) => {
-          const isMatched = result.mentor.topics.includes(t);
+          const isMatchedTopic = t === seekerTopic;
           return (
             <span
               key={t}
               className={`text-xs px-2 py-0.5 rounded-full border ${
-                isMatched ? "border-primary text-primary" : "border-border text-muted-foreground"
+                isMatchedTopic
+                  ? "border-primary text-primary"
+                  : "border-border text-muted-foreground"
               }`}
             >
               {t}
@@ -69,10 +82,13 @@ const Results = () => {
   const navigate = useNavigate();
   const { seekerInput, matchResults } = useAppState();
 
-  if (!matchResults.length) {
-    navigate("/");
-    return null;
-  }
+  useEffect(() => {
+    if (!matchResults.length) {
+      navigate("/", { replace: true });
+    }
+  }, [matchResults, navigate]);
+
+  if (!matchResults.length) return null;
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-6">
@@ -85,7 +101,9 @@ const Results = () => {
       </button>
 
       <p className="text-sm text-muted-foreground mb-6">
-        Matches for: <span className="font-medium text-foreground">{seekerInput.topic}</span> · <span className="font-medium text-foreground">{seekerInput.careerStage}</span>
+        Matches for:{" "}
+        <span className="font-medium text-foreground">{seekerInput.topic}</span> ·{" "}
+        <span className="font-medium text-foreground">{seekerInput.careerStage}</span>
       </p>
 
       <div className="space-y-3">
@@ -94,6 +112,7 @@ const Results = () => {
             key={result.mentor.id}
             result={result}
             index={i}
+            seekerTopic={seekerInput.topic}
             onClick={() => navigate(`/mentor/${result.mentor.id}`)}
           />
         ))}

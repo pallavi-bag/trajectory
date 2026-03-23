@@ -28,8 +28,12 @@ export default {
           DEFAULT: "hsl(var(--nav))",
           foreground: "hsl(var(--nav-foreground))",
         },
-        "coral-tint": "hsl(var(--coral-tint))",
+        tint: "hsl(var(--tint))",
         gold: "hsl(var(--gold))",
+        "wip-purple": {
+          DEFAULT: "hsl(var(--purple))",
+          light: "hsl(var(--purple-light))",
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

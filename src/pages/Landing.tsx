@@ -29,13 +29,13 @@ const Landing = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-52px-48px)]">
+    <div className="flex flex-col flex-1">
       {/* Hero */}
       <div className="bg-nav px-6 pt-16 pb-20 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-nav-foreground leading-[1.1] mb-4 text-balance">
           Find your mentor in the WIP community
         </h1>
-        <p className="text-[hsl(228,15%,62%)] text-lg max-w-xl mx-auto leading-relaxed text-pretty">
+        <p className="text-[hsl(248,20%,58%)] text-lg max-w-xl mx-auto leading-relaxed text-pretty">
           Connect with an experienced PM who's been where you are — and knows what's next.
         </p>
       </div>
@@ -45,12 +45,11 @@ const Landing = () => {
         <div className="bg-card border border-border rounded-lg shadow-md p-6 w-full max-w-lg space-y-4">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-12 space-y-3">
-              <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-[3px] border-primary border-t-transparent rounded-full animate-spin" />
               <p className="text-muted-foreground text-sm font-medium">Finding your mentor…</p>
             </div>
           ) : (
             <>
-              {/* Goal */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1.5">
                   What do you need help with?
@@ -64,7 +63,6 @@ const Landing = () => {
                 />
               </div>
 
-              {/* Topic */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1.5">
                   Topic area
@@ -84,7 +82,6 @@ const Landing = () => {
                 </div>
               </div>
 
-              {/* Career stage */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1.5">
                   Career stage

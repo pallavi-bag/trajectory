@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TOPICS, AVAILABILITY_OPTIONS } from "@/lib/data";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const MAX_TOPICS = 4;
@@ -41,10 +40,12 @@ const MentorPreferences = () => {
       </button>
 
       <h1 className="text-xl font-bold text-foreground mb-2">Mentor preferences</h1>
-      <p className="text-sm text-muted-foreground mb-6">Set up your mentoring profile for the WIP community.</p>
+      <p className="text-sm text-muted-foreground mb-6">
+        Set up your mentoring profile for the WIP community.
+      </p>
 
       {/* Info callout */}
-      <div className="bg-coral-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-8 text-sm text-foreground">
+      <div className="bg-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-8 text-sm text-foreground">
         Your WIP profile auto-populates — no re-entry needed.
       </div>
 
@@ -71,7 +72,9 @@ const MentorPreferences = () => {
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="text-sm font-medium text-foreground">Topics</label>
-              <span className="text-xs text-muted-foreground">{selectedTopics.length}/{MAX_TOPICS} selected</span>
+              <span className="text-xs text-muted-foreground">
+                {selectedTopics.length}/{MAX_TOPICS} selected
+              </span>
             </div>
             <div className="flex flex-wrap gap-2">
               {TOPICS.map((topic) => {
@@ -100,7 +103,9 @@ const MentorPreferences = () => {
 
           {/* Availability */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Availability</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Availability
+            </label>
             <div className="relative">
               <select
                 value={availability}
@@ -109,7 +114,9 @@ const MentorPreferences = () => {
               >
                 <option value="">Select…</option>
                 {AVAILABILITY_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>{opt}</option>
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
                 ))}
               </select>
               <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
@@ -118,7 +125,9 @@ const MentorPreferences = () => {
 
           {/* Max mentees */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Max mentees</label>
+            <label className="block text-sm font-medium text-foreground mb-1.5">
+              Max mentees
+            </label>
             <div className="relative">
               <select
                 value={maxMentees}

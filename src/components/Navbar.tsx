@@ -11,7 +11,7 @@ const CrescentIcon = () => (
 
 const Navbar = () => {
   return (
-    <nav className="h-[52px] bg-nav flex items-center justify-between px-6">
+    <nav className="h-[52px] bg-nav flex items-center justify-between px-6 shrink-0">
       <Link to="/" className="flex items-center gap-2">
         <CrescentIcon />
         <span className="text-nav-foreground font-semibold text-[15px] tracking-tight">

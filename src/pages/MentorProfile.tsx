@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useAppState } from "@/lib/context";
 import { mentors } from "@/lib/data";
 import { Button } from "@/components/ui/button";
@@ -10,17 +11,19 @@ const MentorProfile = () => {
   const { seekerInput, introNote, setIntroNote, seekerName, matchResults } = useAppState();
 
   const mentor = mentors.find((m) => m.id === id);
-  if (!mentor) {
-    navigate("/");
-    return null;
-  }
+
+  useEffect(() => {
+    if (!mentor) navigate("/", { replace: true });
+  }, [mentor, navigate]);
+
+  if (!mentor) return null;
 
   const hasResults = matchResults.length > 0;
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-6">
       <button
-        onClick={() => hasResults ? navigate("/results") : navigate("/")}
+        onClick={() => (hasResults ? navigate("/results") : navigate("/"))}
         className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -29,12 +32,17 @@ const MentorProfile = () => {
 
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
-        <div className="w-[52px] h-[52px] rounded-full bg-coral-tint flex items-center justify-center text-primary font-bold text-lg shrink-0">
-          {mentor.name.split(" ").map((n) => n[0]).join("")}
+        <div className="w-[52px] h-[52px] rounded-full bg-tint flex items-center justify-center text-primary font-bold text-lg shrink-0">
+          {mentor.name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}
         </div>
         <div>
           <h1 className="text-xl font-bold text-foreground">{mentor.name}</h1>
-          <p className="text-muted-foreground text-sm">{mentor.title} · {mentor.industry}</p>
+          <p className="text-muted-foreground text-sm">
+            {mentor.title} · {mentor.industry}
+          </p>
         </div>
       </div>
 
@@ -65,7 +73,7 @@ const MentorProfile = () => {
       </div>
 
       {/* Superpower */}
-      <div className="bg-coral-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-8">
+      <div className="bg-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-8">
         <p className="text-xs font-semibold text-primary mb-1">⚡ Her superpower</p>
         <p className="text-sm text-foreground font-medium">{mentor.superpower}</p>
       </div>
@@ -104,17 +112,27 @@ const MentorProfile = () => {
       {/* Preview */}
       <div className="bg-background rounded-lg p-4 mb-6 text-xs text-muted-foreground space-y-1">
         <p className="font-medium text-foreground text-sm mb-2">Message preview</p>
-        <p><span className="font-medium">From:</span> {seekerName}</p>
-        {seekerInput.careerStage && <p><span className="font-medium">Stage:</span> {seekerInput.careerStage}</p>}
-        {seekerInput.topic && <p><span className="font-medium">Topic:</span> {seekerInput.topic}</p>}
-        {seekerInput.goal && <p><span className="font-medium">Goal:</span> {seekerInput.goal}</p>}
+        <p>
+          <span className="font-medium">From:</span> {seekerName}
+        </p>
+        {seekerInput.careerStage && (
+          <p>
+            <span className="font-medium">Stage:</span> {seekerInput.careerStage}
+          </p>
+        )}
+        {seekerInput.topic && (
+          <p>
+            <span className="font-medium">Topic:</span> {seekerInput.topic}
+          </p>
+        )}
+        {seekerInput.goal && (
+          <p>
+            <span className="font-medium">Goal:</span> {seekerInput.goal}
+          </p>
+        )}
       </div>
 
-      <Button
-        onClick={() => navigate(`/dm/${mentor.id}`)}
-        className="w-full"
-        size="lg"
-      >
+      <Button onClick={() => navigate(`/dm/${mentor.id}`)} className="w-full" size="lg">
         Connect via WIP DMs
       </Button>
     </div>
