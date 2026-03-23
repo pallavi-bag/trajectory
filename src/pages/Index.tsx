@@ -1,16 +1,27 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="flex flex-col items-center justify-center py-24 px-6">
+      <div className="max-w-lg text-center space-y-6">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground leading-[1.1]">
+          Find your next mentor
+        </h1>
+        <p className="text-muted-foreground text-lg leading-relaxed text-balance">
+          NextPhase connects women in product with experienced mentors who've been where you're headed.
+        </p>
+        <div className="flex gap-3 justify-center pt-2">
+          <Button asChild size="lg">
+            <Link to="/browse">Browse mentors</Link>
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link to="/become-mentor">Become a mentor</Link>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
