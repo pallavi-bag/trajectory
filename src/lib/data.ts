@@ -102,6 +102,8 @@ export const mentors: Mentor[] = [
     bio: "Broke into PM from a non-traditional background. Now building patient-facing products at a digital health startup.",
     superpower: "Helping underrepresented candidates break into PM.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Broke into PM from a non-traditional background.",
+    createdAt: 1700200000,
   },
   {
     id: "priya-nair",
