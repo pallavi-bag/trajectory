@@ -132,6 +132,8 @@ export const mentors: Mentor[] = [
     bio: "Built and launched three enterprise products from 0→1. Currently advising early-stage founders on product-market fit.",
     superpower: "Translating vision into execution.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Built and launched three enterprise products from 0→1.",
+    createdAt: 1700400000,
   },
 ];
 
