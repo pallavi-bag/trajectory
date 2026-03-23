@@ -117,6 +117,8 @@ export const mentors: Mentor[] = [
     bio: "15 years shipping consumer products at scale. Negotiated my way from IC to VP and helped dozens of women do the same.",
     superpower: "Getting women paid what they're worth.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Negotiated my way from IC to VP.",
+    createdAt: 1700300000,
   },
   {
     id: "anika-patel",
