@@ -33,7 +33,7 @@ const Landing = () => {
       {/* Hero */}
       <div className="bg-nav px-6 pt-16 pb-20 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-nav-foreground leading-[1.1] mb-4 text-balance">
-          Find your mentor in the WIP community
+          Every woman deserves a trajectory to the moon.
         </h1>
         <p className="text-[hsl(248,20%,58%)] text-lg max-w-xl mx-auto leading-relaxed text-pretty">
           Connect with an experienced PM who's been where you are — and knows what's next.
