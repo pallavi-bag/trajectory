@@ -84,7 +84,7 @@ const Results = () => {
 
   useEffect(() => {
     if (!seekerInput.topic && !matchResults.length) {
-      navigate("/", { replace: true });
+      navigate("/mentee", { replace: true });
     }
   }, [matchResults, seekerInput, navigate]);
 
