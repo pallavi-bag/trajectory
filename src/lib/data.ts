@@ -151,14 +151,52 @@ function scoreSeniorityGap(mentorLevel: number, seekerLevel: number): number {
   return 0;
 }
 
-function scoreSectorAlignment(mentorIndustry: string, goalText: string): number {
+// Sector clusters — mentors and seekers in the same cluster score 12 pts (adjacent)
+const SECTOR_CLUSTERS: string[][] = [
+  ["fintech", "insurtech", "banking", "payments"],
+  ["health tech", "healthtech", "health", "medtech", "digital health"],
+  ["b2b saas", "saas", "enterprise saas", "enterprise"],
+  ["consumer", "e-commerce", "ecommerce", "marketplace", "retail"],
+  ["edtech", "education", "learning"],
+];
+
+function getSectorCluster(industry: string): number {
+  const lower = industry.toLowerCase();
+  return SECTOR_CLUSTERS.findIndex((cluster) =>
+    cluster.some((kw) => lower.includes(kw))
+  );
+}
+
+function scoreSectorAlignment(
+  mentorIndustry: string,
+  seekerIndustry: string | undefined,
+  goalText: string
+): number {
+  // Signal 1: declared seeker industry (primary signal)
+  if (seekerIndustry && seekerIndustry.trim()) {
+    const seekerLower = seekerIndustry.toLowerCase();
+    const mentorLower = mentorIndustry.toLowerCase();
+
+    // Exact / near-exact match
+    if (mentorLower.includes(seekerLower) || seekerLower.includes(mentorLower)) return 25;
+
+    // Adjacent cluster match
+    const seekerCluster = getSectorCluster(seekerIndustry);
+    const mentorCluster = getSectorCluster(mentorIndustry);
+    if (seekerCluster !== -1 && seekerCluster === mentorCluster) return 12;
+
+    // No sector overlap — fall through to goal scan fallback
+  }
+
+  // Signal 2: keyword scan of goal text (fallback when no declared industry)
   const lower = goalText.toLowerCase();
   const industryLower = mentorIndustry.toLowerCase();
   const keywords = industryLower.split(/[\s\/]+/);
   for (const kw of keywords) {
     if (kw.length > 2 && lower.includes(kw)) return 25;
   }
-  return 8;
+
+  return 8; // no overlap found
 }
 
 function scoreGoalKeyword(goal: string, bio: string, superpower: string): number {
