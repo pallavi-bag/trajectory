@@ -252,21 +252,20 @@ export function runMatching(input: SeekerInput): MatchResult[] {
   // Hard filter: topic match
   const topicMatches = mentors.filter((m) => m.topics.includes(input.topic));
   const usePartial = topicMatches.length < 2;
-
   const candidates = usePartial ? mentors : topicMatches;
 
   const scored: MatchResult[] = [];
 
   for (const mentor of candidates) {
     const seniorityScore = scoreSeniorityGap(mentor.seniorityLevel, seekerLevel);
-    if (seniorityScore < 0) continue; // exclude below seeker
+    if (seniorityScore < 0) continue; // exclude mentors below seeker level
 
     const isTopicMatch = mentor.topics.includes(input.topic);
     const topicBonus = isTopicMatch ? 0 : -10;
 
     const score =
       seniorityScore +
-      scoreSectorAlignment(mentor.industry, input.goal) +
+      scoreSectorAlignment(mentor.industry, input.industry, input.goal) +
       scoreGoalKeyword(input.goal, mentor.bio, mentor.superpower) +
       scoreAvailability(mentor.availability) +
       scoreCompanyType(mentor.industry) +
@@ -280,6 +279,11 @@ export function runMatching(input: SeekerInput): MatchResult[] {
     });
   }
 
-  scored.sort((a, b) => b.score - a.score);
+  // Sort by score DESC, tie-break by createdAt ASC (earlier profile wins)
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return a.mentor.createdAt - b.mentor.createdAt;
+  });
+
   return scored;
 }

@@ -83,12 +83,30 @@ const Results = () => {
   const { seekerInput, matchResults } = useAppState();
 
   useEffect(() => {
-    if (!matchResults.length) {
+    if (!seekerInput.topic && !matchResults.length) {
       navigate("/", { replace: true });
     }
-  }, [matchResults, navigate]);
+  }, [matchResults, seekerInput, navigate]);
 
-  if (!matchResults.length) return null;
+  if (!matchResults.length) {
+    return (
+      <div className="max-w-2xl mx-auto py-16 px-6 text-center">
+        <div className="w-12 h-12 rounded-full bg-tint flex items-center justify-center mx-auto mb-4">
+          <span className="text-primary text-xl">✦</span>
+        </div>
+        <h2 className="text-lg font-semibold text-foreground mb-2">No exact matches yet</h2>
+        <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-6 leading-relaxed">
+          Try broadening your search — change your topic or career stage to surface more mentors.
+        </p>
+        <button
+          onClick={() => navigate("/")}
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+        >
+          Edit my search
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-6">
