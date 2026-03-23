@@ -5,7 +5,7 @@ const Navbar = () => {
   return (
     <nav className="h-[52px] bg-nav flex items-center justify-between px-6 shrink-0">
       <Link to="/" className="flex items-center">
-        <img src={logo} alt="NextPhase" className="h-10 sm:h-11" />
+        <img src={logo} alt="NextPhase" className="h-11 w-auto sm:h-12" />
       </Link>
       <Link
         to="/become-mentor"
