@@ -43,7 +43,7 @@ const Confirmation = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => navigate("/mentee")}
+            onClick={() => navigate("/")}
             className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
           >
             Return home
