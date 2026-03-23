@@ -10,6 +10,8 @@ export interface Mentor {
   bio: string;
   superpower: string;
   linkedin: string;
+  transitionNote: string;  // one sentence shown in match reason
+  createdAt: number;       // unix timestamp — used for tie-breaking
 }
 
 export interface SeekerInput {
