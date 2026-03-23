@@ -87,6 +87,8 @@ export const mentors: Mentor[] = [
     bio: "Led cross-functional product teams of 30+ across three business units. Passionate about growing the next generation of PM leaders.",
     superpower: "Turning messy stakeholder dynamics into clear roadmaps.",
     linkedin: "https://linkedin.com/in/",
+    transitionNote: "Scaled from 5-person team to leading 30+ across three BUs.",
+    createdAt: 1700100000,
   },
   {
     id: "sara-lin",
