@@ -4,52 +4,52 @@
 
 @layer base {
   :root {
-    /* White Interstellar — soft lavender/rose nebula with silver sparkles */
-    --background: 250 30% 97%;
-    --foreground: 260 20% 15%;
+    /* WIP-inspired palette: deep teal primary, purple accent, warm gold moon */
+    --background: 230 25% 97%;
+    --foreground: 240 10% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 260 20% 15%;
+    --card-foreground: 240 10% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 260 20% 15%;
+    --popover-foreground: 240 10% 12%;
 
-    /* Soft lavender primary */
-    --primary: 270 45% 55%;
+    /* Teal — inspired by WIP brand */
+    --primary: 174 58% 42%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 270 50% 45%;
+    --primary-hover: 174 58% 34%;
 
-    --secondary: 250 25% 94%;
-    --secondary-foreground: 260 20% 15%;
+    --secondary: 230 20% 95%;
+    --secondary-foreground: 240 10% 12%;
 
-    --muted: 250 20% 94%;
-    --muted-foreground: 260 10% 50%;
+    --muted: 230 20% 95%;
+    --muted-foreground: 220 12% 42%;
 
-    --accent: 330 40% 60%;
+    --accent: 270 38% 38%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 260 15% 90%;
-    --input: 260 15% 90%;
-    --ring: 270 45% 55%;
+    --border: 228 18% 90%;
+    --input: 228 18% 90%;
+    --ring: 174 58% 42%;
 
     --radius: 0.5rem;
 
-    /* Deep cosmic navy for nav/footer */
-    --nav: 260 50% 12%;
+    /* Deep navy for nav/footer — slightly purple-tinted to match WIP */
+    --nav: 248 40% 16%;
     --nav-foreground: 0 0% 100%;
 
-    /* Lavender tint for callouts */
-    --tint: 270 40% 95%;
+    /* Teal tint for callouts (replaces coral-tint) */
+    --tint: 174 50% 94%;
 
-    /* Silver accent */
-    --gold: 0 0% 78%;
+    /* Gold crescent accent */
+    --gold: 37 42% 60%;
 
-    /* Rose accent */
-    --purple: 330 40% 60%;
-    --purple-light: 330 35% 95%;
+    /* Purple accent for special elements */
+    --purple: 270 38% 38%;
+    --purple-light: 270 40% 94%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -72,21 +72,4 @@
     font-feature-settings: "cv11", "ss01";
     overflow-x: hidden;
   }
-}
-
-/* Sparkle star animation */
-@keyframes sparkle-pulse {
-  0%, 100% { opacity: 0.3; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
-@keyframes sparkle-cross {
-  0%, 100% { opacity: 0.2; transform: rotate(0deg) scale(0.6); }
-  50% { opacity: 0.9; transform: rotate(45deg) scale(1); }
-}
-
-@keyframes nebula-drift {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-20px, 10px) scale(1.05); }
-  100% { transform: translate(0, 0) scale(1); }
 }
