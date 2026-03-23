@@ -99,7 +99,7 @@ const Results = () => {
           Try broadening your search — change your topic or career stage to surface more mentors.
         </p>
         <button
-          onClick={() => navigate("/")}
+           onClick={() => navigate("/mentee")}
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
         >
           Edit my search
