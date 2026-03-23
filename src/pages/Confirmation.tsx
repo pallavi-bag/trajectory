@@ -36,7 +36,7 @@ const Confirmation = () => {
         <div className="flex gap-3 justify-center">
           <Button
             variant="outline"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/mentee")}
             className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
           >
             Find another match
