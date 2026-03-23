@@ -40,14 +40,20 @@ function OrbitRings() {
       <div
         className="absolute pointer-events-none rounded-full"
         style={{
-          width: 420, height: 420, top: -120, right: -100,
+          width: 420,
+          height: 420,
+          top: -120,
+          right: -100,
           border: "1px solid rgba(201,184,130,0.12)",
         }}
       />
       <div
         className="absolute pointer-events-none rounded-full"
         style={{
-          width: 560, height: 560, top: -190, right: -170,
+          width: 560,
+          height: 560,
+          top: -190,
+          right: -170,
           border: "1px solid rgba(201,184,130,0.06)",
         }}
       />
@@ -56,11 +62,25 @@ function OrbitRings() {
 }
 
 /* ── Animated score bar ── */
-function ScoreBar({ label, points, max, index, animate }: { label: string; points: number; max: number; index: number; animate: boolean }) {
+function ScoreBar({
+  label,
+  points,
+  max,
+  index,
+  animate,
+}: {
+  label: string;
+  points: number;
+  max: number;
+  index: number;
+  animate: boolean;
+}) {
   const pct = (points / max) * 100;
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-muted-foreground" style={{ minWidth: 120 }}>{label}</span>
+      <span className="text-xs text-muted-foreground" style={{ minWidth: 120 }}>
+        {label}
+      </span>
       <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
         <div
           className="h-full bg-primary rounded-full transition-all duration-700 ease-out"
@@ -90,8 +110,13 @@ const LandingPage = () => {
     const el = scoreRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setScoreVisible(true); obs.disconnect(); } },
-      { threshold: 0.2 }
+      ([e]) => {
+        if (e.isIntersecting) {
+          setScoreVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.2 },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -112,8 +137,7 @@ const LandingPage = () => {
     return () => cancelAnimationFrame(raf);
   }, [scoreVisible]);
 
-  const scrollTo = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   const scoreBars = [
     { label: "Seniority gap", points: 30, max: 30 },
@@ -151,19 +175,20 @@ const LandingPage = () => {
 
           {/* Subline */}
           <p className="text-nav-foreground/55 text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-            Trajectory surfaces the WIP member who's been exactly where you are, scored across six criteria and ranked by how closely your path aligns.
+            Trajectory surfaces the WIP member who's been exactly where you are, scored across six criteria and ranked
+            by how closely your path aligns.
           </p>
 
           {/* CTAs */}
           <div className="flex gap-3 flex-wrap justify-center mb-0">
             <button
-              onClick={() => navigate("/mentee")}
+              onClick={() => scrollTo("seeker-section")}
               className="bg-primary text-primary-foreground font-medium text-sm px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity"
             >
               Find my mentor →
             </button>
             <button
-              onClick={() => navigate("/become-mentor")}
+              onClick={() => scrollTo("mentor-section")}
               className="text-sm font-medium px-6 py-2.5 rounded-full border border-white/20 text-white/65 hover:bg-white/5 transition-colors"
             >
               Become a mentor
@@ -196,14 +221,12 @@ const LandingPage = () => {
           }}
         >
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">The matching engine</p>
-          <h2
-            className="text-2xl sm:text-3xl font-bold text-foreground mb-3"
-            style={{ fontFamily: SERIF }}
-          >
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
             Not a list. A ranked score for every mentor you see.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
-            Each mentor is scored out of 100 across five weighted criteria so you instantly see <em>why</em> someone is your best match.
+            Each mentor is scored out of 100 across five weighted criteria so you instantly see <em>why</em> someone is
+            your best match.
           </p>
 
           {/* Demo card */}
@@ -236,7 +259,8 @@ const LandingPage = () => {
             {/* Match reason */}
             <div className="bg-tint border border-primary/15 rounded-xl px-4 py-3">
               <p className="text-xs text-foreground italic leading-relaxed">
-                "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B fintech startup."
+                "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B
+                fintech startup."
               </p>
             </div>
           </div>
@@ -247,10 +271,7 @@ const LandingPage = () => {
       <section id="seeker-section" className="bg-secondary py-20 px-6">
         <div className="max-w-[720px] mx-auto">
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">Who it's for</p>
-          <h2
-            className="text-2xl sm:text-3xl font-bold text-foreground mb-3"
-            style={{ fontFamily: SERIF }}
-          >
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
             Two paths. One product.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
@@ -261,7 +282,17 @@ const LandingPage = () => {
             {/* Card A — Seeker */}
             <div className="bg-card border border-border rounded-2xl p-6 flex flex-col">
               <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center mb-4">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-primary"
+                >
                   <circle cx="11" cy="11" r="8" />
                   <path d="m21 21-4.3-4.3" />
                   <circle cx="11" cy="8" r="2" />
@@ -271,10 +302,11 @@ const LandingPage = () => {
               <span className="text-[10px] uppercase tracking-widest text-primary font-semibold mb-2">For seekers</span>
               <h3 className="text-base font-semibold text-foreground mb-2">Find the mentor who's been where you are</h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed">
-                Answer three quick questions and get a ranked list of WIP members whose experience aligns with your career goals.
+                Answer three quick questions and get a ranked list of WIP members whose experience aligns with your
+                career goals.
               </p>
               <button
-                onClick={() => navigate("/mentee")}
+                onClick={() => navigate("/")}
                 className="bg-primary text-primary-foreground font-medium text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity self-start"
               >
                 Find my mentor →
@@ -284,17 +316,32 @@ const LandingPage = () => {
             {/* Card B — Mentor */}
             <div id="mentor-section" className="bg-card border border-border rounded-2xl p-6 flex flex-col">
               <div className="w-10 h-10 rounded-full bg-wip-purple-light flex items-center justify-center mb-4">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-wip-purple">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-wip-purple"
+                >
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                   <circle cx="9" cy="7" r="4" />
                   <line x1="19" y1="8" x2="19" y2="14" />
                   <line x1="22" y1="11" x2="16" y2="11" />
                 </svg>
               </div>
-              <span className="text-[10px] uppercase tracking-widest text-wip-purple font-semibold mb-2">For mentors</span>
-              <h3 className="text-base font-semibold text-foreground mb-2">Share your experience with the next generation</h3>
+              <span className="text-[10px] uppercase tracking-widest text-wip-purple font-semibold mb-2">
+                For mentors
+              </span>
+              <h3 className="text-base font-semibold text-foreground mb-2">
+                Share your experience with the next generation
+              </h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed">
-                Set your availability and topics so Trajectory can match you with seekers who need exactly what you know.
+                Set your availability and topics so Trajectory can match you with seekers who need exactly what you
+                know.
               </p>
               <button
                 onClick={() => navigate("/become-mentor")}
@@ -313,7 +360,10 @@ const LandingPage = () => {
         <div
           className="absolute pointer-events-none rounded-full"
           style={{
-            width: 380, height: 380, bottom: -160, left: -100,
+            width: 380,
+            height: 380,
+            bottom: -160,
+            left: -100,
             border: "1px solid rgba(201,184,130,0.10)",
           }}
         />
@@ -333,11 +383,9 @@ const LandingPage = () => {
             <span className="not-italic" style={{ color: "hsl(var(--gold))" }}>
               trajectories
             </span>{" "}
-            that others said were impossible. We built a tool to chart yours."
+            that others said were impossible. We define your career path through data."
           </blockquote>
-          <p className="text-nav-foreground/35 text-xs">
-            — Named in honour of Katherine Johnson, NASA mathematician
-          </p>
+          <p className="text-nav-foreground/35 text-xs">— Named in honour of Katherine Johnson, NASA mathematician</p>
         </div>
       </section>
 
@@ -347,9 +395,7 @@ const LandingPage = () => {
           <span className="text-foreground font-semibold" style={{ fontFamily: SERIF }}>
             Trajectory.
           </span>
-          <span className="text-xs text-muted-foreground">
-            Built for the WIP Women's History Month Hackathon 2025
-          </span>
+          <span className="text-xs text-muted-foreground">Built for the WIP Women's History Month Hackathon 2025</span>
         </div>
       </footer>
     </div>
