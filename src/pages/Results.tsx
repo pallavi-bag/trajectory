@@ -111,7 +111,7 @@ const Results = () => {
   return (
     <div className="max-w-2xl mx-auto py-8 px-6">
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/mentee")}
         className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />

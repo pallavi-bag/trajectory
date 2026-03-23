@@ -23,7 +23,7 @@ const MentorProfile = () => {
   return (
     <div className="max-w-2xl mx-auto py-8 px-6">
       <button
-        onClick={() => (hasResults ? navigate("/results") : navigate("/"))}
+        onClick={() => (hasResults ? navigate("/results") : navigate("/mentee"))}
         className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
