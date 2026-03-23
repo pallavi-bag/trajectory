@@ -12,6 +12,7 @@ import DMHandoff from "./pages/DMHandoff";
 import Confirmation from "./pages/Confirmation";
 import MentorPreferences from "./pages/MentorPreferences";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/dm/:id" element={<DMHandoff />} />
               <Route path="/confirmation/:id" element={<Confirmation />} />
               <Route path="/become-mentor" element={<MentorPreferences />} />
+              <Route path="/home" element={<LandingPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
