@@ -194,9 +194,9 @@ const LandingPage = () => {
           {/* Proof bar */}
           <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-wrap justify-center gap-8 sm:gap-12">
             {[
-              ["6", "match criteria scored"],
-              ["3", "fields to your first match"],
-              ["WIP DMs", "no new tools needed"],
+              ["Easy", "No sign up needed"],
+              ["Personalized", "Algorithmic Matching"],
+              ["Seamless", "Connect via WIP DMs"],
             ].map(([big, small]) => (
               <div key={big} className="text-center">
                 <p className="text-nav-foreground text-lg font-semibold">{big}</p>
