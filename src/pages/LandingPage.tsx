@@ -175,7 +175,8 @@ const LandingPage = () => {
 
           {/* Subline */}
           <p className="text-nav-foreground/55 text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-            Trajectory surfaces the WIP members who's been where you are, scored across six criteria and ranked by how closely your paths align.
+            Trajectory surfaces the WIP member who's been exactly where you are, scored across six criteria and ranked
+            by how closely your path aligns.
           </p>
 
           {/* CTAs */}
@@ -202,7 +203,7 @@ const LandingPage = () => {
               ["WIP DMs", "no new tools needed"],
             ].map(([big, small]) => (
               <div key={big} className="text-center">
-                <p className="text-lg font-semibold text-nav-foreground">{big}</p>
+                <p className="text-nav-foreground text-lg font-semibold">{big}</p>
                 <p className="text-nav-foreground/40 text-xs">{small}</p>
               </div>
             ))}
@@ -221,11 +222,10 @@ const LandingPage = () => {
         >
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">The matching engine</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
-            We curate your best mentor matches based on trajectory alignment and availability.
+            Not a list. A ranked score for every mentor you see.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
-            Each mentor is scored out of 100 across five weighted criteria so you instantly see <em>why</em> someone is
-            your best match.
+            More <em>signal</em>. Less noise.
           </p>
 
           {/* Demo card */}
