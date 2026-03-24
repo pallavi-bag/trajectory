@@ -338,8 +338,7 @@ const LandingPage = () => {
                 Share your experience with the next generation
               </h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed">
-                Set your availability and topics so Trajectory can match you with seekers who need exactly what you
-                know.
+                Share your availability and background so Trajectory can match you with mentees who want your expertise.
               </p>
               <button
                 onClick={() => navigate("/become-mentor")}
