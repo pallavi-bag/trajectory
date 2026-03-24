@@ -1,44 +1,99 @@
 
 
-# UX Refinement — Mentor Flow
+# Persist Mentor Data in Database
 
-## Changes to `src/pages/MentorPreferences.tsx`
+## Summary
+Set up Lovable Cloud (Supabase), create a `mentors` table, save mentor registrations to it, and load mentors from the database for matching — keeping all matching logic identical.
 
-### 1. Progress Indicator — Trajectory-inspired icons
-Replace numbered circles + text labels with icon-based stepper:
-- Step 1: `User` icon, Step 2: `Heart` icon (guidance), Step 3: `Sparkles` icon
-- Completed = `bg-primary` circle with `Check` icon
-- Current = `bg-primary` highlighted circle with step icon in `text-primary-foreground`
-- Upcoming = `bg-border` muted circle with step icon in `text-muted-foreground`
-- Connected by horizontal lines (`h-px`, primary when completed, border otherwise)
-- Small labels below each icon: "Profile", "Guidance", "Story" — `text-[11px]`
-- Remove the large step headings ("Who you are" etc.) from inside each step content — the section titles become smaller contextual labels within the form groups instead
+## Technical Approach
 
-### 2. Desktop Layout
-- Change outer container from `max-w-lg` (~512px) to `max-w-3xl` (~768px)
-- Keep `mx-auto py-8 px-6` centering
+### 1. Enable Lovable Cloud
+Set up Supabase via Lovable Cloud to get database access.
 
-### 3. Step 2 — Progressive Disclosure
-- Show toggle first; when `openToMentoring` is OFF, hide Topics/Availability/Max mentees and show helper text "Turn this on to start receiving mentor requests"
-- When ON, reveal fields with a smooth transition (CSS `overflow-hidden` + `max-height` + `opacity` transition, or wrap in a div with `animate-fade-in`)
-- Group revealed fields under a subtle section label: "Mentoring preferences" (`text-sm font-semibold text-foreground mt-4 mb-2`)
-- Validation on Step 2 skipped if toggle is OFF (user can proceed without filling preferences)
+### 2. Create `mentors` table (migration)
+Table schema matching the existing `Mentor` interface:
 
-### 4. Visual Hierarchy
-- Increase step content spacing from `space-y-6` to `space-y-8`
-- Field groups get slightly more breathing room
-- Labels stay `text-sm font-medium`, helpers stay `text-xs text-muted-foreground`
+```sql
+CREATE TABLE public.mentors (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  title TEXT NOT NULL,
+  seniority_label TEXT NOT NULL,
+  seniority_level INTEGER NOT NULL,
+  industry TEXT NOT NULL,
+  availability TEXT NOT NULL,
+  topics TEXT[] NOT NULL,
+  bio TEXT DEFAULT '',
+  superpower TEXT NOT NULL,
+  linkedin TEXT DEFAULT '',
+  transition_note TEXT DEFAULT '',
+  created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW())::BIGINT),
+  open_to_mentoring BOOLEAN DEFAULT TRUE,
+  max_mentees TEXT DEFAULT '',
+  role_level TEXT DEFAULT ''
+);
 
-### 5. Review Section
-- Increase row spacing from `space-y-3` to `space-y-4`
-- Add `shadow-sm` to the review card for subtle depth
-- Keep existing structure (labels left, values right, topics as chips)
+ALTER TABLE public.mentors ENABLE ROW LEVEL SECURITY;
 
-### 6. Step Transitions
-- Wrap each step's content in a div with `animate-fade-in` class (already defined in tailwind config)
+-- Public read (anyone can see mentors for matching)
+CREATE POLICY "Anyone can read mentors" ON public.mentors
+  FOR SELECT USING (true);
 
-### No changes to:
-- Field names, validation rules, required indicators
-- Colors, typography, design system
-- Other files
+-- Anyone can insert (no auth required for MVP)
+CREATE POLICY "Anyone can insert mentors" ON public.mentors
+  FOR INSERT WITH CHECK (true);
+```
+
+### 3. Seed hardcoded mentors
+Insert the 5 existing hardcoded mentors into the database so they're available from day one. Done via SQL insert.
+
+### 4. New file: `src/lib/supabase-mentors.ts`
+- `fetchMentors(): Promise<Mentor[]>` — queries `mentors` table, maps snake_case columns to the `Mentor` interface
+- `saveMentor(form): Promise<void>` — inserts a new mentor row, deriving `id` (slugified name), `seniorityLabel`, `seniorityLevel`, and `transitionNote` from form data
+
+### 5. Map role level → seniority
+Create a mapping function from the registration form's role level strings to the `seniorityLevel` number and `seniorityLabel` the matching engine expects:
+- "Associate Product Manager" → level 1, "APM · IC1"
+- "Product Manager" → level 2, "PM · IC2"  
+- "Senior Product Manager" → level 3, "Senior PM · IC3"
+- etc.
+
+### 6. Update `src/lib/data.ts`
+- Change `runMatching` to accept a `mentors` parameter: `runMatching(input, mentors)` instead of using the module-level `mentors` array
+- Keep all scoring/filtering/sorting logic untouched
+- Keep the hardcoded `mentors` array as a fallback export
+
+### 7. Update `src/pages/Landing.tsx`
+- On mount, fetch mentors from DB via `fetchMentors()`
+- Pass fetched mentors to `runMatching(input, fetchedMentors)`
+- Fall back to hardcoded mentors if fetch fails
+
+### 8. Update `src/pages/MentorPreferences.tsx`
+- On `save()`, call `saveMentor(form)` to persist to DB before showing success state
+
+### 9. Update `src/pages/MentorProfile.tsx`, `DMHandoff.tsx`, `Confirmation.tsx`
+- These use `mentors.find(m => m.id === id)` with the hardcoded array
+- Update to also check DB-fetched mentors (store in context or fetch individually)
+- Option: add `fetchMentorById(id)` to `supabase-mentors.ts` and use it in these pages
+
+### 10. Update `src/lib/context.tsx`
+- Add `mentorsList` / `setMentorsList` to app context so fetched mentors are available across pages without re-fetching
+
+## Files changed
+- `src/integrations/supabase/client.ts` — auto-generated by Lovable Cloud
+- `supabase/migrations/001_create_mentors.sql` — new table + seed data
+- `src/lib/supabase-mentors.ts` — new (fetch/save helpers)
+- `src/lib/data.ts` — `runMatching` accepts mentors param
+- `src/lib/context.tsx` — add mentorsList state
+- `src/pages/Landing.tsx` — fetch mentors, pass to matching
+- `src/pages/MentorPreferences.tsx` — save to DB on submit
+- `src/pages/MentorProfile.tsx` — use context mentors
+- `src/pages/DMHandoff.tsx` — use context mentors
+- `src/pages/Confirmation.tsx` — use context mentors
+
+## What does NOT change
+- Scoring functions, weights, sector clusters, stop words
+- Match result structure, ranking, tie-breaking
+- UI layouts, design system, flows
+- Seeker input handling (stays in-memory)
 
