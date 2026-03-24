@@ -7,12 +7,12 @@ import { useEffect } from "react";
 const MentorCard = ({
   result,
   index,
-  seekerTopic,
+  seekerTopics,
   onClick,
 }: {
   result: MatchResult;
   index: number;
-  seekerTopic: string;
+  seekerTopics: string[];
   onClick: () => void;
 }) => {
   const { mentor, reason, isPartialMatch } = result;
