@@ -168,7 +168,7 @@ const LandingPage = () => {
             className="text-3xl sm:text-4xl md:text-5xl font-bold text-nav-foreground leading-tight mb-5"
             style={{ fontFamily: SERIF }}
           >
-            Precision-matching for the
+            Curated mentor-matching for the
             <br />
             <em style={{ color: "hsl(var(--gold))" }}>WIP community</em>
           </h1>
@@ -189,7 +189,7 @@ const LandingPage = () => {
             </button>
             <button
               onClick={() => scrollTo("mentor-section")}
-              className="text-sm font-medium px-6 py-2.5 rounded-full border border-white/20 text-white/65 hover:bg-white/5 transition-colors"
+              className="text-sm font-medium px-6 py-2.5 rounded-full border border-white/20 transition-colors bg-input text-primary"
             >
               Become a mentor
             </button>
@@ -373,7 +373,7 @@ const LandingPage = () => {
             className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-6"
             style={{ color: "hsl(var(--gold))" }}
           >
-            Team Katherine Johnson · WIP Women's History Hackathon 2025
+            TEAM KATHERINE JOHNSON · WIP WOMEN'S HISTORY HACKATHON 2026
           </p>
           <blockquote
             className="text-lg sm:text-xl text-nav-foreground italic leading-relaxed mb-4"
@@ -385,7 +385,7 @@ const LandingPage = () => {
             </span>{" "}
             that others said were impossible. We define your career path through data."
           </blockquote>
-          <p className="text-nav-foreground/35 text-xs">— Named in honour of Katherine Johnson, NASA mathematician</p>
+          <p className="text-nav-foreground/35 text-xs">&nbsp;Named in honour of Katherine Johnson, NASA mathematician</p>
         </div>
       </section>
 
@@ -395,7 +395,7 @@ const LandingPage = () => {
           <span className="text-foreground font-semibold" style={{ fontFamily: SERIF }}>
             Trajectory.
           </span>
-          <span className="text-xs text-muted-foreground">Built for the WIP Women's History Month Hackathon 2025</span>
+          <span className="text-xs text-muted-foreground">Built for the WIP Women's History Month Hackathon 2026</span>
         </div>
       </footer>
     </div>
