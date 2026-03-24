@@ -119,9 +119,9 @@ const MentorProfile = () => {
             <span className="font-medium">Stage:</span> {seekerInput.careerStage}
           </p>
         )}
-        {seekerInput.topic && (
+        {seekerInput.topics.length > 0 && (
           <p>
-            <span className="font-medium">Topic:</span> {seekerInput.topic}
+            <span className="font-medium">Topics:</span> {seekerInput.topics.join(", ")}
           </p>
         )}
         {seekerInput.goal && (

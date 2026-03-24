@@ -21,7 +21,7 @@ interface AppState {
 const AppContext = createContext<AppState | null>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [seekerInput, setSeekerInput] = useState<SeekerInput>({ goal: "", topic: "", careerStage: "" });
+  const [seekerInput, setSeekerInput] = useState<SeekerInput>({ goal: "", topics: [], careerStage: "" });
   const [matchResults, setMatchResults] = useState<MatchResult[]>([]);
   const [introNote, setIntroNote] = useState("");
   const [seekerName, setSeekerName] = useState("WIP Member");

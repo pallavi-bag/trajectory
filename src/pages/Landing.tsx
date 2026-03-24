@@ -1,23 +1,40 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppState } from "@/lib/context";
 import { runMatching, TOPICS, CAREER_STAGES } from "@/lib/data";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 
 const Landing = () => {
   const navigate = useNavigate();
   const { setSeekerInput, setMatchResults, mentorsList } = useAppState();
-  const [goal, setGoal] = useState("");
-  const [topic, setTopic] = useState("");
+  const [topics, setTopics] = useState<string[]>([]);
   const [stage, setStage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const canSubmit = goal.trim() && topic && stage;
+  const canSubmit = topics.length > 0 && stage;
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleTopic = (t: string) => {
+    setTopics((prev) =>
+      prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
+    );
+  };
 
   const handleSubmit = () => {
     if (!canSubmit) return;
-    const input = { goal, topic, careerStage: stage };
+    const input = { goal: "", topics, careerStage: stage };
     setSeekerInput(input);
     setLoading(true);
     setTimeout(() => {
@@ -50,36 +67,66 @@ const Landing = () => {
             </div>
           ) : (
             <>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">
-                  What do you need help with?
-                </label>
-                <textarea
-                  value={goal}
-                  onChange={(e) => setGoal(e.target.value)}
-                  rows={2}
-                  placeholder="e.g. I want to transition from engineering to product…"
-                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-                />
-              </div>
-
-              <div>
+              <div ref={dropdownRef}>
                 <label className="block text-sm font-medium text-foreground mb-1.5">
                   Focus Area
                 </label>
-                <div className="relative">
-                  <select
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    className="w-full appearance-none rounded-lg border border-border bg-background px-3 py-2 pr-8 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                  >
-                    <option value="">Select a topic…</option>
-                    {TOPICS.map((t) => (
-                      <option key={t} value={t}>{t}</option>
+                <button
+                  type="button"
+                  onClick={() => setDropdownOpen((o) => !o)}
+                  className="w-full flex items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring min-h-[38px]"
+                >
+                  <span className={topics.length === 0 ? "text-muted-foreground" : ""}>
+                    {topics.length === 0
+                      ? "Select topics…"
+                      : `${topics.length} selected`}
+                  </span>
+                  <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                {/* Selected pills */}
+                {topics.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {topics.map((t) => (
+                      <span
+                        key={t}
+                        className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
+                      >
+                        {t}
+                        <button
+                          type="button"
+                          onClick={() => toggleTopic(t)}
+                          className="hover:text-primary/70"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </span>
                     ))}
-                  </select>
-                  <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-                </div>
+                  </div>
+                )}
+
+                {/* Dropdown list */}
+                {dropdownOpen && (
+                  <div className="mt-1 w-full rounded-lg border border-border bg-popover shadow-md max-h-52 overflow-y-auto z-50 relative">
+                    {TOPICS.map((t) => {
+                      const selected = topics.includes(t);
+                      return (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => toggleTopic(t)}
+                          className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                            selected
+                              ? "bg-primary/10 text-primary font-medium"
+                              : "text-foreground hover:bg-accent"
+                          }`}
+                        >
+                          {t}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               <div>

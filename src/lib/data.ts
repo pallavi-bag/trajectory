@@ -16,7 +16,7 @@ export interface Mentor {
 
 export interface SeekerInput {
   goal: string;
-  topic: string;
+  topics: string[];
   careerStage: string;
   industry?: string;   // optional — seeker's declared sector
 }
@@ -239,9 +239,9 @@ function scoreCompanyType(industry: string): number {
   return 4;
 }
 
-function buildReason(mentor: Mentor, topic: string, isTopicMatch: boolean): string {
+function buildReason(mentor: Mentor, topics: string[], isTopicMatch: boolean): string {
   const topicPart = isTopicMatch
-    ? `offers ${topic.toLowerCase()}`
+    ? `offers ${topics.filter(t => mentor.topics.includes(t)).map(t => t.toLowerCase()).join(", ")}`
     : `related experience in ${mentor.topics[0].toLowerCase()}`;
   return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
 }
@@ -250,8 +250,8 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
   const pool = mentorList && mentorList.length > 0 ? mentorList : mentors;
   const seekerLevel = getSeekerLevel(input.careerStage);
 
-  // Hard filter: topic match
-  const topicMatches = pool.filter((m) => m.topics.includes(input.topic));
+  // Hard filter: topic match (any overlap)
+  const topicMatches = pool.filter((m) => input.topics.some(t => m.topics.includes(t)));
   const usePartial = topicMatches.length < 2;
   const candidates = usePartial ? pool : topicMatches;
 
@@ -261,7 +261,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
     const seniorityScore = scoreSeniorityGap(mentor.seniorityLevel, seekerLevel);
     if (seniorityScore < 0) continue; // exclude mentors below seeker level
 
-    const isTopicMatch = mentor.topics.includes(input.topic);
+    const isTopicMatch = input.topics.some(t => mentor.topics.includes(t));
     const topicBonus = isTopicMatch ? 0 : -10;
 
     const score =
@@ -275,7 +275,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
     scored.push({
       mentor,
       score,
-      reason: buildReason(mentor, input.topic, isTopicMatch),
+      reason: buildReason(mentor, input.topics, isTopicMatch),
       isPartialMatch: usePartial && !isTopicMatch,
     });
   }

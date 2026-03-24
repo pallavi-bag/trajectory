@@ -7,12 +7,12 @@ import { useEffect } from "react";
 const MentorCard = ({
   result,
   index,
-  seekerTopic,
+  seekerTopics,
   onClick,
 }: {
   result: MatchResult;
   index: number;
-  seekerTopic: string;
+  seekerTopics: string[];
   onClick: () => void;
 }) => {
   const { mentor, reason, isPartialMatch } = result;
@@ -57,7 +57,7 @@ const MentorCard = ({
 
       <div className="flex flex-wrap gap-1.5 mb-3">
         {mentor.topics.map((t) => {
-          const isMatchedTopic = t === seekerTopic;
+          const isMatchedTopic = seekerTopics.includes(t);
           return (
             <span
               key={t}
@@ -83,7 +83,7 @@ const Results = () => {
   const { seekerInput, matchResults } = useAppState();
 
   useEffect(() => {
-    if (!seekerInput.topic && !matchResults.length) {
+    if (!seekerInput.topics.length && !matchResults.length) {
       navigate("/mentee", { replace: true });
     }
   }, [matchResults, seekerInput, navigate]);
@@ -120,7 +120,7 @@ const Results = () => {
 
       <p className="text-sm text-muted-foreground mb-6">
         Matches for:{" "}
-        <span className="font-medium text-foreground">{seekerInput.topic}</span> ·{" "}
+        <span className="font-medium text-foreground">{seekerInput.topics.join(", ")}</span> ·{" "}
         <span className="font-medium text-foreground">{seekerInput.careerStage}</span>
       </p>
 
@@ -130,7 +130,7 @@ const Results = () => {
             key={result.mentor.id}
             result={result}
             index={i}
-            seekerTopic={seekerInput.topic}
+            seekerTopics={seekerInput.topics}
             onClick={() => navigate(`/mentor/${result.mentor.id}`)}
           />
         ))}
