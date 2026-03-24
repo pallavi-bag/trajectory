@@ -379,13 +379,15 @@ const LandingPage = () => {
             className="text-lg sm:text-xl text-nav-foreground italic leading-relaxed mb-4"
             style={{ fontFamily: SERIF }}
           >
-            "She calculated{" "}
+            She calculated{" "}
             <span className="not-italic" style={{ color: "hsl(var(--gold))" }}>
               trajectories
             </span>{" "}
-            that others said were impossible. We define your career path through data."
+            that put humanity on the moon. We define the career paths that put you in the right room."
           </blockquote>
-          <p className="text-nav-foreground/35 text-xs">&nbsp;Named in honour of Katherine Johnson, NASA mathematician</p>
+          <p className="text-nav-foreground/35 text-xs">
+            &nbsp;Named in honour of Katherine Johnson, NASA mathematician
+          </p>
         </div>
       </section>
 
