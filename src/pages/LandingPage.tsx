@@ -224,9 +224,6 @@ const LandingPage = () => {
   }, [scoreVisible, activeMentorIdx]);
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    { label: "Availability", points: 12, max: 12 },
-    { label: "Company type", points: 8, max: 8 },
-  ];
 
   return (
     <div className="flex flex-col">
