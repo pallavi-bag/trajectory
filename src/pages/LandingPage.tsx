@@ -1,7 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import avatarRiya from "@/assets/avatar-riya.jpg";
+import avatarMaya from "@/assets/avatar-maya.jpg";
+import avatarSara from "@/assets/avatar-sara.jpg";
 
 const SERIF = 'Georgia, "Times New Roman", serif';
+
+const AVATAR_MAP: Record<string, string> = {
+  "riya-kapoor": avatarRiya,
+  "maya-johnson": avatarMaya,
+  "sara-lin": avatarSara,
+};
+
+interface DemoMentor {
+  id: string;
+  name: string;
+  seniorityLabel: string;
+  industry: string;
+  topics: string[];
+  score: number;
+  reason: string;
+  scoreBars: { label: string; points: number; max: number }[];
+}
 
 /* ── Star field (55 dots) ── */
 function StarField() {
@@ -97,6 +117,58 @@ function ScoreBar({
   );
 }
 
+/* ── Demo mentor data (mapped from DB ids) ── */
+const DEMO_MENTORS: DemoMentor[] = [
+  {
+    id: "riya-kapoor",
+    name: "Riya Kapoor",
+    seniorityLabel: "Senior PM · IC3",
+    industry: "Fintech",
+    topics: ["Career transition", "Interview prep", "FAANG / big tech"],
+    score: 100,
+    reason: "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B fintech startup.",
+    scoreBars: [
+      { label: "Seniority gap", points: 30, max: 30 },
+      { label: "Sector alignment", points: 25, max: 25 },
+      { label: "Goal alignment", points: 25, max: 25 },
+      { label: "Availability", points: 12, max: 12 },
+      { label: "Company type", points: 8, max: 8 },
+    ],
+  },
+  {
+    id: "maya-johnson",
+    name: "Maya Johnson",
+    seniorityLabel: "Group PM · IC4",
+    industry: "B2B SaaS",
+    topics: ["Leadership development", "Stakeholder management", "Roadmap strategy"],
+    score: 92,
+    reason: "Matched because: Group PM in B2B SaaS, strong in leadership development and stakeholder management across enterprise orgs.",
+    scoreBars: [
+      { label: "Seniority gap", points: 28, max: 30 },
+      { label: "Sector alignment", points: 22, max: 25 },
+      { label: "Goal alignment", points: 24, max: 25 },
+      { label: "Availability", points: 10, max: 12 },
+      { label: "Company type", points: 8, max: 8 },
+    ],
+  },
+  {
+    id: "sara-lin",
+    name: "Sara Lin",
+    seniorityLabel: "PM · IC2",
+    industry: "Health Tech",
+    topics: ["Interview prep", "Career transition", "Work-life balance"],
+    score: 85,
+    reason: "Matched because: PM in Health Tech, recently navigated career transition and excels at interview coaching for early-career PMs.",
+    scoreBars: [
+      { label: "Seniority gap", points: 25, max: 30 },
+      { label: "Sector alignment", points: 20, max: 25 },
+      { label: "Goal alignment", points: 23, max: 25 },
+      { label: "Availability", points: 12, max: 12 },
+      { label: "Company type", points: 5, max: 8 },
+    ],
+  },
+];
+
 /* ── Main page ── */
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -105,6 +177,9 @@ const LandingPage = () => {
   const scoreRef = useRef<HTMLDivElement>(null);
   const [scoreVisible, setScoreVisible] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [activeMentorIdx, setActiveMentorIdx] = useState(0);
+
+  const activeMentor = DEMO_MENTORS[activeMentorIdx];
 
   useEffect(() => {
     const el = scoreRef.current;
@@ -122,10 +197,21 @@ const LandingPage = () => {
     return () => obs.disconnect();
   }, []);
 
+  /* Auto-rotate mentors every 4s */
   useEffect(() => {
     if (!scoreVisible) return;
-    const target = 100;
-    const dur = 1500;
+    const interval = setInterval(() => {
+      setActiveMentorIdx((prev) => (prev + 1) % DEMO_MENTORS.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [scoreVisible]);
+
+  /* Animate counter when mentor changes */
+  useEffect(() => {
+    if (!scoreVisible) return;
+    const target = activeMentor.score;
+    setCounter(0);
+    const dur = 1200;
     const start = performance.now();
     let raf: number;
     const tick = (now: number) => {
@@ -135,17 +221,9 @@ const LandingPage = () => {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [scoreVisible]);
+  }, [scoreVisible, activeMentorIdx]);
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-
-  const scoreBars = [
-    { label: "Seniority gap", points: 30, max: 30 },
-    { label: "Sector alignment", points: 25, max: 25 },
-    { label: "Goal alignment", points: 25, max: 25 },
-    { label: "Availability", points: 12, max: 12 },
-    { label: "Company type", points: 8, max: 8 },
-  ];
 
   return (
     <div className="flex flex-col">
@@ -226,15 +304,37 @@ const LandingPage = () => {
 
           {/* Demo card */}
           <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
-            {/* Card header */}
-            <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+            {/* Mentor selector dots */}
+            <div className="flex justify-center gap-2 mb-6">
+              {DEMO_MENTORS.map((m, i) => (
+                <button
+                  key={m.id}
+                  onClick={() => setActiveMentorIdx(i)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    i === activeMentorIdx ? "bg-primary scale-125" : "bg-border hover:bg-muted-foreground"
+                  }`}
+                  aria-label={`View ${m.name}`}
+                />
+              ))}
+            </div>
+
+            {/* Card header — animated */}
+            <div
+              key={activeMentor.id}
+              className="flex items-center justify-between flex-wrap gap-4 mb-6 animate-fade-in"
+            >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-tint text-primary flex items-center justify-center text-sm font-bold">
-                  RK
-                </div>
+                <img
+                  src={AVATAR_MAP[activeMentor.id]}
+                  alt={activeMentor.name}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+                  loading="lazy"
+                  width={512}
+                  height={512}
+                />
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Riya Kapoor</p>
-                  <p className="text-xs text-muted-foreground">Senior PM · Fintech · 4–7 yrs</p>
+                  <p className="text-sm font-semibold text-foreground">{activeMentor.name}</p>
+                  <p className="text-xs text-muted-foreground">{activeMentor.seniorityLabel} · {activeMentor.industry}</p>
                 </div>
               </div>
               <div className="text-right">
@@ -246,16 +346,15 @@ const LandingPage = () => {
 
             {/* Score bars */}
             <div className="space-y-3 mb-6">
-              {scoreBars.map((b, i) => (
-                <ScoreBar key={b.label} {...b} index={i} animate={scoreVisible} />
+              {activeMentor.scoreBars.map((b, i) => (
+                <ScoreBar key={`${activeMentor.id}-${b.label}`} {...b} index={i} animate={scoreVisible} />
               ))}
             </div>
 
             {/* Match reason */}
             <div className="bg-tint border border-primary/15 rounded-xl px-4 py-3">
               <p className="text-xs text-foreground italic leading-relaxed">
-                "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B
-                fintech startup."
+                "{activeMentor.reason}"
               </p>
             </div>
           </div>
