@@ -130,7 +130,7 @@ const Results = () => {
             key={result.mentor.id}
             result={result}
             index={i}
-            seekerTopic={seekerInput.topic}
+            seekerTopics={seekerInput.topics}
             onClick={() => navigate(`/mentor/${result.mentor.id}`)}
           />
         ))}

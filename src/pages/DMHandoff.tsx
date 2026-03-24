@@ -28,7 +28,7 @@ const DMHandoff = () => {
         <div className="bg-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-4 text-xs text-foreground space-y-0.5">
           <p className="font-semibold mb-1">Sent via NextPhase · WIP Mentor Match</p>
           <p>
-            {seekerName} · {seekerInput.careerStage} · {seekerInput.topic}
+            {seekerName} · {seekerInput.careerStage} · {seekerInput.topics.join(", ")}
           </p>
           <p>Goal: {seekerInput.goal}</p>
         </div>

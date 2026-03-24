@@ -275,7 +275,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
     scored.push({
       mentor,
       score,
-      reason: buildReason(mentor, input.topic, isTopicMatch),
+      reason: buildReason(mentor, input.topics, isTopicMatch),
       isPartialMatch: usePartial && !isTopicMatch,
     });
   }
