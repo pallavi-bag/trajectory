@@ -16,7 +16,7 @@ export interface Mentor {
 
 export interface SeekerInput {
   goal: string;
-  topic: string;
+  topics: string[];
   careerStage: string;
   industry?: string;   // optional — seeker's declared sector
 }
