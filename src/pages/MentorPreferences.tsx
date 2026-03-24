@@ -187,17 +187,30 @@ const MentorPreferences = () => {
   );
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-6">
-      <button
-        onClick={() => navigate("/")}
-        className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to home
-      </button>
+    <div className="flex flex-col flex-1">
+      {/* Hero */}
+      <div className="bg-nav px-6 pt-16 pb-20 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-nav-foreground leading-[1.1] mb-4 text-balance">
+          Become a mentor
+        </h1>
+        <p className="text-[hsl(248,20%,58%)] text-lg max-w-xl mx-auto leading-relaxed text-pretty">
+          Share your experience and guide the next generation of product leaders.
+        </p>
+      </div>
 
-      {/* Progress indicator — trajectory icons */}
-      <div className="flex items-center justify-center mb-10">
+      {/* Form card */}
+      <div className="px-6 -mt-10 pb-16 flex justify-center">
+        <div className="bg-card border border-border rounded-lg shadow-md p-6 w-full max-w-2xl space-y-6">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to home
+          </button>
+
+          {/* Progress indicator — trajectory icons */}
+          <div className="flex items-center justify-center">
         {STEP_META.map((meta, i) => {
           const num = i + 1;
           const isComplete = step > num;
@@ -444,6 +457,8 @@ const MentorPreferences = () => {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };
