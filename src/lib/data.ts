@@ -246,13 +246,14 @@ function buildReason(mentor: Mentor, topic: string, isTopicMatch: boolean): stri
   return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
 }
 
-export function runMatching(input: SeekerInput): MatchResult[] {
+export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchResult[] {
+  const pool = mentorList && mentorList.length > 0 ? mentorList : mentors;
   const seekerLevel = getSeekerLevel(input.careerStage);
 
   // Hard filter: topic match
-  const topicMatches = mentors.filter((m) => m.topics.includes(input.topic));
+  const topicMatches = pool.filter((m) => m.topics.includes(input.topic));
   const usePartial = topicMatches.length < 2;
-  const candidates = usePartial ? mentors : topicMatches;
+  const candidates = usePartial ? pool : topicMatches;
 
   const scored: MatchResult[] = [];
 

@@ -1,16 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useAppState } from "@/lib/context";
-import { mentors } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 const DMHandoff = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { seekerInput, introNote, seekerName } = useAppState();
+  const { seekerInput, introNote, seekerName, mentorsList } = useAppState();
 
-  const mentor = mentors.find((m) => m.id === id);
+  const mentor = mentorsList.find((m) => m.id === id);
 
   useEffect(() => {
     if (!mentor) navigate("/", { replace: true });

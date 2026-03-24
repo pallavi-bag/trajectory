@@ -7,7 +7,7 @@ import { ChevronDown } from "lucide-react";
 
 const Landing = () => {
   const navigate = useNavigate();
-  const { setSeekerInput, setMatchResults } = useAppState();
+  const { setSeekerInput, setMatchResults, mentorsList } = useAppState();
   const [goal, setGoal] = useState("");
   const [topic, setTopic] = useState("");
   const [stage, setStage] = useState("");
@@ -21,7 +21,7 @@ const Landing = () => {
     setSeekerInput(input);
     setLoading(true);
     setTimeout(() => {
-      const results = runMatching(input);
+      const results = runMatching(input, mentorsList);
       setMatchResults(results);
       setLoading(false);
       navigate("/results");

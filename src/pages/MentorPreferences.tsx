@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TOPICS, AVAILABILITY_OPTIONS } from "@/lib/data";
+import { saveMentor } from "@/lib/supabase-mentors";
+import { useAppState } from "@/lib/context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -74,6 +76,7 @@ const initialForm: FormData = {
 
 const MentorPreferences = () => {
   const navigate = useNavigate();
+  const { refreshMentors } = useAppState();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -125,8 +128,15 @@ const MentorPreferences = () => {
 
   const back = () => setStep(step - 1);
 
-  const save = () => {
-    if (validate(3)) setStep(4);
+  const save = async () => {
+    if (!validate(3)) return;
+    try {
+      await saveMentor(form);
+      await refreshMentors();
+      setStep(4);
+    } catch (err) {
+      console.error("Failed to save mentor:", err);
+    }
   };
 
   // Success state

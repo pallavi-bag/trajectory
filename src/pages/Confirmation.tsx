@@ -1,11 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { mentors } from "@/lib/data";
+import { useAppState } from "@/lib/context";
 import { Button } from "@/components/ui/button";
 
 const Confirmation = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const mentor = mentors.find((m) => m.id === id);
+  const { mentorsList } = useAppState();
+  const mentor = mentorsList.find((m) => m.id === id);
 
   return (
     <div className="flex items-center justify-center flex-1 px-6 py-12">
