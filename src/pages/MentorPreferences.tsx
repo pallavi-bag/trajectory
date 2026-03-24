@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TOPICS, AVAILABILITY_OPTIONS } from "@/lib/data";
+import { saveMentor } from "@/lib/supabase-mentors";
+import { useAppState } from "@/lib/context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
