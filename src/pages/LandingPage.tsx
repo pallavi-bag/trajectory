@@ -395,7 +395,7 @@ const LandingPage = () => {
           <span className="text-foreground font-semibold" style={{ fontFamily: SERIF }}>
             Trajectory.
           </span>
-          <span className="text-xs text-muted-foreground">Built for the WIP Women's History Month Hackathon 2025</span>
+          <span className="text-xs text-muted-foreground">Built for the WIP Women's History Month Hackathon 2026</span>
         </div>
       </footer>
     </div>
