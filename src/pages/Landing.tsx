@@ -131,7 +131,7 @@ const Landing = () => {
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1.5">
-                  Current Level
+                  Your Seniority Level
                 </label>
                 <div className="relative">
                   <select
