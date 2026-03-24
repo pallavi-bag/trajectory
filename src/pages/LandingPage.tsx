@@ -270,10 +270,10 @@ const LandingPage = () => {
         <div className="max-w-[720px] mx-auto">
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">Who it's for</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
-            Two paths. One product.
+            Are you looking to advance, pivot or lead as a PM?
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
-            Whether you're looking for guidance or ready to give it, Trajectory has a lane for you.
+            Whether you're looking for guidance or ready to give it, Trajectory has a match for you.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
