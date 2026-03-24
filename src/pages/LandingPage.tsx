@@ -202,7 +202,7 @@ const LandingPage = () => {
               ["WIP DMs", "no new tools needed"],
             ].map(([big, small]) => (
               <div key={big} className="text-center">
-                <p className="text-nav-foreground text-lg font-semibold">{big}</p>
+                <p className="text-lg font-semibold text-primary-foreground">{big}</p>
                 <p className="text-nav-foreground/40 text-xs">{small}</p>
               </div>
             ))}
