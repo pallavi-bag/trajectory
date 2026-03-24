@@ -120,7 +120,7 @@ const Results = () => {
 
       <p className="text-sm text-muted-foreground mb-6">
         Matches for:{" "}
-        <span className="font-medium text-foreground">{seekerInput.topic}</span> ·{" "}
+        <span className="font-medium text-foreground">{seekerInput.topics.join(", ")}</span> ·{" "}
         <span className="font-medium text-foreground">{seekerInput.careerStage}</span>
       </p>
 
