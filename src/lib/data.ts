@@ -253,7 +253,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
   // Hard filter: topic match
   const topicMatches = pool.filter((m) => m.topics.includes(input.topic));
   const usePartial = topicMatches.length < 2;
-  const candidates = usePartial ? mentors : topicMatches;
+  const candidates = usePartial ? pool : topicMatches;
 
   const scored: MatchResult[] = [];
 
