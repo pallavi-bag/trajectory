@@ -334,7 +334,7 @@ const LandingPage = () => {
               <h3 className="font-semibold text-foreground mb-2 text-sm">
                 Share your experience with the next generation
               </h3>
-              <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">
+              <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed bg-violet-100">
                 Share your availability and background so Trajectory can match you with mentees who want your expertise.
               </p>
               <button
