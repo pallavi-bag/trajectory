@@ -168,9 +168,9 @@ const LandingPage = () => {
             className="text-3xl sm:text-4xl md:text-5xl font-bold text-nav-foreground leading-tight mb-5"
             style={{ fontFamily: SERIF }}
           >
-            Curated mentor-matching for the
+            Curated Mentor-Matching for the
             <br />
-            <em style={{ color: "hsl(var(--gold))" }}>WIP community</em>
+            <em style={{ color: "hsl(var(--gold))" }}>WIP Community</em>
           </h1>
 
           {/* Subline */}
