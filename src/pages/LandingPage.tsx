@@ -117,6 +117,58 @@ function ScoreBar({
   );
 }
 
+/* ── Demo mentor data (mapped from DB ids) ── */
+const DEMO_MENTORS: DemoMentor[] = [
+  {
+    id: "riya-kapoor",
+    name: "Riya Kapoor",
+    seniorityLabel: "Senior PM · IC3",
+    industry: "Fintech",
+    topics: ["Career transition", "Interview prep", "FAANG / big tech"],
+    score: 100,
+    reason: "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B fintech startup.",
+    scoreBars: [
+      { label: "Seniority gap", points: 30, max: 30 },
+      { label: "Sector alignment", points: 25, max: 25 },
+      { label: "Goal alignment", points: 25, max: 25 },
+      { label: "Availability", points: 12, max: 12 },
+      { label: "Company type", points: 8, max: 8 },
+    ],
+  },
+  {
+    id: "maya-johnson",
+    name: "Maya Johnson",
+    seniorityLabel: "Group PM · IC4",
+    industry: "B2B SaaS",
+    topics: ["Leadership development", "Stakeholder management", "Roadmap strategy"],
+    score: 92,
+    reason: "Matched because: Group PM in B2B SaaS, strong in leadership development and stakeholder management across enterprise orgs.",
+    scoreBars: [
+      { label: "Seniority gap", points: 28, max: 30 },
+      { label: "Sector alignment", points: 22, max: 25 },
+      { label: "Goal alignment", points: 24, max: 25 },
+      { label: "Availability", points: 10, max: 12 },
+      { label: "Company type", points: 8, max: 8 },
+    ],
+  },
+  {
+    id: "sara-lin",
+    name: "Sara Lin",
+    seniorityLabel: "PM · IC2",
+    industry: "Health Tech",
+    topics: ["Interview prep", "Career transition", "Work-life balance"],
+    score: 85,
+    reason: "Matched because: PM in Health Tech, recently navigated career transition and excels at interview coaching for early-career PMs.",
+    scoreBars: [
+      { label: "Seniority gap", points: 25, max: 30 },
+      { label: "Sector alignment", points: 20, max: 25 },
+      { label: "Goal alignment", points: 23, max: 25 },
+      { label: "Availability", points: 12, max: 12 },
+      { label: "Company type", points: 5, max: 8 },
+    ],
+  },
+];
+
 /* ── Main page ── */
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -125,6 +177,9 @@ const LandingPage = () => {
   const scoreRef = useRef<HTMLDivElement>(null);
   const [scoreVisible, setScoreVisible] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [activeMentorIdx, setActiveMentorIdx] = useState(0);
+
+  const activeMentor = DEMO_MENTORS[activeMentorIdx];
 
   useEffect(() => {
     const el = scoreRef.current;
@@ -142,10 +197,21 @@ const LandingPage = () => {
     return () => obs.disconnect();
   }, []);
 
+  /* Auto-rotate mentors every 4s */
   useEffect(() => {
     if (!scoreVisible) return;
-    const target = 100;
-    const dur = 1500;
+    const interval = setInterval(() => {
+      setActiveMentorIdx((prev) => (prev + 1) % DEMO_MENTORS.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [scoreVisible]);
+
+  /* Animate counter when mentor changes */
+  useEffect(() => {
+    if (!scoreVisible) return;
+    const target = activeMentor.score;
+    setCounter(0);
+    const dur = 1200;
     const start = performance.now();
     let raf: number;
     const tick = (now: number) => {
@@ -155,14 +221,9 @@ const LandingPage = () => {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [scoreVisible]);
+  }, [scoreVisible, activeMentorIdx]);
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-
-  const scoreBars = [
-    { label: "Seniority gap", points: 30, max: 30 },
-    { label: "Sector alignment", points: 25, max: 25 },
-    { label: "Goal alignment", points: 25, max: 25 },
     { label: "Availability", points: 12, max: 12 },
     { label: "Company type", points: 8, max: 8 },
   ];
