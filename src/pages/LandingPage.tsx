@@ -266,7 +266,7 @@ const LandingPage = () => {
       </section>
 
       {/* ════════ PERSONA CARDS ════════ */}
-      <section id="seeker-section" className="bg-secondary py-20 px-6">
+      <section id="seeker-section" className="py-20 px-6 bg-inherit">
         <div className="max-w-[720px] mx-auto">
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">Who it's for</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
