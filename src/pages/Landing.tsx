@@ -84,7 +84,7 @@ const Landing = () => {
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1.5">
-                  Career stage
+                  Current Level
                 </label>
                 <div className="relative">
                   <select
