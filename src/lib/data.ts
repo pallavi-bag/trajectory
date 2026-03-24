@@ -250,8 +250,8 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
   const pool = mentorList && mentorList.length > 0 ? mentorList : mentors;
   const seekerLevel = getSeekerLevel(input.careerStage);
 
-  // Hard filter: topic match
-  const topicMatches = pool.filter((m) => m.topics.includes(input.topic));
+  // Hard filter: topic match (any overlap)
+  const topicMatches = pool.filter((m) => input.topics.some(t => m.topics.includes(t)));
   const usePartial = topicMatches.length < 2;
   const candidates = usePartial ? pool : topicMatches;
 
@@ -261,7 +261,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
     const seniorityScore = scoreSeniorityGap(mentor.seniorityLevel, seekerLevel);
     if (seniorityScore < 0) continue; // exclude mentors below seeker level
 
-    const isTopicMatch = mentor.topics.includes(input.topic);
+    const isTopicMatch = input.topics.some(t => mentor.topics.includes(t));
     const topicBonus = isTopicMatch ? 0 : -10;
 
     const score =
