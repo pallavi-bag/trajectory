@@ -304,15 +304,37 @@ const LandingPage = () => {
 
           {/* Demo card */}
           <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
-            {/* Card header */}
-            <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+            {/* Mentor selector dots */}
+            <div className="flex justify-center gap-2 mb-6">
+              {DEMO_MENTORS.map((m, i) => (
+                <button
+                  key={m.id}
+                  onClick={() => setActiveMentorIdx(i)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    i === activeMentorIdx ? "bg-primary scale-125" : "bg-border hover:bg-muted-foreground"
+                  }`}
+                  aria-label={`View ${m.name}`}
+                />
+              ))}
+            </div>
+
+            {/* Card header — animated */}
+            <div
+              key={activeMentor.id}
+              className="flex items-center justify-between flex-wrap gap-4 mb-6 animate-fade-in"
+            >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-tint text-primary flex items-center justify-center text-sm font-bold">
-                  RK
-                </div>
+                <img
+                  src={AVATAR_MAP[activeMentor.id]}
+                  alt={activeMentor.name}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-primary/20"
+                  loading="lazy"
+                  width={512}
+                  height={512}
+                />
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Riya Kapoor</p>
-                  <p className="text-xs text-muted-foreground">Senior PM · Fintech · 4–7 yrs</p>
+                  <p className="text-sm font-semibold text-foreground">{activeMentor.name}</p>
+                  <p className="text-xs text-muted-foreground">{activeMentor.seniorityLabel} · {activeMentor.industry}</p>
                 </div>
               </div>
               <div className="text-right">
@@ -324,16 +346,15 @@ const LandingPage = () => {
 
             {/* Score bars */}
             <div className="space-y-3 mb-6">
-              {scoreBars.map((b, i) => (
-                <ScoreBar key={b.label} {...b} index={i} animate={scoreVisible} />
+              {activeMentor.scoreBars.map((b, i) => (
+                <ScoreBar key={`${activeMentor.id}-${b.label}`} {...b} index={i} animate={scoreVisible} />
               ))}
             </div>
 
             {/* Match reason */}
             <div className="bg-tint border border-primary/15 rounded-xl px-4 py-3">
               <p className="text-xs text-foreground italic leading-relaxed">
-                "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B
-                fintech startup."
+                "{activeMentor.reason}"
               </p>
             </div>
           </div>
