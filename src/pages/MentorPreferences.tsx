@@ -159,7 +159,7 @@ const MentorPreferences = () => {
     value: string;
     onChange: (v: string) => void;
     placeholder: string;
-    options: string[];
+    options: readonly string[];
     field: string;
   }) => (
     <div className="relative">
