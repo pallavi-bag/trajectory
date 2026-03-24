@@ -156,7 +156,7 @@ const LandingPage = () => {
 
         <div className="relative z-10 max-w-2xl mx-auto text-center">
           {/* Eyebrow pill */}
-          <span className="inline-block text-xs tracking-wide px-4 py-1.5 rounded-full border-white/20 mb-8 border-2">
+          <span className="inline-block text-xs tracking-wide px-4 py-1.5 rounded-full border border-white/20 mb-8 text-gold font-bold">
             Women in Product · Mentor Matching
           </span>
 
