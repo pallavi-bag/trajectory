@@ -457,6 +457,8 @@ const MentorPreferences = () => {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };
