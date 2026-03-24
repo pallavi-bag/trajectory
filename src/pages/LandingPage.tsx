@@ -175,7 +175,7 @@ const LandingPage = () => {
 
           {/* Subline */}
           <p className="text-nav-foreground/55 text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-            Trajectory surfaces the WIP members who's been where you are, scored across six criteria and ranked by how closely your path aligns.
+            Trajectory surfaces the WIP members who's been where you are, scored across six criteria and ranked by how closely your paths align.
           </p>
 
           {/* CTAs */}
