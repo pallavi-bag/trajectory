@@ -221,7 +221,7 @@ const LandingPage = () => {
         >
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">The matching engine</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
-            Mentors are ranked based on matching across six criteria.
+            We curate your best mentor matches based on trajectory alignment and availability.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
             Each mentor is scored out of 100 across five weighted criteria so you instantly see <em>why</em> someone is
