@@ -297,7 +297,7 @@ const LandingPage = () => {
                   <path d="M7 14c0-2 1.8-3 4-3s4 1 4 3" />
                 </svg>
               </div>
-              <span className="text-[10px] uppercase tracking-widest text-primary font-semibold mb-2">For seekers</span>
+              <span className="text-[20px] uppercase tracking-widest text-primary font-semibold mb-2">For seekers</span>
               <h3 className="text-base font-semibold text-foreground mb-2">Find the mentor who's been where you are</h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed">
                 Answer three quick questions and get a ranked list of WIP members whose experience aligns with your
@@ -331,7 +331,7 @@ const LandingPage = () => {
                   <line x1="22" y1="11" x2="16" y2="11" />
                 </svg>
               </div>
-              <span className="text-[10px] uppercase tracking-widest text-wip-purple font-semibold mb-2">
+              <span className="text-[20px] uppercase tracking-widest text-wip-purple font-semibold mb-2">
                 For mentors
               </span>
               <h3 className="text-base font-semibold text-foreground mb-2">
