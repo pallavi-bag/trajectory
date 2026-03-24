@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      mentors: {
+        Row: {
+          availability: string
+          bio: string | null
+          created_at: number
+          id: string
+          industry: string
+          linkedin: string | null
+          max_mentees: string | null
+          name: string
+          open_to_mentoring: boolean | null
+          role_level: string | null
+          seniority_label: string
+          seniority_level: number
+          superpower: string
+          title: string
+          topics: string[]
+          transition_note: string | null
+        }
+        Insert: {
+          availability: string
+          bio?: string | null
+          created_at?: number
+          id: string
+          industry: string
+          linkedin?: string | null
+          max_mentees?: string | null
+          name: string
+          open_to_mentoring?: boolean | null
+          role_level?: string | null
+          seniority_label: string
+          seniority_level: number
+          superpower: string
+          title: string
+          topics: string[]
+          transition_note?: string | null
+        }
+        Update: {
+          availability?: string
+          bio?: string | null
+          created_at?: number
+          id?: string
+          industry?: string
+          linkedin?: string | null
+          max_mentees?: string | null
+          name?: string
+          open_to_mentoring?: boolean | null
+          role_level?: string | null
+          seniority_label?: string
+          seniority_level?: number
+          superpower?: string
+          title?: string
+          topics?: string[]
+          transition_note?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
