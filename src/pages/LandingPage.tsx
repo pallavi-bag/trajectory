@@ -222,7 +222,7 @@ const LandingPage = () => {
         >
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">The matching engine</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
-            Not a list. A ranked score for every mentor you see.
+            We curate your mentor matches based on trajectory alignment and availability.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
             More <em>signal</em>. Less noise.
