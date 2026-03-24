@@ -203,7 +203,7 @@ const LandingPage = () => {
             ].map(([big, small]) => (
               <div key={big} className="text-center">
                 <p className="text-nav-foreground text-lg font-semibold">{big}</p>
-                <p className="text-nav-foreground/40 text-xs">{small}</p>
+                <p className="text-sm text-primary-foreground">{small}</p>
               </div>
             ))}
           </div>
@@ -266,7 +266,7 @@ const LandingPage = () => {
       </section>
 
       {/* ════════ PERSONA CARDS ════════ */}
-      <section id="seeker-section" className="bg-secondary py-20 px-6">
+      <section id="seeker-section" className="py-20 px-6 bg-inherit">
         <div className="max-w-[720px] mx-auto">
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">Who it's for</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
@@ -298,8 +298,8 @@ const LandingPage = () => {
                 </svg>
               </div>
               <span className="text-[20px] uppercase tracking-widest text-primary font-semibold mb-2">For seekers</span>
-              <h3 className="text-base font-semibold text-foreground mb-2">Find the mentor who's been where you are</h3>
-              <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed">
+              <h3 className="font-semibold text-foreground mb-2 text-sm">Find the mentor who's been where you are</h3>
+              <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">
                 Answer three quick questions and get a ranked list of WIP members whose experience aligns with your
                 career goals.
               </p>
@@ -334,10 +334,10 @@ const LandingPage = () => {
               <span className="text-[20px] uppercase tracking-widest text-wip-purple font-semibold mb-2">
                 For mentors
               </span>
-              <h3 className="text-base font-semibold text-foreground mb-2">
+              <h3 className="font-semibold text-foreground mb-2 text-sm">
                 Share your experience with the next generation
               </h3>
-              <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed">
+              <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">
                 Share your availability and background so Trajectory can match you with mentees who want your expertise.
               </p>
               <button
