@@ -57,7 +57,7 @@ const MentorCard = ({
 
       <div className="flex flex-wrap gap-1.5 mb-3">
         {mentor.topics.map((t) => {
-          const isMatchedTopic = t === seekerTopic;
+          const isMatchedTopic = seekerTopics.includes(t);
           return (
             <span
               key={t}
