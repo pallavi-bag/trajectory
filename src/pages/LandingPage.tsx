@@ -334,10 +334,10 @@ const LandingPage = () => {
               <span className="text-[20px] uppercase tracking-widest text-wip-purple font-semibold mb-2">
                 For mentors
               </span>
-              <h3 className="text-base font-semibold text-foreground mb-2">
+              <h3 className="font-semibold text-foreground mb-2 text-sm">
                 Share your experience with the next generation
               </h3>
-              <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed">
+              <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">
                 Share your availability and background so Trajectory can match you with mentees who want your expertise.
               </p>
               <button
