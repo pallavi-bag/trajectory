@@ -1,7 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import avatarRiya from "@/assets/avatar-riya.jpg";
+import avatarMaya from "@/assets/avatar-maya.jpg";
+import avatarSara from "@/assets/avatar-sara.jpg";
 
 const SERIF = 'Georgia, "Times New Roman", serif';
+
+const AVATAR_MAP: Record<string, string> = {
+  "riya-kapoor": avatarRiya,
+  "maya-johnson": avatarMaya,
+  "sara-lin": avatarSara,
+};
+
+interface DemoMentor {
+  id: string;
+  name: string;
+  seniorityLabel: string;
+  industry: string;
+  topics: string[];
+  score: number;
+  reason: string;
+  scoreBars: { label: string; points: number; max: number }[];
+}
 
 /* ── Star field (55 dots) ── */
 function StarField() {
