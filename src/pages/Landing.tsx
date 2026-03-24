@@ -21,7 +21,7 @@ const Landing = () => {
     setSeekerInput(input);
     setLoading(true);
     setTimeout(() => {
-      const results = runMatching(input);
+      const results = runMatching(input, mentorsList);
       setMatchResults(results);
       setLoading(false);
       navigate("/results");

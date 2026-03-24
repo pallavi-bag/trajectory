@@ -128,8 +128,15 @@ const MentorPreferences = () => {
 
   const back = () => setStep(step - 1);
 
-  const save = () => {
-    if (validate(3)) setStep(4);
+  const save = async () => {
+    if (!validate(3)) return;
+    try {
+      await saveMentor(form);
+      await refreshMentors();
+      setStep(4);
+    } catch (err) {
+      console.error("Failed to save mentor:", err);
+    }
   };
 
   // Success state
