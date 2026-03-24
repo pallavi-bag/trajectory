@@ -76,6 +76,7 @@ const initialForm: FormData = {
 
 const MentorPreferences = () => {
   const navigate = useNavigate();
+  const { refreshMentors } = useAppState();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
