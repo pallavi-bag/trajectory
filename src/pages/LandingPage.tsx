@@ -189,7 +189,7 @@ const LandingPage = () => {
             </button>
             <button
               onClick={() => scrollTo("mentor-section")}
-              className="text-sm font-medium px-6 py-2.5 rounded-full border border-white/20 text-white/65 hover:bg-white/5 transition-colors"
+              className="text-sm font-medium px-6 py-2.5 rounded-full border border-white/20 transition-colors bg-input text-primary"
             >
               Become a mentor
             </button>
