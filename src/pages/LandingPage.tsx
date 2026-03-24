@@ -203,7 +203,7 @@ const LandingPage = () => {
             ].map(([big, small]) => (
               <div key={big} className="text-center">
                 <p className="text-nav-foreground text-lg font-semibold">{big}</p>
-                <p className="text-nav-foreground/40 text-xs">{small}</p>
+                <p className="text-sm text-primary-foreground">{small}</p>
               </div>
             ))}
           </div>
