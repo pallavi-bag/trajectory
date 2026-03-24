@@ -4,7 +4,7 @@ import { TOPICS, AVAILABILITY_OPTIONS } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, ChevronDown, Check } from "lucide-react";
+import { ArrowLeft, ChevronDown, Check, User, Heart, Sparkles } from "lucide-react";
 
 const MAX_TOPICS = 4;
 
@@ -20,7 +20,7 @@ const ROLE_LEVELS = [
   "Chief Product Officer",
   "Founder",
   "Other",
-];
+] as const;
 
 const INDUSTRIES = [
   "Banking/Finance/FinTech",
@@ -36,9 +36,13 @@ const INDUSTRIES = [
   "Retail/eCommerce",
   "Transportation/Travel/Hospitality",
   "Other",
-];
+] as const;
 
-const STEPS = ["Who you are", "How you can help", "Tell your story"];
+const STEP_META = [
+  { icon: User, label: "Profile" },
+  { icon: Heart, label: "Guidance" },
+  { icon: Sparkles, label: "Story" },
+];
 
 interface FormData {
   name: string;
@@ -100,9 +104,11 @@ const MentorPreferences = () => {
       if (!form.roleLevel) errs.roleLevel = "Please select your role level";
       if (!form.industry) errs.industry = "Please select your industry";
     } else if (s === 2) {
-      if (form.topics.length < 1) errs.topics = "Please select at least 1 topic";
-      if (!form.availability) errs.availability = "Please select your availability";
-      if (!form.maxMentees) errs.maxMentees = "Please select a mentee limit";
+      if (form.openToMentoring) {
+        if (form.topics.length < 1) errs.topics = "Please select at least 1 topic";
+        if (!form.availability) errs.availability = "Please select your availability";
+        if (!form.maxMentees) errs.maxMentees = "Please select a mentee limit";
+      }
     } else if (s === 3) {
       if (!form.superpower.trim()) errs.superpower = "Please add your superpower";
       if (form.linkedin.trim() && !/^https?:\/\/.+/i.test(form.linkedin.trim())) {
@@ -126,7 +132,7 @@ const MentorPreferences = () => {
   // Success state
   if (step === 4) {
     return (
-      <div className="max-w-lg mx-auto py-24 px-6 text-center">
+      <div className="max-w-lg mx-auto py-24 px-6 text-center animate-fade-in">
         <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
           <Check className="w-8 h-8 text-primary" />
         </div>
@@ -181,7 +187,7 @@ const MentorPreferences = () => {
   );
 
   return (
-    <div className="max-w-lg mx-auto py-8 px-6">
+    <div className="max-w-3xl mx-auto py-8 px-6">
       <button
         onClick={() => navigate("/")}
         className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
@@ -190,32 +196,31 @@ const MentorPreferences = () => {
         Back to home
       </button>
 
-      {/* Progress indicator */}
-      <div className="flex items-center justify-between mb-8">
-        {STEPS.map((label, i) => {
+      {/* Progress indicator — trajectory icons */}
+      <div className="flex items-center justify-center mb-10">
+        {STEP_META.map((meta, i) => {
           const num = i + 1;
           const isComplete = step > num;
           const isCurrent = step === num;
+          const Icon = meta.icon;
           return (
-            <div key={label} className="flex items-center flex-1 last:flex-none">
-              <div className="flex items-center gap-2">
+            <div key={meta.label} className="flex items-center">
+              <div className="flex flex-col items-center">
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium shrink-0 ${
-                    isComplete
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
+                    isComplete || isCurrent
                       ? "bg-primary text-primary-foreground"
-                      : isCurrent
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-border text-muted-foreground"
+                      : "bg-border text-muted-foreground"
                   }`}
                 >
-                  {isComplete ? <Check className="w-3.5 h-3.5" /> : num}
+                  {isComplete ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                 </div>
-                <span className={`text-xs whitespace-nowrap hidden sm:inline ${isCurrent ? "text-foreground font-medium" : "text-muted-foreground"}`}>
-                  {label}
+                <span className={`text-[11px] mt-1.5 ${isCurrent ? "text-foreground font-medium" : "text-muted-foreground"}`}>
+                  {meta.label}
                 </span>
               </div>
-              {i < STEPS.length - 1 && (
-                <div className={`flex-1 h-px mx-3 ${isComplete ? "bg-primary" : "bg-border"}`} />
+              {i < STEP_META.length - 1 && (
+                <div className={`w-16 sm:w-24 h-px mx-2 ${isComplete ? "bg-primary" : "bg-border"}`} />
               )}
             </div>
           );
@@ -224,7 +229,7 @@ const MentorPreferences = () => {
 
       {/* Step 1 */}
       {step === 1 && (
-        <div className="space-y-6">
+        <div className="space-y-8 animate-fade-in">
           <div>
             <h1 className="text-xl font-bold text-foreground mb-1">Who you are</h1>
             <p className="text-sm text-muted-foreground">Help seekers understand where you are in your journey</p>
@@ -271,7 +276,7 @@ const MentorPreferences = () => {
 
       {/* Step 2 */}
       {step === 2 && (
-        <div className="space-y-6">
+        <div className="space-y-8 animate-fade-in">
           <div>
             <h1 className="text-xl font-bold text-foreground mb-1">How you can help</h1>
             <p className="text-sm text-muted-foreground">Define how you can guide others forward</p>
@@ -290,43 +295,55 @@ const MentorPreferences = () => {
             </button>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="text-sm font-medium text-foreground">What can you help with?<RequiredStar /></label>
-              <span className="text-xs text-muted-foreground">{form.topics.length}/{MAX_TOPICS} selected</span>
-            </div>
-            <p className="text-xs text-muted-foreground mb-2">Select up to 4 areas you're most comfortable supporting</p>
-            <div className="flex flex-wrap gap-2">
-              {TOPICS.map((topic) => {
-                const selected = form.topics.includes(topic);
-                return (
-                  <button
-                    key={topic}
-                    onClick={() => toggleTopic(topic)}
-                    className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
-                      selected ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-border"
-                    } ${!selected && form.topics.length >= MAX_TOPICS ? "opacity-40 cursor-not-allowed" : ""}`}
-                    disabled={!selected && form.topics.length >= MAX_TOPICS}
-                  >
-                    {topic}
-                  </button>
-                );
-              })}
-            </div>
-            <FieldError field="topics" />
-          </div>
+          {!form.openToMentoring && (
+            <p className="text-sm text-muted-foreground italic animate-fade-in">
+              Turn this on to start receiving mentor requests
+            </p>
+          )}
 
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Availability<RequiredStar /></label>
-            <p className="text-xs text-muted-foreground mb-1.5">How often can you support mentees?</p>
-            <SelectField value={form.availability} onChange={(v) => update("availability", v)} placeholder="Select availability" options={AVAILABILITY_OPTIONS} field="availability" />
-          </div>
+          {form.openToMentoring && (
+            <div className="space-y-8 animate-fade-in">
+              <p className="text-sm font-semibold text-foreground">Mentoring preferences</p>
 
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Max mentees<RequiredStar /></label>
-            <p className="text-xs text-muted-foreground mb-1.5">Set how many mentees you want to support at one time</p>
-            <SelectField value={form.maxMentees} onChange={(v) => update("maxMentees", v)} placeholder="Select max mentees" options={["1", "2", "3", "No limit"]} field="maxMentees" />
-          </div>
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-sm font-medium text-foreground">What can you help with?<RequiredStar /></label>
+                  <span className="text-xs text-muted-foreground">{form.topics.length}/{MAX_TOPICS} selected</span>
+                </div>
+                <p className="text-xs text-muted-foreground mb-2">Select up to 4 areas you're most comfortable supporting</p>
+                <div className="flex flex-wrap gap-2">
+                  {TOPICS.map((topic) => {
+                    const selected = form.topics.includes(topic);
+                    return (
+                      <button
+                        key={topic}
+                        onClick={() => toggleTopic(topic)}
+                        className={`text-xs px-3 py-1.5 rounded-full transition-colors ${
+                          selected ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-border"
+                        } ${!selected && form.topics.length >= MAX_TOPICS ? "opacity-40 cursor-not-allowed" : ""}`}
+                        disabled={!selected && form.topics.length >= MAX_TOPICS}
+                      >
+                        {topic}
+                      </button>
+                    );
+                  })}
+                </div>
+                <FieldError field="topics" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">Availability<RequiredStar /></label>
+                <p className="text-xs text-muted-foreground mb-1.5">How often can you support mentees?</p>
+                <SelectField value={form.availability} onChange={(v) => update("availability", v)} placeholder="Select availability" options={AVAILABILITY_OPTIONS} field="availability" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">Max mentees<RequiredStar /></label>
+                <p className="text-xs text-muted-foreground mb-1.5">Set how many mentees you want to support at one time</p>
+                <SelectField value={form.maxMentees} onChange={(v) => update("maxMentees", v)} placeholder="Select max mentees" options={["1", "2", "3", "No limit"]} field="maxMentees" />
+              </div>
+            </div>
+          )}
 
           <div className="flex gap-3">
             <Button onClick={back} variant="ghost" size="lg" className="flex-1">Back</Button>
@@ -337,7 +354,7 @@ const MentorPreferences = () => {
 
       {/* Step 3 */}
       {step === 3 && (
-        <div className="space-y-6">
+        <div className="space-y-8 animate-fade-in">
           <div>
             <h1 className="text-xl font-bold text-foreground mb-1">Tell your story</h1>
             <p className="text-sm text-muted-foreground">This is what seekers will see when deciding to reach out</p>
@@ -379,11 +396,11 @@ const MentorPreferences = () => {
           </div>
 
           {/* Review section */}
-          <div className="border border-border rounded-2xl p-5 bg-card">
+          <div className="border border-border rounded-2xl p-6 bg-card shadow-sm">
             <h2 className="text-sm font-semibold text-foreground mb-1">How seekers will see you</h2>
-            <p className="text-xs text-muted-foreground mb-4">Here's a preview of your mentor profile</p>
+            <p className="text-xs text-muted-foreground mb-5">Here's a preview of your mentor profile</p>
 
-            <div className="space-y-3 text-sm">
+            <div className="space-y-4 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Name</span>
                 <span className="text-foreground font-medium">{form.name || "—"}</span>
