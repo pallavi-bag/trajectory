@@ -239,9 +239,9 @@ function scoreCompanyType(industry: string): number {
   return 4;
 }
 
-function buildReason(mentor: Mentor, topic: string, isTopicMatch: boolean): string {
+function buildReason(mentor: Mentor, topics: string[], isTopicMatch: boolean): string {
   const topicPart = isTopicMatch
-    ? `offers ${topic.toLowerCase()}`
+    ? `offers ${topics.filter(t => mentor.topics.includes(t)).map(t => t.toLowerCase()).join(", ")}`
     : `related experience in ${mentor.topics[0].toLowerCase()}`;
   return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
 }
