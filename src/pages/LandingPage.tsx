@@ -385,7 +385,7 @@ const LandingPage = () => {
             </span>{" "}
             that others said were impossible. We define your career path through data."
           </blockquote>
-          <p className="text-nav-foreground/35 text-xs">— Named in honour of Katherine Johnson, NASA mathematician</p>
+          <p className="text-nav-foreground/35 text-xs">&nbsp;Named in honour of Katherine Johnson, NASA mathematician</p>
         </div>
       </section>
 
