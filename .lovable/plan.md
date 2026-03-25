@@ -1,45 +1,39 @@
 
 
-## Update Mentor Result Cards — UI Only
+## Convert Mentor Detail Page to Card-Based Layout
 
-**File:** `src/pages/Results.tsx`
+**File:** `src/pages/MentorProfile.tsx` (only file changed)
 
-### MentorCard Rewrite
+### Outer container
+- Widen from `max-w-2xl` to `max-w-3xl` (~768px effective) to match result card widths
+- Keep `mx-auto py-8 px-6`
+- Back button stays above cards
 
-Replace the entire `MentorCard` component with the new design. No changes to matching logic, data types, or any other files.
+### Card 1 — Mentor Profile
+Wrap lines 32–95 in a `<div>` with `bg-white rounded-2xl border border-[0.5px] border-border p-6 mb-6`
 
-**Card wrapper:**
-- Change from `<button>` to `<div>` with `onClick` (or keep button). Use `rounded-2xl` (16px), `p-5` (20px), `cursor-pointer`
-- Best match card: `bg-[#f7fdfb]`, `border border-[0.5px] border-[#9FE1CB]`
-- Other cards: `bg-white`, `border border-[0.5px] border-border`
-- Remove the old `border-l-[3px]` best match styling and `shadow-sm`
+Contents (same data, restructured):
+- **Header**: avatar + name + title/industry (unchanged)
+- **Stats grid**: 2-col grid with seniority, industry, availability, LinkedIn (unchanged styling, but use `bg-[#f8f9fa]` cells to sit inside the white card)
+- **Superpower**: keep the `bg-tint border-l-4` block but inside the card, add `mt-5`
+- **Bio**: below superpower, `mt-4`
+- **Topic chips**: below bio, `mt-4`
 
-**Best match badge (top-left, before header):**
-- Only on index 0: small `<span>` with `★ Best match`, `bg-[#1D9E75] text-white text-[10px] rounded-[4px] px-2 py-0.5 mb-2 inline-block`
+### Card 2 — Connect / Interaction
+Wrap lines 97–136 in a `<div>` with `bg-white rounded-2xl border border-[0.5px] border-border p-6`
 
-**Header row:**
-- Left: avatar circle (initials) + name + subtitle (`seniorityLabel · industry` if available, else just `seniorityLabel`)
-- Right: score number `text-[22px] font-bold` — color `text-[#1D9E75]` for best match, `text-muted-foreground` for others. Below it: "match" label `text-[10px] text-muted-foreground`
-- Below score: 5 small square dots (6×6px, rounded-sm). Derive from score: score≥90 → 5 filled, ≥80 → 4 filled + 1 partial, ≥70 → 3 filled + 1 partial + 1 weak, etc. Filled = `bg-[#1D9E75]`, partial = `bg-[#9FE1CB]`, weak = `bg-gray-200`
+Contents (same fields):
+- "Write an intro note" label + textarea
+- Message preview block
+- CTA button — stays `w-full`, inside the card with `mt-4`
 
-**Topic pills:**
-- Same filtering logic (top 1–2 matched topics)
-- Style: `border border-[0.5px] border-[#1D9E75] text-[#0F6E56] rounded-[20px] text-[11px] px-2.5 py-0.5`
+### Spacing adjustments
+- `mb-5` between header and stats grid
+- `mt-5` between stats and superpower
+- `mt-4` between superpower and bio
+- `mt-4` between bio and chips
+- `mb-5` between textarea and preview
+- `mt-4` between preview and CTA
 
-**Divider:**
-- `<hr className="border-t border-[0.5px] border-border my-3" />`
-
-**Footer row:**
-- Left: reason sentence, `text-[13px]`. Bold key phrases in `text-[#0F6E56]` — bold the first topic match found in the reason string
-- Right: "View profile →" link, `text-[11px] text-[#1D9E75] hover:underline shrink-0`
-
-**Remove entirely:**
-- "Trajectory" label
-- "High alignment" / alignment labels
-- Old bordered score box
-- Old italic reason style
-
-### Helper additions (same file)
-- `getScoreDots(score)` — returns array of 5 items with status `'filled' | 'partial' | 'weak'` based on normalized score thresholds
-- `boldFirstTopic(reason, topics)` — returns JSX with the first matched topic in the reason string wrapped in `<strong className="text-[#0F6E56]">`
+No changes to content, fields, copy, or functionality.
 
