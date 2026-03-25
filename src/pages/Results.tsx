@@ -17,17 +17,29 @@ function getScoreDots(score: number): Array<'filled' | 'partial' | 'weak'> {
   return ['partial', 'weak', 'weak', 'weak', 'weak'];
 }
 
-function boldFirstTopic(reason: string, topics: string[]): React.ReactNode {
-  for (const topic of topics) {
-    const idx = reason.toLowerCase().indexOf(topic.toLowerCase());
-    if (idx !== -1) {
-      const before = reason.slice(0, idx);
-      const match = reason.slice(idx, idx + topic.length);
-      const after = reason.slice(idx + topic.length);
-      return <>{before}<strong className="text-[#0F6E56] font-semibold">{match}</strong>{after}</>;
-    }
-  }
-  return reason;
+function stripLevelCode(text: string): string {
+  return text.replace(/\s*·\s*(IC\d+|Dir\+)/gi, '').trim();
+}
+
+function boldKeywords(text: string, keywords: string[]): React.ReactNode {
+  const unique = [...new Set(keywords.filter(Boolean))];
+  unique.sort((a, b) => b.length - a.length);
+  const escaped = unique.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  if (escaped.length === 0) return text;
+  const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, i) => {
+        const isMatch = unique.some((k) => k.toLowerCase() === part.toLowerCase());
+        return isMatch ? (
+          <strong key={i} className="text-[#0F6E56] font-semibold">{part}</strong>
+        ) : (
+          <span key={i}>{part}</span>
+        );
+      })}
+    </>
+  );
 }
 
 const MentorCard = ({
@@ -77,7 +89,7 @@ const MentorCard = ({
           </div>
           <div>
             <p className="font-semibold text-foreground text-sm">{mentor.name}</p>
-            <p className="text-muted-foreground text-xs">{mentor.seniorityLabel} · {mentor.industry}</p>
+            <p className="text-muted-foreground text-xs">{stripLevelCode(mentor.seniorityLabel)} · {mentor.industry}</p>
           </div>
         </div>
         <div className="flex flex-col items-end shrink-0">
@@ -116,7 +128,7 @@ const MentorCard = ({
       {/* Footer row */}
       <div className="flex items-center justify-between gap-4">
         <p className="text-[13px] text-muted-foreground leading-relaxed">
-          {boldFirstTopic(shortReason, seekerTopics)}
+          {boldKeywords(stripLevelCode(shortReason), [stripLevelCode(mentor.seniorityLabel), mentor.industry, ...matchedTopics])}
         </p>
         <span className="text-[11px] text-[#1D9E75] hover:underline shrink-0 cursor-pointer">
           View profile →
