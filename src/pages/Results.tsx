@@ -4,14 +4,30 @@ import { ArrowLeft } from "lucide-react";
 import type { MatchResult } from "@/lib/data";
 import { useEffect } from "react";
 
-function getAlignmentLabel(score: number): { label: string; className: string } {
-  if (score >= 80) return { label: "High alignment", className: "text-primary" };
-  if (score >= 60) return { label: "Good alignment", className: "text-amber-600" };
-  return { label: "Moderate alignment", className: "text-muted-foreground" };
-}
-
 function normalizeScore(raw: number): number {
   return Math.max(40, Math.min(Math.round(raw), 100));
+}
+
+function getScoreDots(score: number): Array<'filled' | 'partial' | 'weak'> {
+  if (score >= 90) return ['filled', 'filled', 'filled', 'filled', 'filled'];
+  if (score >= 80) return ['filled', 'filled', 'filled', 'filled', 'partial'];
+  if (score >= 70) return ['filled', 'filled', 'filled', 'partial', 'weak'];
+  if (score >= 60) return ['filled', 'filled', 'partial', 'weak', 'weak'];
+  if (score >= 50) return ['filled', 'partial', 'weak', 'weak', 'weak'];
+  return ['partial', 'weak', 'weak', 'weak', 'weak'];
+}
+
+function boldFirstTopic(reason: string, topics: string[]): React.ReactNode {
+  for (const topic of topics) {
+    const idx = reason.toLowerCase().indexOf(topic.toLowerCase());
+    if (idx !== -1) {
+      const before = reason.slice(0, idx);
+      const match = reason.slice(idx, idx + topic.length);
+      const after = reason.slice(idx + topic.length);
+      return <>{before}<strong className="text-[#0F6E56] font-semibold">{match}</strong>{after}</>;
+    }
+  }
+  return reason;
 }
 
 const MentorCard = ({
@@ -28,69 +44,85 @@ const MentorCard = ({
   const { mentor, reason, score } = result;
   const isBest = index === 0;
   const displayScore = normalizeScore(score);
-  const alignment = getAlignmentLabel(displayScore);
+  const dots = getScoreDots(displayScore);
 
-  // Show only top 1–2 matched topics; fallback to first mentor topic
   const matchedTopics = mentor.topics.filter((t) => seekerTopics.includes(t));
   const displayTopics = matchedTopics.length > 0
     ? matchedTopics.slice(0, 2)
     : [mentor.topics[0]];
 
-  // Truncate reason to first sentence
   const shortReason = reason.split(".")[0] + ".";
 
   return (
-    <button
+    <div
       onClick={onClick}
-      className={`w-full text-left bg-card border border-border rounded-lg p-5 shadow-sm hover:shadow-md transition-[box-shadow] ${
-        isBest ? "border-l-[3px] border-l-primary" : ""
+      className={`cursor-pointer rounded-2xl p-5 transition-shadow hover:shadow-md ${
+        isBest
+          ? "bg-[#f7fdfb] border-[0.5px] border-[#9FE1CB]"
+          : "bg-white border-[0.5px] border-border"
       }`}
     >
-      {/* Row 1: Avatar + Name (left) — Score (right) */}
-      <div className="flex items-start justify-between mb-4">
+      {/* Best match badge */}
+      {isBest && (
+        <span className="inline-block bg-[#1D9E75] text-white text-[10px] rounded-[4px] px-2 py-0.5 mb-2">
+          ★ Best match
+        </span>
+      )}
+
+      {/* Header row */}
+      <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
             {mentor.name.split(" ").map((n) => n[0]).join("")}
           </div>
           <div>
             <p className="font-semibold text-foreground text-sm">{mentor.name}</p>
-            <p className="text-muted-foreground text-xs">{mentor.seniorityLabel}</p>
+            <p className="text-muted-foreground text-xs">{mentor.seniorityLabel} · {mentor.industry}</p>
           </div>
         </div>
         <div className="flex flex-col items-end shrink-0">
-          <div className="flex items-baseline gap-1">
-            <span className="text-primary font-bold text-xl leading-none">{displayScore}</span>
-            {isBest && (
-              <span className="text-primary text-[10px] font-medium">· Best match</span>
-            )}
+          <span className={`font-bold text-[22px] leading-none ${isBest ? "text-[#1D9E75]" : "text-muted-foreground"}`}>
+            {displayScore}
+          </span>
+          <span className="text-[10px] text-muted-foreground mt-0.5">match</span>
+          <div className="flex gap-0.5 mt-1">
+            {dots.map((status, i) => (
+              <div
+                key={i}
+                className={`w-1.5 h-1.5 rounded-sm ${
+                  status === 'filled' ? 'bg-[#1D9E75]' : status === 'partial' ? 'bg-[#9FE1CB]' : 'bg-gray-200'
+                }`}
+              />
+            ))}
           </div>
-          <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Trajectory</span>
-          <span className={`text-[10px] ${alignment.className}`}>{alignment.label}</span>
         </div>
       </div>
 
-      {/* Row 2: 1–2 topic chips */}
+      {/* Topic pills */}
       <div className="flex flex-wrap gap-1.5 mb-3">
-        {displayTopics.map((t) => {
-          const isMatched = seekerTopics.includes(t);
-          return (
-            <span
-              key={t}
-              className={`text-xs px-2 py-0.5 rounded-full border ${
-                isMatched
-                  ? "border-primary text-primary"
-                  : "border-border text-muted-foreground"
-              }`}
-            >
-              {t}
-            </span>
-          );
-        })}
+        {displayTopics.map((t) => (
+          <span
+            key={t}
+            className="border-[0.5px] border-[#1D9E75] text-[#0F6E56] rounded-[20px] text-[11px] px-2.5 py-0.5"
+          >
+            {t}
+          </span>
+        ))}
       </div>
 
-      {/* Row 3: Short explanation */}
-      <p className="text-xs italic text-muted-foreground leading-relaxed">{shortReason}</p>
-    </button>
+      {/* Divider */}
+      <hr className="border-t border-[0.5px] border-border my-3" />
+
+      {/* Footer row */}
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-[13px] text-muted-foreground leading-relaxed">
+          {boldFirstTopic(shortReason, seekerTopics)}
+        </p>
+        <span className="text-[11px] text-[#1D9E75] hover:underline shrink-0 cursor-pointer">
+          View profile →
+        </span>
+      </div>
+    </div>
   );
 };
 
@@ -115,7 +147,7 @@ const Results = () => {
           Try broadening your search — change your topic or career stage to surface more mentors.
         </p>
         <button
-           onClick={() => navigate("/mentee")}
+          onClick={() => navigate("/mentee")}
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground text-sm font-medium px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
         >
           Edit my search
