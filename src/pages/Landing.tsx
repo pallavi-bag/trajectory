@@ -1,15 +1,34 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppState } from "@/lib/context";
-import { runMatching, TOPICS, CAREER_STAGES } from "@/lib/data";
+import { runMatching, TOPICS, CAREER_STAGES, AVAILABILITY_OPTIONS } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ChevronDown, X } from "lucide-react";
+
+const INDUSTRIES = [
+  "Banking/Finance/FinTech",
+  "Computing/IoT/Consumer Tech",
+  "Data/Analytics",
+  "EdTech",
+  "Enterprise Software/SaaS",
+  "Healthcare/Nanotechnology/Wearable",
+  "Manufacturing",
+  "Media/Entertainment/Social",
+  "Nonprofit/Philanthropy",
+  "Real Estate Tech",
+  "Retail/eCommerce",
+  "Transportation/Travel/Hospitality",
+  "Other",
+] as const;
 
 const Landing = () => {
   const navigate = useNavigate();
   const { setSeekerInput, setMatchResults, mentorsList } = useAppState();
   const [topics, setTopics] = useState<string[]>([]);
+  const [goal, setGoal] = useState("");
   const [stage, setStage] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [availability, setAvailability] = useState("");
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
