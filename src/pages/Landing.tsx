@@ -174,7 +174,7 @@ const Landing = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Your Seniority Level
+                    Where are you in your career right now?
                   </label>
                   <div className="relative">
                     <select
