@@ -46,14 +46,18 @@ const Landing = () => {
   }, []);
 
   const toggleTopic = (t: string) => {
-    setTopics((prev) =>
-      prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
-    );
+    setTopics((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
   };
 
   const handleSubmit = () => {
     if (!canSubmit) return;
-    const input = { goal, topics, careerStage: stage, industry: industry || undefined };
+    const input = {
+      goal,
+      topics,
+      careerStage: stage,
+      industry: industry || undefined,
+      availability: availability || undefined,
+    };
     setSeekerInput(input);
     setLoading(true);
     setTimeout(() => {
@@ -96,20 +100,18 @@ const Landing = () => {
               {/* Group 1 — What do you need help with */}
               <div className="space-y-4">
                 <div ref={dropdownRef}>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Focus Area
-                  </label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Focus Area</label>
                   <button
                     type="button"
                     onClick={() => setDropdownOpen((o) => !o)}
                     className="w-full flex items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring min-h-[38px]"
                   >
                     <span className={topics.length === 0 ? "text-muted-foreground" : ""}>
-                      {topics.length === 0
-                        ? "Select topics…"
-                        : `${topics.length} selected`}
+                      {topics.length === 0 ? "Select topics…" : `${topics.length} selected`}
                     </span>
-                    <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-4 h-4 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
 
                   {topics.length > 0 && (
@@ -120,11 +122,7 @@ const Landing = () => {
                           className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
                         >
                           {t}
-                          <button
-                            type="button"
-                            onClick={() => toggleTopic(t)}
-                            className="hover:text-primary/70"
-                          >
+                          <button type="button" onClick={() => toggleTopic(t)} className="hover:text-primary/70">
                             <X className="w-3 h-3" />
                           </button>
                         </span>
@@ -142,9 +140,7 @@ const Landing = () => {
                             type="button"
                             onClick={() => toggleTopic(t)}
                             className={`w-full text-left px-3 py-2 text-sm transition-colors ${
-                              selected
-                                ? "bg-primary/10 text-primary font-medium"
-                                : "text-foreground hover:bg-accent"
+                              selected ? "bg-primary/10 text-primary font-medium" : "text-foreground hover:bg-accent"
                             }`}
                           >
                             {t}
@@ -156,9 +152,7 @@ const Landing = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">
-                    What do you need help with?
-                  </label>
+                  <label className="block text-sm font-medium text-foreground mb-1">What do you need help with?</label>
                   <p className="text-xs text-muted-foreground mb-1.5">Share your goal in your own words</p>
                   <textarea
                     value={goal}
@@ -173,9 +167,7 @@ const Landing = () => {
               {/* Group 2 — Where are you now */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Where are you in your career right now?
-                  </label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Your Seniority Level</label>
                   <div className="relative">
                     <select
                       value={stage}
@@ -184,7 +176,9 @@ const Landing = () => {
                     >
                       <option value="">Select your stage…</option>
                       {CAREER_STAGES.map((s) => (
-                        <option key={s.label} value={s.label}>{s.label}</option>
+                        <option key={s.label} value={s.label}>
+                          {s.label}
+                        </option>
                       ))}
                     </select>
                     <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
@@ -192,9 +186,7 @@ const Landing = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Your current industry
-                  </label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Your current industry</label>
                   <div className="relative">
                     <select
                       value={industry}
@@ -203,7 +195,9 @@ const Landing = () => {
                     >
                       <option value="">Select your industry…</option>
                       {INDUSTRIES.map((i) => (
-                        <option key={i} value={i}>{i}</option>
+                        <option key={i} value={i}>
+                          {i}
+                        </option>
                       ))}
                     </select>
                     <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
@@ -225,7 +219,9 @@ const Landing = () => {
                     >
                       <option value="">Select availability…</option>
                       {AVAILABILITY_OPTIONS.map((a) => (
-                        <option key={a} value={a}>{a}</option>
+                        <option key={a} value={a}>
+                          {a}
+                        </option>
                       ))}
                     </select>
                     <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
@@ -233,12 +229,7 @@ const Landing = () => {
                 </div>
               </div>
 
-              <Button
-                onClick={handleSubmit}
-                disabled={!canSubmit}
-                className="w-full"
-                size="lg"
-              >
+              <Button onClick={handleSubmit} disabled={!canSubmit} className="w-full" size="lg">
                 Find my mentor
               </Button>
             </div>
