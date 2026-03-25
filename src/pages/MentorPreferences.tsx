@@ -308,7 +308,7 @@ const MentorPreferences = () => {
 
           {form.openToMentoring && (
             <div className="space-y-8 animate-fade-in">
-              <p className="text-sm font-semibold text-foreground">Mentoring preferences</p>
+              <p className="text-sm font-semibold text-foreground">{"\n"}</p>
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
