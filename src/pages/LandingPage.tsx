@@ -235,7 +235,7 @@ const LandingPage = () => {
         <div className="relative z-10 max-w-2xl mx-auto text-center">
           {/* Eyebrow pill */}
           <span className="inline-block text-xs tracking-wide px-4 py-1.5 rounded-full border border-white/20 mb-8 text-gold font-bold">
-            Women in Product · Mentor Matching
+            Women in Product · Mentor-Matching
           </span>
 
           {/* H1 */}
@@ -250,7 +250,7 @@ const LandingPage = () => {
 
           {/* Subline */}
           <p className="text-nav-foreground/55 text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-            Trajectory ranks the best-matched WIP members who's been exactly where you are.
+            Trajectory gives you a ranked list of the best-matched WIP members who have been exactly where you are.
           </p>
 
           {/* CTAs */}
