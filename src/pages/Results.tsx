@@ -58,8 +58,14 @@ const MentorCard = ({
               Partial match
             </span>
           )}
-        </div>
-      </div>
+          <div className="flex flex-col items-end border border-border rounded-lg px-3 py-2 bg-background/50">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Trajectory Score</span>
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-primary font-bold text-lg leading-none">{displayScore}</span>
+              <span className="text-muted-foreground text-xs">/100</span>
+            </div>
+            <span className={`text-[10px] ${alignment.className}`}>{alignment.label}</span>
+          </div>
 
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xs bg-background border border-border text-foreground px-2 py-0.5 rounded-full">
