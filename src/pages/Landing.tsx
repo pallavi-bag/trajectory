@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppState } from "@/lib/context";
 import { runMatching, TOPICS, CAREER_STAGES } from "@/lib/data";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, X } from "lucide-react";
+import { ArrowLeft, ChevronDown, X } from "lucide-react";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -49,12 +49,6 @@ const Landing = () => {
     <div className="flex flex-col flex-1">
       {/* Hero */}
       <div className="bg-nav px-6 pt-10 pb-20 text-center">
-        <button
-          onClick={() => navigate("/")}
-          className="inline-flex items-center gap-1 text-sm text-nav-foreground/70 hover:text-nav-foreground transition-colors mb-6"
-        >
-          ← Back to Home
-        </button>
         <h1 className="text-3xl md:text-4xl font-bold text-nav-foreground leading-[1.1] mb-4 text-balance">
           Give your career the trajectory it deserves.
         </h1>
@@ -66,6 +60,13 @@ const Landing = () => {
       {/* Form card */}
       <div className="px-6 -mt-10 pb-16 flex justify-center">
         <div className="bg-card border border-border rounded-lg shadow-md p-6 w-full max-w-lg space-y-4">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to home
+          </button>
           {loading ? (
             <div className="flex flex-col items-center justify-center py-12 space-y-3">
               <div className="w-8 h-8 border-[3px] border-primary border-t-transparent rounded-full animate-spin" />
