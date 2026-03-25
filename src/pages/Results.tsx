@@ -66,6 +66,8 @@ const MentorCard = ({
             </div>
             <span className={`text-[10px] ${alignment.className}`}>{alignment.label}</span>
           </div>
+        </div>
+      </div>
 
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xs bg-background border border-border text-foreground px-2 py-0.5 rounded-full">
