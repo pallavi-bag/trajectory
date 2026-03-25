@@ -132,7 +132,7 @@ const DEMO_MENTORS: DemoMentor[] = [
       { label: "Sector alignment", points: 25, max: 25 },
       { label: "Goal alignment", points: 25, max: 25 },
       { label: "Availability", points: 12, max: 12 },
-      { label: "Mentor intake capacity", points: 8, max: 8 },
+      { label: "Intake capacity", points: 8, max: 8 },
     ],
   },
   {
@@ -148,7 +148,7 @@ const DEMO_MENTORS: DemoMentor[] = [
       { label: "Sector alignment", points: 22, max: 25 },
       { label: "Goal alignment", points: 24, max: 25 },
       { label: "Availability", points: 10, max: 12 },
-      { label: "Mentor intake capacity", points: 8, max: 8 },
+      { label: "Intake capacity", points: 8, max: 8 },
     ],
   },
   {
@@ -164,7 +164,7 @@ const DEMO_MENTORS: DemoMentor[] = [
       { label: "Sector alignment", points: 20, max: 25 },
       { label: "Goal alignment", points: 23, max: 25 },
       { label: "Availability", points: 12, max: 12 },
-      { label: "Mentor intake capacity", points: 5, max: 8 },
+      { label: "Intake capacity", points: 5, max: 8 },
     ],
   },
 ];
