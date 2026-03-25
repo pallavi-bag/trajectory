@@ -259,7 +259,7 @@ const LandingPage = () => {
               onClick={() => scrollTo("seeker-section")}
               className="bg-primary text-primary-foreground font-medium text-sm px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity"
             >
-              Find my mentor →
+              Find my mentor
             </button>
             <button
               onClick={() => scrollTo("mentor-section")}
