@@ -299,7 +299,7 @@ const LandingPage = () => {
             We curate your mentor matches based on trajectory alignment and availability.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
-            More <em>signal</em>. Less noise.
+            Five simple criteria help us match you to a fellow WIP mentor.
           </p>
 
           {/* Demo card */}
