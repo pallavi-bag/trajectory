@@ -26,7 +26,7 @@ const DMHandoff = () => {
 
         {/* Context block */}
         <div className="bg-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-4 text-xs text-foreground space-y-0.5">
-          <p className="font-semibold mb-1">Sent via NextPhase · WIP Mentor Match</p>
+          <p className="font-semibold mb-1">Sent via Trajectory · WIP Mentor Match</p>
           <p>
             {seekerName} · {seekerInput.careerStage} · {seekerInput.topics.join(", ")}
           </p>
@@ -46,13 +46,6 @@ const DMHandoff = () => {
 
         <div className="flex gap-3">
           <Button
-            onClick={() => navigate(`/confirmation/${mentor.id}`)}
-            className="flex-1"
-            size="lg"
-          >
-            Send message →
-          </Button>
-          <Button
             variant="outline"
             onClick={() => navigate(`/mentor/${mentor.id}`)}
             className="shrink-0"
@@ -60,6 +53,13 @@ const DMHandoff = () => {
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
             Edit note
+          </Button>
+          <Button
+            onClick={() => navigate(`/confirmation/${mentor.id}`)}
+            className="flex-1"
+            size="lg"
+          >
+            Send message →
           </Button>
         </div>
       </div>
