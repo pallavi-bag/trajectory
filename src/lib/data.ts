@@ -10,15 +10,16 @@ export interface Mentor {
   bio: string;
   superpower: string;
   linkedin: string;
-  transitionNote: string;  // one sentence shown in match reason
-  createdAt: number;       // unix timestamp — used for tie-breaking
+  transitionNote: string; // one sentence shown in match reason
+  createdAt: number; // unix timestamp — used for tie-breaking
 }
 
 export interface SeekerInput {
   goal: string;
   topics: string[];
   careerStage: string;
-  industry?: string;   // optional — seeker's declared sector
+  industry?: string; // optional — seeker's declared sector
+  availability?: string; // optional — seeker's preferred cadence
 }
 
 export interface MatchResult {
@@ -52,12 +53,7 @@ export const CAREER_STAGES = [
   { label: "Director and above", level: 6 },
 ] as const;
 
-export const AVAILABILITY_OPTIONS = [
-  "1–2/month",
-  "Weekly",
-  "As needed",
-  "Async only",
-] as const;
+export const AVAILABILITY_OPTIONS = ["1–2/month", "Weekly", "As needed", "Async only"] as const;
 
 export const mentors: Mentor[] = [
   {
@@ -162,16 +158,10 @@ const SECTOR_CLUSTERS: string[][] = [
 
 function getSectorCluster(industry: string): number {
   const lower = industry.toLowerCase();
-  return SECTOR_CLUSTERS.findIndex((cluster) =>
-    cluster.some((kw) => lower.includes(kw))
-  );
+  return SECTOR_CLUSTERS.findIndex((cluster) => cluster.some((kw) => lower.includes(kw)));
 }
 
-function scoreSectorAlignment(
-  mentorIndustry: string,
-  seekerIndustry: string | undefined,
-  goalText: string
-): number {
+function scoreSectorAlignment(mentorIndustry: string, seekerIndustry: string | undefined, goalText: string): number {
   // Signal 1: declared seeker industry (primary signal)
   if (seekerIndustry && seekerIndustry.trim()) {
     const seekerLower = seekerIndustry.toLowerCase();
@@ -200,11 +190,43 @@ function scoreSectorAlignment(
 }
 
 const STOP_WORDS = new Set([
-  "want", "need", "help", "with", "into", "move", "work", "like",
-  "more", "make", "find", "have", "been", "that", "this", "from",
-  "just", "also", "some", "them", "they", "will", "would", "could",
-  "about", "their", "there", "these", "those", "which", "other",
-  "looking", "trying", "become", "better", "really", "always",
+  "want",
+  "need",
+  "help",
+  "with",
+  "into",
+  "move",
+  "work",
+  "like",
+  "more",
+  "make",
+  "find",
+  "have",
+  "been",
+  "that",
+  "this",
+  "from",
+  "just",
+  "also",
+  "some",
+  "them",
+  "they",
+  "will",
+  "would",
+  "could",
+  "about",
+  "their",
+  "there",
+  "these",
+  "those",
+  "which",
+  "other",
+  "looking",
+  "trying",
+  "become",
+  "better",
+  "really",
+  "always",
 ]);
 
 function scoreGoalKeyword(goal: string, bio: string, superpower: string): number {
@@ -223,14 +245,34 @@ function scoreGoalKeyword(goal: string, bio: string, superpower: string): number
   return 5;
 }
 
-function scoreAvailability(availability: string): number {
-  switch (availability) {
-    case "Weekly": return 12;
-    case "1–2/month": return 10;
-    case "As needed": return 8;
-    case "Async only": return 5;
-    default: return 6;
+function scoreAvailability(mentorAvailability: string, seekerAvailability?: string): number {
+  // No seeker preference given — fall back to rewarding more available mentors
+  if (!seekerAvailability) {
+    switch (mentorAvailability) {
+      case "Weekly":
+        return 12;
+      case "1–2/month":
+        return 10;
+      case "As needed":
+        return 8;
+      case "Async only":
+        return 5;
+      default:
+        return 6;
+    }
   }
+  // Exact match — best score
+  if (mentorAvailability === seekerAvailability) return 12;
+
+  // Adjacent cadence — close enough
+  const order = ["Weekly", "1–2/month", "As needed", "Async only"];
+  const mentorIdx = order.indexOf(mentorAvailability);
+  const seekerIdx = order.indexOf(seekerAvailability);
+  const gap = Math.abs(mentorIdx - seekerIdx);
+
+  if (gap === 1) return 8; // one step apart e.g. Weekly ↔ 1-2/month
+  if (gap === 2) return 4; // two steps apart
+  return 2; // completely mismatched (e.g. Weekly ↔ Async only)
 }
 
 function scoreCompanyType(industry: string): number {
@@ -241,7 +283,10 @@ function scoreCompanyType(industry: string): number {
 
 function buildReason(mentor: Mentor, topics: string[], isTopicMatch: boolean): string {
   const topicPart = isTopicMatch
-    ? `offers ${topics.filter(t => mentor.topics.includes(t)).map(t => t.toLowerCase()).join(", ")}`
+    ? `offers ${topics
+        .filter((t) => mentor.topics.includes(t))
+        .map((t) => t.toLowerCase())
+        .join(", ")}`
     : `related experience in ${mentor.topics[0].toLowerCase()}`;
   return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
 }
@@ -251,7 +296,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
   const seekerLevel = getSeekerLevel(input.careerStage);
 
   // Hard filter: topic match (any overlap)
-  const topicMatches = pool.filter((m) => input.topics.some(t => m.topics.includes(t)));
+  const topicMatches = pool.filter((m) => input.topics.some((t) => m.topics.includes(t)));
   const usePartial = topicMatches.length < 2;
   const candidates = usePartial ? pool : topicMatches;
 
@@ -261,14 +306,14 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
     const seniorityScore = scoreSeniorityGap(mentor.seniorityLevel, seekerLevel);
     if (seniorityScore < 0) continue; // exclude mentors below seeker level
 
-    const isTopicMatch = input.topics.some(t => mentor.topics.includes(t));
+    const isTopicMatch = input.topics.some((t) => mentor.topics.includes(t));
     const topicBonus = isTopicMatch ? 0 : -10;
 
     const score =
       seniorityScore +
       scoreSectorAlignment(mentor.industry, input.industry, input.goal) +
       scoreGoalKeyword(input.goal, mentor.bio, mentor.superpower) +
-      scoreAvailability(mentor.availability) +
+      scoreAvailability(mentor.availability, input.availability) +
       scoreCompanyType(mentor.industry) +
       topicBonus;
 
