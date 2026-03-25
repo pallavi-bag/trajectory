@@ -23,11 +23,19 @@ export interface SeekerInput {
   availability?: string; // optional — seeker's preferred cadence
 }
 
+export type SignalStrength = 'strong' | 'partial' | 'weak';
+
+export interface MatchSignal {
+  label: string;
+  strength: SignalStrength;
+}
+
 export interface MatchResult {
   mentor: Mentor;
   score: number;
   reason: string;
   isPartialMatch: boolean;
+  signals: MatchSignal[];
 }
 
 export const TOPICS = [
@@ -293,14 +301,76 @@ function scoreMentorCapacity(maxMentees: string): number {
   }
 }
 
-function buildReason(mentor: Mentor, topics: string[], isTopicMatch: boolean): string {
-  const topicPart = isTopicMatch
-    ? `offers ${topics
-        .filter((t) => mentor.topics.includes(t))
-        .map((t) => t.toLowerCase())
-        .join(", ")}`
-    : `related experience in ${mentor.topics[0].toLowerCase()}`;
-  return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
+function isGenericSuperpower(superpower: string): boolean {
+  if (!superpower || superpower.length < 20) return true;
+  const generic = ['product manager', 'pm in', 'senior pm', 'building products'];
+  return generic.some(g => superpower.toLowerCase().includes(g));
+}
+
+function buildReason(
+  mentor: Mentor,
+  topics: string[],
+  isTopicMatch: boolean
+): string {
+  const matchedTopics = isTopicMatch
+    ? topics.filter(t => mentor.topics.includes(t)).map(t => t.toLowerCase()).join(', ')
+    : mentor.topics[0]?.toLowerCase() ?? 'product management';
+
+  if (mentor.transitionNote && mentor.transitionNote.trim().length > 10) {
+    return `${mentor.transitionNote.charAt(0).toUpperCase() + mentor.transitionNote.slice(1)}.`;
+  }
+
+  if (!isGenericSuperpower(mentor.superpower)) {
+    return `Specialises in ${mentor.superpower.toLowerCase().replace(/\.$/, '')}.`;
+  }
+
+  if (mentor.bio && mentor.bio.trim().length > 20) {
+    const firstSentence = mentor.bio.split(/[.!?]/)[0].trim();
+    if (firstSentence.length > 20) return `${firstSentence}.`;
+  }
+
+  return `${mentor.industry} PM with experience in ${matchedTopics}.`;
+}
+
+function buildSignals(
+  seniorityScore: number,
+  sectorScore: number,
+  goalScore: number,
+  availabilityScore: number,
+  topicMatch: boolean
+): MatchSignal[] {
+  const signals: MatchSignal[] = [];
+
+  if (seniorityScore >= 25)
+    signals.push({ label: 'Strong seniority fit', strength: 'strong' });
+  else if (seniorityScore >= 10)
+    signals.push({ label: 'Adjacent seniority', strength: 'partial' });
+  else
+    signals.push({ label: 'Seniority gap', strength: 'weak' });
+
+  if (sectorScore >= 20)
+    signals.push({ label: 'Same sector', strength: 'strong' });
+  else if (sectorScore >= 10)
+    signals.push({ label: 'Adjacent sector', strength: 'partial' });
+  else
+    signals.push({ label: 'Different sector', strength: 'weak' });
+
+  if (topicMatch)
+    signals.push({ label: 'Topic match', strength: 'strong' });
+
+  if (goalScore >= 20)
+    signals.push({ label: 'Goal alignment', strength: 'strong' });
+  else if (goalScore >= 12)
+    signals.push({ label: 'Partial goal match', strength: 'partial' });
+
+  if (availabilityScore >= 10)
+    signals.push({ label: 'Weekly availability', strength: 'strong' });
+  else if (availabilityScore >= 8)
+    signals.push({ label: '1–2× / month', strength: 'partial' });
+  else if (availabilityScore >= 6)
+    signals.push({ label: 'As needed', strength: 'partial' });
+
+  return signals;
 }
 
 export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchResult[] {
@@ -316,26 +386,26 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
 
   for (const mentor of candidates) {
     const seniorityScore = scoreSeniorityGap(mentor.seniorityLevel, seekerLevel);
-    if (seniorityScore < 0) continue; // exclude mentors below seeker level
+    if (seniorityScore < 0) continue;
 
-    const topicMatchCount = input.topics.filter((t) => mentor.topics.includes(t)).length;
-    const totalTopics = input.topics.length || 1;
-    const topicDepthScore = topicMatchCount === 0 ? 0 : Math.round((topicMatchCount / totalTopics) * 5);
-    const isTopicMatch = topicMatchCount > 0;
+    const sectorScore = scoreSectorAlignment(mentor.industry, input.industry, input.goal);
+    const goalScore = scoreGoalKeyword(input.goal, mentor.bio, mentor.superpower);
+    const availScore = scoreAvailability(mentor.availability, input.availability);
+    const isTopicMatch = input.topics.some(t => mentor.topics.includes(t));
+
+    const topicMatchCount = input.topics.filter(t => mentor.topics.includes(t)).length;
+    const topicDepthScore = topicMatchCount === 0 ? 0 : Math.round((topicMatchCount / (input.topics.length || 1)) * 5);
 
     const score =
-      seniorityScore +
-      scoreSectorAlignment(mentor.industry, input.industry, input.goal) +
-      scoreGoalKeyword(input.goal, mentor.bio, mentor.superpower) +
-      scoreAvailability(mentor.availability, input.availability) +
-      scoreMentorCapacity(mentor.maxMentees ?? "") +
-      topicDepthScore;
+      seniorityScore + sectorScore + goalScore + availScore +
+      scoreMentorCapacity(mentor.maxMentees ?? "") + topicDepthScore;
 
     scored.push({
       mentor,
       score,
       reason: buildReason(mentor, input.topics, isTopicMatch),
       isPartialMatch: usePartial && !isTopicMatch,
+      signals: buildSignals(seniorityScore, sectorScore, goalScore, availScore, isTopicMatch),
     });
   }
 
