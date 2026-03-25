@@ -4,6 +4,16 @@ import { ArrowLeft } from "lucide-react";
 import type { MatchResult } from "@/lib/data";
 import { useEffect } from "react";
 
+function getAlignmentLabel(score: number): { label: string; className: string } {
+  if (score >= 80) return { label: "High alignment", className: "text-primary" };
+  if (score >= 60) return { label: "Good alignment", className: "text-amber-600" };
+  return { label: "Moderate alignment", className: "text-muted-foreground" };
+}
+
+function normalizeScore(raw: number): number {
+  return Math.max(40, Math.min(Math.round(raw), 100));
+}
+
 const MentorCard = ({
   result,
   index,
@@ -15,8 +25,10 @@ const MentorCard = ({
   seekerTopics: string[];
   onClick: () => void;
 }) => {
-  const { mentor, reason, isPartialMatch } = result;
+  const { mentor, reason, isPartialMatch, score } = result;
   const isBest = index === 0;
+  const displayScore = normalizeScore(score);
+  const alignment = getAlignmentLabel(displayScore);
 
   return (
     <button
