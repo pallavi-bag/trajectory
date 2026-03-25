@@ -12,6 +12,7 @@ export interface Mentor {
   linkedin: string;
   transitionNote: string; // one sentence shown in match reason
   createdAt: number; // unix timestamp — used for tie-breaking
+  maxMentees?: string; // ← add this line
 }
 
 export interface SeekerInput {
@@ -277,10 +278,19 @@ function scoreAvailability(mentorAvailability: string, seekerAvailability?: stri
   return 2; // completely mismatched (e.g. Weekly ↔ Async only)
 }
 
-function scoreCompanyType(industry: string): number {
-  if (industry.toLowerCase().includes("saas") || industry.toLowerCase().includes("enterprise")) return 8;
-  if (industry.toLowerCase().includes("fintech") || industry.toLowerCase().includes("consumer")) return 6;
-  return 4;
+function scoreMentorCapacity(maxMentees: string): number {
+  switch (maxMentees) {
+    case "No limit":
+      return 3;
+    case "3":
+      return 2;
+    case "2":
+      return 1;
+    case "1":
+      return 0;
+    default:
+      return 1;
+  }
 }
 
 function buildReason(mentor: Mentor, topics: string[], isTopicMatch: boolean): string {
@@ -318,7 +328,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
       scoreSectorAlignment(mentor.industry, input.industry, input.goal) +
       scoreGoalKeyword(input.goal, mentor.bio, mentor.superpower) +
       scoreAvailability(mentor.availability, input.availability) +
-      scoreCompanyType(mentor.industry) +
+      scoreMentorCapacity(mentor.maxMentees ?? "") +
       topicDepthScore;
 
     scored.push({
