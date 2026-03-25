@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppState } from "@/lib/context";
 import { runMatching, TOPICS, CAREER_STAGES } from "@/lib/data";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, X } from "lucide-react";
+import { ArrowLeft, ChevronDown, X } from "lucide-react";
 
 const Landing = () => {
   const navigate = useNavigate();
