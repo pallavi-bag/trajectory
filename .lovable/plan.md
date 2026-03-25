@@ -1,49 +1,46 @@
 
 
-## Extend Mentee Input Form
+## Simplify Mentor Match Cards
 
-### Summary
-Add three new fields (Goal textarea, Industry dropdown, Availability dropdown) to `src/pages/Landing.tsx`, organized into three visual groups with subtle spacing. Pass new values into the matching system.
+**File:** `src/pages/Results.tsx` (only file changed)
 
-### Changes — `src/pages/Landing.tsx` only
+### Changes to `MentorCard` component
 
-**New state variables:**
-- `goal` (string, default `""`)
-- `industry` (string, default `""`)
-- `availability` (string, default `""`)
+**1. Score display — remove bordered box, go inline**
+- Remove the `<div className="flex flex-col items-end border...">` container
+- Replace with plain inline elements in the top-right:
+  - Score number: `text-primary font-bold text-xl`
+  - "Trajectory" label: `text-[10px] text-muted-foreground uppercase`
+  - Alignment label below: `text-[10px]` with existing color logic
+- For best match (index 0): append a small "· Best match" text next to score in primary color instead of a separate badge
 
-**New constants** (defined in the component file):
-- `INDUSTRIES` — exact same list as mentor form (Banking/Finance/FinTech through Other)
-- Import `AVAILABILITY_OPTIONS` from `@/lib/data`
+**2. Reduce chips — show only top 1–2 matched topics**
+- Remove the separate industry chip row (lines 72–76)
+- Filter `mentor.topics` to only those matching `seekerTopics`, take first 2
+- If no matched topics, show first topic from mentor as fallback
+- Single `flex gap-1.5` row with 1–2 chips max
 
-**Updated `handleSubmit`:**
-- Pass `goal`, `industry` into the `SeekerInput` object (these fields already exist on the type)
+**3. Best match badge**
+- Remove the standalone pill badge
+- Integrate as subtle text label next to the score: `· Best match` in `text-primary text-[10px]`
 
-**Form restructured into 3 groups** using `space-y-6` between groups, `space-y-4` within each group. No section headers — just spacing.
+**4. Match explanation — shorter**
+- Truncate `reason` to first sentence only (split on `.` take first)
+- Keep italic muted style
 
-**Group 1 — What do you need help with:**
-1. Focus Area (existing, unchanged)
-2. Goal textarea (new)
-   - Label: "What do you need help with?"
-   - Helper text below label: "Share your goal in your own words" (text-xs, muted)
-   - Placeholder: "I want to transition from engineering to product management and need help preparing for interviews"
-   - Uses a `<textarea>` styled to match existing inputs (rounded-lg, border, same classes), ~3 rows
+**5. Visual hierarchy — 3 clear rows**
+- Row 1: Avatar + Name/Title (left) — Score block (right) — `mb-4`
+- Row 2: 1–2 topic chips — `mb-3`
+- Row 3: Short reason text
 
-**Group 2 — Where are you now:**
-3. Seniority Level (existing, unchanged)
-4. Industry dropdown (new)
-   - Label: "Your current industry"
-   - Native `<select>` with ChevronDown icon, same pattern as Seniority
-   - Placeholder option: "Select your industry…"
+**6. Spacing**
+- Card padding stays `p-5`
+- Increase gap between cards from `space-y-3` to `space-y-4`
+- Increase margin between rows inside card (`mb-3` → `mb-4` for top row)
 
-**Group 3 — What works for you:**
-5. Availability dropdown (new)
-   - Label: "How often do you want to connect?"
-   - Native `<select>` with ChevronDown icon, same pattern
-   - Options from `AVAILABILITY_OPTIONS`: 1–2/month, Weekly, As needed, Async only
-   - Placeholder option: "Select availability…"
-
-**`canSubmit`** remains `topics.length > 0 && stage` — new fields are optional.
-
-**No other files changed.** Matching logic, scoring, data types all stay as-is.
+### No changes to
+- `data.ts` (matching/scoring logic)
+- `buildReason` function
+- `MatchResult` interface
+- Any other files
 
