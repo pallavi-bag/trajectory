@@ -305,24 +305,6 @@ const MentorPreferences = () => {
             <p className="text-sm text-muted-foreground">Define how you can guide others forward</p>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-sm font-medium text-foreground">Open to mentoring</span>
-              <p className="text-xs text-muted-foreground">Turn this on to appear in mentor matches</p>
-            </div>
-            <button
-              onClick={() => update("openToMentoring", !form.openToMentoring)}
-              className={`w-11 h-6 rounded-full transition-colors relative ${form.openToMentoring ? "bg-primary" : "bg-border"}`}
-            >
-              <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-card shadow transition-transform ${form.openToMentoring ? "translate-x-[22px]" : "translate-x-0.5"}`} />
-            </button>
-          </div>
-
-          {!form.openToMentoring && (
-            <p className="text-sm text-muted-foreground italic animate-fade-in">
-              Turn this on to start receiving mentor requests
-            </p>
-          )}
 
           {form.openToMentoring && (
             <div className="space-y-8 animate-fade-in">
