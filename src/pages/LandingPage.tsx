@@ -256,13 +256,13 @@ const LandingPage = () => {
           {/* CTAs */}
           <div className="flex gap-3 flex-wrap justify-center mb-0">
             <button
-              onClick={() => scrollTo("seeker-section")}
+              onClick={() => navigate("/mentee")}
               className="bg-primary text-primary-foreground font-medium text-sm px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity"
             >
               Find my mentor
             </button>
             <button
-              onClick={() => scrollTo("mentor-section")}
+              onClick={() => navigate("/become-mentor")}
               className="text-sm font-medium px-6 py-2.5 rounded-full border border-white/20 transition-colors text-primary bg-primary-foreground"
             >
               Become a mentor
