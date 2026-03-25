@@ -476,7 +476,7 @@ const LandingPage = () => {
             <span className="not-italic" style={{ color: "hsl(var(--gold))" }}>
               trajectories
             </span>{" "}
-            that put humanity on the moon. We define the career paths that put you in the right room."
+            that put humanity on the moon. We define the career paths that put you in the right room.
           </blockquote>
           <p className="text-nav-foreground/35 text-xs">
             &nbsp;Named in honor of Katherine Johnson, NASA mathematician
