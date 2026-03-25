@@ -294,13 +294,12 @@ function scoreMentorCapacity(maxMentees: string): number {
 }
 
 function buildReason(mentor: Mentor, topics: string[], isTopicMatch: boolean): string {
-  const topicPart = isTopicMatch
-    ? `offers ${topics
-        .filter((t) => mentor.topics.includes(t))
-        .map((t) => t.toLowerCase())
-        .join(", ")}`
-    : `related experience in ${mentor.topics[0].toLowerCase()}`;
-  return `Matched because: ${mentor.seniorityLabel} in ${mentor.industry}, ${topicPart}, ${mentor.transitionNote}.`;
+  const matched = topics.filter((t) => mentor.topics.includes(t));
+  if (isTopicMatch && matched.length > 0) {
+    const topicList = matched.map((t) => t.toLowerCase()).join(" and ");
+    return `She is a ${mentor.seniorityLabel} in ${mentor.industry} with expertise in ${topicList}, who ${mentor.transitionNote}.`;
+  }
+  return `A ${mentor.seniorityLabel} in ${mentor.industry} with experience in ${mentor.topics[0].toLowerCase()}, who ${mentor.transitionNote}.`;
 }
 
 export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchResult[] {

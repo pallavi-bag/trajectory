@@ -4,6 +4,10 @@ import { useAppState } from "@/lib/context";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 
+function stripLevelCode(text: string): string {
+  return text.replace(/\s*·\s*(IC\d+|Dir\+)/gi, '').trim();
+}
+
 const MentorProfile = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -42,7 +46,7 @@ const MentorProfile = () => {
           <div>
             <p className="text-base font-semibold text-foreground">{mentor.name}</p>
             <p className="text-muted-foreground text-xs">
-              {mentor.title} · {mentor.industry}
+              {stripLevelCode(mentor.title)} · {mentor.industry}
             </p>
           </div>
         </div>
@@ -50,7 +54,7 @@ const MentorProfile = () => {
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3 mb-5">
           {[
-            { label: "Seniority", value: mentor.seniorityLabel },
+            { label: "Seniority", value: stripLevelCode(mentor.seniorityLabel) },
             { label: "Industry", value: mentor.industry },
             { label: "Availability", value: mentor.availability },
             { label: "LinkedIn", value: "View profile", isLink: true },
