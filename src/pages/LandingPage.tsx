@@ -228,7 +228,7 @@ const LandingPage = () => {
   return (
     <div className="flex flex-col">
       {/* ════════ HERO ════════ */}
-      <section className="relative bg-nav py-24 px-6 overflow-hidden">
+      <section className="relative bg-nav py-16 pt-12 px-6 overflow-hidden">
         <StarField />
         <OrbitRings />
 
