@@ -167,7 +167,7 @@ const Landing = () => {
               {/* Group 2 — Where are you now */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Your Seniority Level</label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Where are you in your career right now?</label>
                   <div className="relative">
                     <select
                       value={stage}
