@@ -25,10 +25,19 @@ const MentorCard = ({
   seekerTopics: string[];
   onClick: () => void;
 }) => {
-  const { mentor, reason, isPartialMatch, score } = result;
+  const { mentor, reason, score } = result;
   const isBest = index === 0;
   const displayScore = normalizeScore(score);
   const alignment = getAlignmentLabel(displayScore);
+
+  // Show only top 1–2 matched topics; fallback to first mentor topic
+  const matchedTopics = mentor.topics.filter((t) => seekerTopics.includes(t));
+  const displayTopics = matchedTopics.length > 0
+    ? matchedTopics.slice(0, 2)
+    : [mentor.topics[0]];
+
+  // Truncate reason to first sentence
+  const shortReason = reason.split(".")[0] + ".";
 
   return (
     <button
@@ -37,7 +46,8 @@ const MentorCard = ({
         isBest ? "border-l-[3px] border-l-primary" : ""
       }`}
     >
-      <div className="flex items-start justify-between mb-3">
+      {/* Row 1: Avatar + Name (left) — Score (right) */}
+      <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
             {mentor.name.split(" ").map((n) => n[0]).join("")}
@@ -47,42 +57,27 @@ const MentorCard = ({
             <p className="text-muted-foreground text-xs">{mentor.seniorityLabel}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          {isBest && (
-            <span className="text-xs font-medium text-primary bg-tint px-2 py-0.5 rounded-full">
-              Best match
-            </span>
-          )}
-          {isPartialMatch && (
-            <span className="text-xs font-medium text-muted-foreground bg-background px-2 py-0.5 rounded-full border border-border">
-              Partial match
-            </span>
-          )}
-          <div className="flex flex-col items-end border border-border rounded-lg px-3 py-2 bg-background/50">
-            <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Trajectory Score</span>
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-primary font-bold text-lg leading-none">{displayScore}</span>
-              <span className="text-muted-foreground text-xs">/100</span>
-            </div>
-            <span className={`text-[10px] ${alignment.className}`}>{alignment.label}</span>
+        <div className="flex flex-col items-end shrink-0">
+          <div className="flex items-baseline gap-1">
+            <span className="text-primary font-bold text-xl leading-none">{displayScore}</span>
+            {isBest && (
+              <span className="text-primary text-[10px] font-medium">· Best match</span>
+            )}
           </div>
+          <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Trajectory</span>
+          <span className={`text-[10px] ${alignment.className}`}>{alignment.label}</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mb-3">
-        <span className="text-xs bg-background border border-border text-foreground px-2 py-0.5 rounded-full">
-          {mentor.industry}
-        </span>
-      </div>
-
+      {/* Row 2: 1–2 topic chips */}
       <div className="flex flex-wrap gap-1.5 mb-3">
-        {mentor.topics.map((t) => {
-          const isMatchedTopic = seekerTopics.includes(t);
+        {displayTopics.map((t) => {
+          const isMatched = seekerTopics.includes(t);
           return (
             <span
               key={t}
               className={`text-xs px-2 py-0.5 rounded-full border ${
-                isMatchedTopic
+                isMatched
                   ? "border-primary text-primary"
                   : "border-border text-muted-foreground"
               }`}
@@ -93,7 +88,8 @@ const MentorCard = ({
         })}
       </div>
 
-      <p className="text-xs italic text-muted-foreground leading-relaxed">{reason}</p>
+      {/* Row 3: Short explanation */}
+      <p className="text-xs italic text-muted-foreground leading-relaxed">{shortReason}</p>
     </button>
   );
 };
@@ -144,7 +140,7 @@ const Results = () => {
         <span className="font-medium text-foreground">{seekerInput.careerStage}</span>
       </p>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {matchResults.map((result, i) => (
           <MentorCard
             key={result.mentor.id}
