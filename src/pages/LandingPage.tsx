@@ -299,7 +299,7 @@ const LandingPage = () => {
             We curate your mentor matches based on trajectory alignment and availability.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
-            More <em>signal</em>. Less noise.
+            Five simple criteria help us match you to a fellow WIP mentor.
           </p>
 
           {/* Demo card */}
@@ -433,12 +433,12 @@ const LandingPage = () => {
               <h3 className="font-semibold text-foreground mb-2 text-sm">
                 Share your experience with the next generation
               </h3>
-              <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed bg-violet-100">
+              <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed bg-primary-foreground">
                 Share your availability and background so Trajectory can match you with mentees who want your expertise.
               </p>
               <button
                 onClick={() => navigate("/become-mentor")}
-                className="text-sm font-medium px-5 py-2.5 rounded-lg border border-wip-purple/30 text-wip-purple hover:bg-wip-purple-light transition-colors self-start"
+                className="text-sm font-medium px-5 py-2.5 rounded-lg border border-wip-purple/30 text-wip-purple hover:bg-wip-purple-light transition-colors self-start bg-violet-200 hover:bg-violet-100"
               >
                 Set up my profile →
               </button>
@@ -479,7 +479,7 @@ const LandingPage = () => {
             that put humanity on the moon. We define the career paths that put you in the right room."
           </blockquote>
           <p className="text-nav-foreground/35 text-xs">
-            &nbsp;Named in honour of Katherine Johnson, NASA mathematician
+            &nbsp;Named in honor of Katherine Johnson, NASA mathematician
           </p>
         </div>
       </section>
