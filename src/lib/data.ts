@@ -166,23 +166,21 @@ function getSectorCluster(industry: string): number {
 }
 
 function scoreSectorAlignment(mentorIndustry: string, seekerIndustry: string | undefined, goalText: string): number {
-  // Signal 1: declared seeker industry (primary signal)
+  // Signal 1: declared seeker industry — if provided, use it exclusively
   if (seekerIndustry && seekerIndustry.trim()) {
     const seekerLower = seekerIndustry.toLowerCase();
     const mentorLower = mentorIndustry.toLowerCase();
 
-    // Exact / near-exact match
     if (mentorLower.includes(seekerLower) || seekerLower.includes(mentorLower)) return 25;
 
-    // Adjacent cluster match
     const seekerCluster = getSectorCluster(seekerIndustry);
     const mentorCluster = getSectorCluster(mentorIndustry);
     if (seekerCluster !== -1 && seekerCluster === mentorCluster) return 12;
 
-    // No sector overlap — fall through to goal scan fallback
+    return 8; // industry declared but no match — stop here, don't scan goal
   }
 
-  // Signal 2: keyword scan of goal text (fallback when no declared industry)
+  // Signal 2: no industry declared — fall back to goal text keyword scan
   const lower = goalText.toLowerCase();
   const industryLower = mentorIndustry.toLowerCase();
   const keywords = industryLower.split(/[\s\/]+/);
@@ -190,7 +188,7 @@ function scoreSectorAlignment(mentorIndustry: string, seekerIndustry: string | u
     if (kw.length > 2 && lower.includes(kw)) return 25;
   }
 
-  return 8; // no overlap found
+  return 8;
 }
 
 const STOP_WORDS = new Set([
