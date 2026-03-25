@@ -94,7 +94,7 @@ const MentorCard = ({
         </div>
         <div className="flex flex-col items-end shrink-0">
           <span className={`font-bold text-[22px] leading-none ${isBest ? "text-[#1D9E75]" : "text-muted-foreground"}`}>
-            {displayScore}
+            {displayScore}%
           </span>
           <span className="text-[10px] text-muted-foreground mt-0.5">match</span>
           <div className="flex gap-0.5 mt-1">
