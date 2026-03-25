@@ -62,7 +62,7 @@ export const mentors: Mentor[] = [
     title: "Senior PM",
     seniorityLabel: "Senior PM · IC3",
     seniorityLevel: 3,
-    industry: "Fintech",
+    industry: "Banking/Finance/FinTech",
     availability: "1–2/month",
     topics: ["Career transition", "Interview prep", "FAANG / big tech"],
     bio: "7 yrs in Fintech, moved from IC to manager at a Series B startup.",
@@ -77,7 +77,7 @@ export const mentors: Mentor[] = [
     title: "Group PM",
     seniorityLabel: "Group PM · IC4",
     seniorityLevel: 4,
-    industry: "B2B SaaS",
+    industry: "Enterprise Software/SaaS",
     availability: "Weekly",
     topics: ["Leadership development", "Stakeholder management", "Roadmap strategy"],
     bio: "Led cross-functional product teams of 30+ across three business units. Passionate about growing the next generation of PM leaders.",
@@ -92,7 +92,7 @@ export const mentors: Mentor[] = [
     title: "PM",
     seniorityLabel: "PM · IC2",
     seniorityLevel: 2,
-    industry: "Health Tech",
+    industry: "Healthcare/Nanotechnology/Wearable",
     availability: "As needed",
     topics: ["Interview prep", "Career transition", "Work-life balance"],
     bio: "Broke into PM from a non-traditional background. Now building patient-facing products at a digital health startup.",
@@ -107,7 +107,7 @@ export const mentors: Mentor[] = [
     title: "Director of Product",
     seniorityLabel: "Director · Dir+",
     seniorityLevel: 6,
-    industry: "Consumer / E-commerce",
+    industry: "Retail/eCommerce",
     availability: "Async only",
     topics: ["Salary negotiation", "Promotion strategy", "Leadership development"],
     bio: "15 years in consumer product. Two-time Director. Known for negotiation coaching.",
@@ -149,11 +149,15 @@ function scoreSeniorityGap(mentorLevel: number, seekerLevel: number): number {
 
 // Sector clusters — mentors and seekers in the same cluster score 12 pts (adjacent)
 const SECTOR_CLUSTERS: string[][] = [
-  ["fintech", "insurtech", "banking", "payments"],
-  ["health tech", "healthtech", "health", "medtech", "digital health"],
-  ["b2b saas", "saas", "enterprise saas", "enterprise"],
+  ["fintech", "insurtech", "banking", "payments", "finance"],
+  ["health", "healthtech", "medtech", "digital health", "nanotechnology", "wearable", "healthcare"],
+  ["saas", "enterprise", "b2b", "software"],
   ["consumer", "e-commerce", "ecommerce", "marketplace", "retail"],
   ["edtech", "education", "learning"],
+  ["media", "entertainment", "social"],
+  ["computing", "iot", "consumer tech"],
+  ["data", "analytics"],
+  ["transportation", "travel", "hospitality"],
 ];
 
 function getSectorCluster(industry: string): number {
