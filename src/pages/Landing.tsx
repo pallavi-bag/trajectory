@@ -49,12 +49,6 @@ const Landing = () => {
     <div className="flex flex-col flex-1">
       {/* Hero */}
       <div className="bg-nav px-6 pt-10 pb-20 text-center">
-        <button
-          onClick={() => navigate("/")}
-          className="inline-flex items-center gap-1 text-sm text-nav-foreground/70 hover:text-nav-foreground transition-colors mb-6"
-        >
-          ← Back to Home
-        </button>
         <h1 className="text-3xl md:text-4xl font-bold text-nav-foreground leading-[1.1] mb-4 text-balance">
           Give your career the trajectory it deserves.
         </h1>
