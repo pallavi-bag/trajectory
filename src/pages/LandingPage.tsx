@@ -479,7 +479,7 @@ const LandingPage = () => {
             that put humanity on the moon. We define the career paths that put you in the right room."
           </blockquote>
           <p className="text-nav-foreground/35 text-xs">
-            &nbsp;Named in honour of Katherine Johnson, NASA mathematician
+            &nbsp;Named in honor of Katherine Johnson, NASA mathematician
           </p>
         </div>
       </section>
