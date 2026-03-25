@@ -4,6 +4,16 @@ import { ArrowLeft } from "lucide-react";
 import type { MatchResult } from "@/lib/data";
 import { useEffect } from "react";
 
+function getAlignmentLabel(score: number): { label: string; className: string } {
+  if (score >= 80) return { label: "High alignment", className: "text-primary" };
+  if (score >= 60) return { label: "Good alignment", className: "text-amber-600" };
+  return { label: "Moderate alignment", className: "text-muted-foreground" };
+}
+
+function normalizeScore(raw: number): number {
+  return Math.max(40, Math.min(Math.round(raw), 100));
+}
+
 const MentorCard = ({
   result,
   index,
@@ -15,8 +25,10 @@ const MentorCard = ({
   seekerTopics: string[];
   onClick: () => void;
 }) => {
-  const { mentor, reason, isPartialMatch } = result;
+  const { mentor, reason, isPartialMatch, score } = result;
   const isBest = index === 0;
+  const displayScore = normalizeScore(score);
+  const alignment = getAlignmentLabel(displayScore);
 
   return (
     <button
@@ -46,6 +58,14 @@ const MentorCard = ({
               Partial match
             </span>
           )}
+          <div className="flex flex-col items-end border border-border rounded-lg px-3 py-2 bg-background/50">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Trajectory Score</span>
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-primary font-bold text-lg leading-none">{displayScore}</span>
+              <span className="text-muted-foreground text-xs">/100</span>
+            </div>
+            <span className={`text-[10px] ${alignment.className}`}>{alignment.label}</span>
+          </div>
         </div>
       </div>
 
