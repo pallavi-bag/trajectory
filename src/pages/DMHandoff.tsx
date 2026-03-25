@@ -46,13 +46,6 @@ const DMHandoff = () => {
 
         <div className="flex gap-3">
           <Button
-            onClick={() => navigate(`/confirmation/${mentor.id}`)}
-            className="flex-1"
-            size="lg"
-          >
-            Send message →
-          </Button>
-          <Button
             variant="outline"
             onClick={() => navigate(`/mentor/${mentor.id}`)}
             className="shrink-0"
@@ -60,6 +53,13 @@ const DMHandoff = () => {
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
             Edit note
+          </Button>
+          <Button
+            onClick={() => navigate(`/confirmation/${mentor.id}`)}
+            className="flex-1"
+            size="lg"
+          >
+            Send message →
           </Button>
         </div>
       </div>
