@@ -25,12 +25,18 @@ const DMHandoff = () => {
         </h1>
 
         {/* Context block */}
-        <div className="bg-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-4 text-xs text-foreground space-y-0.5">
+        <div className="bg-tint border-l-4 border-l-primary rounded-r-lg p-4 mb-4 text-xs text-foreground space-y-1">
           <p className="font-semibold mb-1">Sent via Trajectory · WIP Mentor Match</p>
           <p>
-            {seekerName} · {seekerInput.careerStage} · {seekerInput.topics.join(", ")}
+            {seekerName}
+            {seekerInput.careerStage ? ` · ${seekerInput.careerStage}` : ""}
           </p>
-          <p>Goal: {seekerInput.goal}</p>
+          {seekerInput.topics.length > 0 && (
+            <p>Topics: {seekerInput.topics.join(", ")}</p>
+          )}
+          {seekerInput.goal && (
+            <p>Goal: {seekerInput.goal}</p>
+          )}
         </div>
 
         {/* Note */}
