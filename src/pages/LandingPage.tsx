@@ -396,8 +396,7 @@ const LandingPage = () => {
               <span className="text-[20px] uppercase tracking-widest text-primary font-semibold mb-2">For seekers</span>
               <h3 className="font-semibold text-foreground mb-2 text-sm">Find the mentor who's been where you are</h3>
               <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">
-                Answer three quick questions and get a ranked list of WIP members whose experience aligns with your
-                career goals.
+                Answer a few quick questions and get matched with mentors who align with your goals.
               </p>
               <button
                 onClick={() => navigate("/mentee")}
