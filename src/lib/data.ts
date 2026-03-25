@@ -308,8 +308,10 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
     const seniorityScore = scoreSeniorityGap(mentor.seniorityLevel, seekerLevel);
     if (seniorityScore < 0) continue; // exclude mentors below seeker level
 
-    const isTopicMatch = input.topics.some((t) => mentor.topics.includes(t));
-    const topicBonus = isTopicMatch ? 0 : -10;
+    const topicMatchCount = input.topics.filter((t) => mentor.topics.includes(t)).length;
+    const totalTopics = input.topics.length || 1;
+    const topicDepthScore = topicMatchCount === 0 ? 0 : Math.round((topicMatchCount / totalTopics) * 5);
+    const isTopicMatch = topicMatchCount > 0;
 
     const score =
       seniorityScore +
@@ -317,7 +319,7 @@ export function runMatching(input: SeekerInput, mentorList?: Mentor[]): MatchRes
       scoreGoalKeyword(input.goal, mentor.bio, mentor.superpower) +
       scoreAvailability(mentor.availability, input.availability) +
       scoreCompanyType(mentor.industry) +
-      topicBonus;
+      topicDepthScore;
 
     scored.push({
       mentor,
