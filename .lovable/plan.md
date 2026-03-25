@@ -1,38 +1,49 @@
 
 
-## Add Trajectory Score to Mentor Match Cards
+## Extend Mentee Input Form
 
-### Overview
-Add a visual "Trajectory Score" display to each mentor match card in the top-right area, showing the numeric score normalized to /100, plus a qualitative alignment label. No changes to matching/scoring logic.
+### Summary
+Add three new fields (Goal textarea, Industry dropdown, Availability dropdown) to `src/pages/Landing.tsx`, organized into three visual groups with subtle spacing. Pass new values into the matching system.
 
-### Score Normalization
-The raw score from `runMatching` has a theoretical max around 100 (30 seniority + 25 sector + 25 goal + 12 availability + 8 company = 100). We'll normalize: `Math.min(Math.round(score), 100)` and clamp to a floor of ~40 to avoid showing embarrassingly low numbers for partial matches.
+### Changes — `src/pages/Landing.tsx` only
 
-Thresholds for qualitative labels:
-- 80–100 → "High alignment"
-- 60–79 → "Good alignment"
-- Below 60 → "Moderate alignment"
+**New state variables:**
+- `goal` (string, default `""`)
+- `industry` (string, default `""`)
+- `availability` (string, default `""`)
 
-### Changes to `src/pages/Results.tsx`
+**New constants** (defined in the component file):
+- `INDUSTRIES` — exact same list as mentor form (Banking/Finance/FinTech through Other)
+- Import `AVAILABILITY_OPTIONS` from `@/lib/data`
 
-**MentorCard component** — Replace the current top-right badge area (lines 38–49) with a layout that includes:
+**Updated `handleSubmit`:**
+- Pass `goal`, `industry` into the `SeekerInput` object (these fields already exist on the type)
 
-1. Keep "Best match" and "Partial match" badges
-2. Add a Trajectory Score block in the top-right:
-   - Small label: "Trajectory Score" (text-[10px], muted)
-   - Large number: e.g. "82/100" (text-lg, font-bold, primary color)
-   - Qualitative label below: e.g. "Good alignment" (text-[10px], muted)
+**Form restructured into 3 groups** using `space-y-6` between groups, `space-y-4` within each group. No section headers — just spacing.
 
-The score block will be a compact column (`flex flex-col items-end`) sitting in the existing `justify-between` flex row, stacked above the existing badges.
+**Group 1 — What do you need help with:**
+1. Focus Area (existing, unchanged)
+2. Goal textarea (new)
+   - Label: "What do you need help with?"
+   - Helper text below label: "Share your goal in your own words" (text-xs, muted)
+   - Placeholder: "I want to transition from engineering to product management and need help preparing for interviews"
+   - Uses a `<textarea>` styled to match existing inputs (rounded-lg, border, same classes), ~3 rows
 
-### Visual Design
-- Score number uses `text-primary font-bold text-lg`
-- "/100" suffix in `text-muted-foreground text-xs`
-- "Trajectory Score" label in `text-[10px] text-muted-foreground uppercase tracking-wide`
-- Qualitative label in `text-[10px]` with color coding: primary for high, gold for good, muted for moderate
-- Contained in a subtle bordered box (`border border-border rounded-lg px-3 py-2 bg-background/50`)
+**Group 2 — Where are you now:**
+3. Seniority Level (existing, unchanged)
+4. Industry dropdown (new)
+   - Label: "Your current industry"
+   - Native `<select>` with ChevronDown icon, same pattern as Seniority
+   - Placeholder option: "Select your industry…"
 
-### No other files changed
-- `src/lib/data.ts` — untouched (scoring logic preserved)
-- Landing page — untouched
+**Group 3 — What works for you:**
+5. Availability dropdown (new)
+   - Label: "How often do you want to connect?"
+   - Native `<select>` with ChevronDown icon, same pattern
+   - Options from `AVAILABILITY_OPTIONS`: 1–2/month, Weekly, As needed, Async only
+   - Placeholder option: "Select availability…"
+
+**`canSubmit`** remains `topics.length > 0 && stage` — new fields are optional.
+
+**No other files changed.** Matching logic, scoring, data types all stay as-is.
 
