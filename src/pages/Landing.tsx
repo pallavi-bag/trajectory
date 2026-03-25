@@ -53,7 +53,7 @@ const Landing = () => {
 
   const handleSubmit = () => {
     if (!canSubmit) return;
-    const input = { goal: "", topics, careerStage: stage };
+    const input = { goal, topics, careerStage: stage, industry: industry || undefined };
     setSeekerInput(input);
     setLoading(true);
     setTimeout(() => {
