@@ -60,6 +60,13 @@ const Landing = () => {
       {/* Form card */}
       <div className="px-6 -mt-10 pb-16 flex justify-center">
         <div className="bg-card border border-border rounded-lg shadow-md p-6 w-full max-w-lg space-y-4">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to home
+          </button>
           {loading ? (
             <div className="flex flex-col items-center justify-center py-12 space-y-3">
               <div className="w-8 h-8 border-[3px] border-primary border-t-transparent rounded-full animate-spin" />
