@@ -1,19 +1,23 @@
 
 
-## Plan: Equal-height mentor cards with clamped reason text
+## Plan: Regenerate intro note when mentor changes
 
-### Changes (1 file: `src/pages/Results.tsx`)
+### Change (1 file)
 
-1. **Card container (line 71)**: Add `flex flex-col h-full` to make each card a flex column that stretches to fill its parent.
+**`src/pages/MentorProfile.tsx`** — Update the `useEffect` on line 52-56:
 
-2. **Footer row (line 132)**: Add `mt-auto` so the footer pins to the bottom of the card, ensuring consistent layout regardless of content length.
+- Remove the `!introNote` guard so the note always regenerates when the mentor changes
+- Reset `activeTone` to `"warm"` when mentor changes
+- Add `mentor.id` as the dependency (stable identifier) instead of the full `mentor` object
 
-3. **Parent list (line 204)**: Change `space-y-4` to a grid with `items-stretch`:
-   ```
-   grid grid-cols-1 gap-4 items-stretch
-   ```
+```ts
+useEffect(() => {
+  if (mentor) {
+    setActiveTone("warm");
+    setIntroNote(generateNote("warm", mentor, seekerInput));
+  }
+}, [mentor?.id]);
+```
 
-4. **Match reason text (line 133)**: Already has `overflow-hidden line-clamp-2`. No change needed — Tailwind's `line-clamp-2` already applies the required `-webkit-box` styles.
-
-These changes ensure all cards stretch to the same height within each row, the footer stays pinned at the bottom, and long match reasons are clamped to 2 lines.
+This ensures navigating to a different mentor profile always generates a fresh intro note with the correct name and topics.
 
