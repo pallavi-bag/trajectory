@@ -1,23 +1,20 @@
 
 
-## Plan: Regenerate intro note when mentor changes
+## Plan: Fixed-height mentor cards with clamped reason text
 
 ### Change (1 file)
 
-**`src/pages/MentorProfile.tsx`** — Update the `useEffect` on line 52-56:
+**`src/pages/Results.tsx`**
 
-- Remove the `!introNote` guard so the note always regenerates when the mentor changes
-- Reset `activeTone` to `"warm"` when mentor changes
-- Add `mentor.id` as the dependency (stable identifier) instead of the full `mentor` object
+1. **Line 71**: Add `min-h-[200px]` to the card's outer `div` className.
 
-```ts
-useEffect(() => {
-  if (mentor) {
-    setActiveTone("warm");
-    setIntroNote(generateNote("warm", mentor, seekerInput));
-  }
-}, [mentor?.id]);
-```
-
-This ensures navigating to a different mentor profile always generates a fresh intro note with the correct name and topics.
+2. **Line 133**: Add line-clamp styles to the match reason `<p>` tag. Change:
+   ```
+   className="text-[13px] text-muted-foreground leading-relaxed"
+   ```
+   to:
+   ```
+   className="text-[13px] text-muted-foreground leading-relaxed overflow-hidden line-clamp-2"
+   ```
+   Tailwind's `line-clamp-2` applies `-webkit-line-clamp: 2`, `-webkit-box-orient: vertical`, and `display: -webkit-box` automatically.
 
