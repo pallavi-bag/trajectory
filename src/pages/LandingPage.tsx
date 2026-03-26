@@ -122,7 +122,7 @@ const DEMO_MENTORS: DemoMentor[] = [
   {
     id: "riya-kapoor",
     name: "Riya Kapoor",
-    seniorityLabel: "Senior PM · IC3",
+    seniorityLabel: "Senior PM",
     industry: "Fintech",
     topics: ["Career transition", "Interview prep", "FAANG / big tech"],
     score: 100,
@@ -138,7 +138,7 @@ const DEMO_MENTORS: DemoMentor[] = [
   {
     id: "maya-johnson",
     name: "Maya Johnson",
-    seniorityLabel: "Group PM · IC4",
+    seniorityLabel: "Group PM",
     industry: "B2B SaaS",
     topics: ["Leadership development", "Stakeholder management", "Roadmap strategy"],
     score: 92,
@@ -154,7 +154,7 @@ const DEMO_MENTORS: DemoMentor[] = [
   {
     id: "sara-lin",
     name: "Sara Lin",
-    seniorityLabel: "PM · IC2",
+    seniorityLabel: "PM",
     industry: "Health Tech",
     topics: ["Interview prep", "Career transition", "Work-life balance"],
     score: 85,
