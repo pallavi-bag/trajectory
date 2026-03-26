@@ -343,7 +343,7 @@ const MentorPreferences = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Max. mentees<RequiredStar /></label>
+                <label className="block text-sm font-medium text-foreground mb-1.5">How many mentees can you take on?<RequiredStar /></label>
                 <p className="text-xs text-muted-foreground mb-1.5">Set how many mentees you want to support at one time</p>
                 <SelectField value={form.maxMentees} onChange={(v) => update("maxMentees", v)} placeholder="Select max mentees" options={["1", "2", "3", "No limit"]} field="maxMentees" />
               </div>
