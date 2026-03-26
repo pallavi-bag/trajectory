@@ -272,7 +272,7 @@ const LandingPage = () => {
           {/* Proof bar */}
           <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-wrap justify-center gap-8 sm:gap-12">
             {[
-              ["Easy", "No sign up needed"],
+              ["Easy", "No sign-up needed"],
               ["Personalized", "Algorithmic Matching"],
               ["Seamless", "Connect via WIP DMs"],
             ].map(([big, small]) => (
