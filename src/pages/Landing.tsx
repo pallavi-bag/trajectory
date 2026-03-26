@@ -110,7 +110,7 @@ const Landing = () => {
                     className="w-full flex items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring min-h-[38px]"
                   >
                     <span className={topics.length === 0 ? "text-muted-foreground" : ""}>
-                      {topics.length === 0 ? "Select topics…" : `${topics.length} selected`}
+                      {topics.length === 0 ? "Select up to 4 topics…" : `${topics.length}/${MAX_TOPICS} selected`}
                     </span>
                     <ChevronDown
                       className={`w-4 h-4 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
