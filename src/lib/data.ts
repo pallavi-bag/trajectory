@@ -31,18 +31,18 @@ export interface MatchResult {
 }
 
 export const TOPICS = [
-  "Career transition",
-  "Interview prep",
-  "FAANG / big tech",
-  "Salary negotiation",
-  "Returning to work",
-  "Promotion strategy",
-  "Roadmap strategy",
-  "Stakeholder management",
-  "Leadership development",
-  "Work-life balance",
   "Building in public",
+  "Career transition",
   "Entrepreneurship / founding",
+  "FAANG / big tech",
+  "Interview prep",
+  "Leadership development",
+  "Promotion strategy",
+  "Returning to work",
+  "Roadmap strategy",
+  "Salary negotiation",
+  "Stakeholder management",
+  "Work-life balance",
 ] as const;
 
 export const CAREER_STAGES = [
