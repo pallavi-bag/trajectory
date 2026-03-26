@@ -126,7 +126,8 @@ const DEMO_MENTORS: DemoMentor[] = [
     industry: "Fintech",
     topics: ["Career transition", "Interview prep", "FAANG / big tech"],
     score: 100,
-    reason: "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B fintech startup.",
+    reason:
+      "Matched because: Senior PM in Fintech, offers career transition, moved from IC to Manager at a Series B fintech startup.",
     scoreBars: [
       { label: "Seniority gap", points: 30, max: 30 },
       { label: "Sector alignment", points: 25, max: 25 },
@@ -142,7 +143,8 @@ const DEMO_MENTORS: DemoMentor[] = [
     industry: "B2B SaaS",
     topics: ["Leadership development", "Stakeholder management", "Roadmap strategy"],
     score: 92,
-    reason: "Matched because: Group PM in B2B SaaS, strong in leadership development and stakeholder management across enterprise orgs.",
+    reason:
+      "Matched because: Group PM in B2B SaaS, strong in leadership development and stakeholder management across enterprise orgs.",
     scoreBars: [
       { label: "Seniority gap", points: 28, max: 30 },
       { label: "Sector alignment", points: 22, max: 25 },
@@ -158,7 +160,8 @@ const DEMO_MENTORS: DemoMentor[] = [
     industry: "Health Tech",
     topics: ["Interview prep", "Career transition", "Work-life balance"],
     score: 85,
-    reason: "Matched because: PM in Health Tech, recently navigated career transition and excels at interview coaching for early-career PMs.",
+    reason:
+      "Matched because: PM in Health Tech, recently navigated career transition and excels at interview coaching for early-career PMs.",
     scoreBars: [
       { label: "Seniority gap", points: 25, max: 30 },
       { label: "Sector alignment", points: 20, max: 25 },
@@ -334,7 +337,9 @@ const LandingPage = () => {
                 />
                 <div>
                   <p className="text-sm font-semibold text-foreground">{activeMentor.name}</p>
-                  <p className="text-xs text-muted-foreground">{activeMentor.seniorityLabel} · {activeMentor.industry}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {activeMentor.seniorityLabel} · {activeMentor.industry}
+                  </p>
                 </div>
               </div>
               <div className="text-right">
@@ -353,9 +358,7 @@ const LandingPage = () => {
 
             {/* Match reason */}
             <div className="bg-tint border border-primary/15 rounded-xl px-4 py-3">
-              <p className="text-xs text-foreground italic leading-relaxed">
-                "{activeMentor.reason}"
-              </p>
+              <p className="text-xs text-foreground italic leading-relaxed">"{activeMentor.reason}"</p>
             </div>
           </div>
         </div>
@@ -429,11 +432,9 @@ const LandingPage = () => {
               <span className="text-[20px] uppercase tracking-widest text-wip-purple font-semibold mb-2">
                 For mentors
               </span>
-              <h3 className="font-semibold text-foreground mb-2 text-sm">
-                Guide the next generation of WIP leaders
-              </h3>
+              <h3 className="font-semibold text-foreground mb-2 text-sm">Give back to the WIP community</h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed bg-primary-foreground">
-                Give back by supporting women navigate paths you’ve already mastered.
+                Share your time commitment and background to get matched with mentees who want your expertise.
               </p>
               <button
                 onClick={() => navigate("/become-mentor")}
@@ -478,7 +479,16 @@ const LandingPage = () => {
             that put humanity on the moon. We define the career paths that put you in the right room.
           </blockquote>
           <p className="text-nav-foreground/35 text-xs">
-            &nbsp;Named in honor of Katherine Johnson, NASA mathematician
+            &nbsp;Named in honor of{" "}
+            <a
+              href="https://www.nasa.gov/learning-resources/katherine-johnson-a-lifetime-of-stem/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-nav-foreground transition-colors"
+            >
+              Katherine Johnson
+            </a>
+            {", "}NASA mathematician
           </p>
         </div>
       </section>
