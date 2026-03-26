@@ -1,21 +1,23 @@
 
 
-## Plan: Use shared topic in intro note templates
+## Plan: Regenerate intro note when mentor changes
 
 ### Change (1 file)
 
-**`src/pages/MentorProfile.tsx`** — Update `generateNote` function:
+**`src/pages/MentorProfile.tsx`** — Update the `useEffect` on line 52-56:
 
-1. Replace `mentorTopic` / `mentorTopic2` with a single `sharedTopic`:
+- Remove the `!introNote` guard so the note always regenerates when the mentor changes
+- Reset `activeTone` to `"warm"` when mentor changes
+- Add `mentor.id` as the dependency (stable identifier) instead of the full `mentor` object
+
 ```ts
-const sharedTopic = mentor.topics.find(t => seekerInput.topics.includes(t)) ?? mentor.topics[0] ?? "your area of expertise";
+useEffect(() => {
+  if (mentor) {
+    setActiveTone("warm");
+    setIntroNote(generateNote("warm", mentor, seekerInput));
+  }
+}, [mentor?.id]);
 ```
 
-2. Update all three tone templates to use `sharedTopic` instead of `mentorTopic` and `mentorTopic2`:
-
-- **Warm**: "Your profile caught my attention — especially your focus on {sharedTopic}."
-- **Direct**: "Your experience in {sharedTopic} stood out to me."
-- **Curious**: "Your background in {sharedTopic} makes me think you'd have a great perspective."
-
-No other variables change. `mentor.bio` and `mentor.superpower` remain unused.
+This ensures navigating to a different mentor profile always generates a fresh intro note with the correct name and topics.
 
