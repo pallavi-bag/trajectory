@@ -50,10 +50,11 @@ const MentorProfile = () => {
   }, [mentor, navigate]);
 
   useEffect(() => {
-    if (mentor && !introNote) {
+    if (mentor) {
+      setActiveTone("warm");
       setIntroNote(generateNote("warm", mentor, seekerInput));
     }
-  }, [mentor]);
+  }, [mentor?.id]);
 
   if (!mentor) return null;
 
