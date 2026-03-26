@@ -204,7 +204,7 @@ const MentorPreferences = () => {
           Become a mentor
         </h1>
         <p className="text-[hsl(248,20%,58%)] text-lg max-w-xl mx-auto leading-relaxed text-pretty">
-          Share your experience and guide the next generation of product leaders.
+          Share your experience and guide the next generation of WIP product leaders.
         </p>
       </div>
 
