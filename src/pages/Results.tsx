@@ -63,7 +63,7 @@ const MentorCard = ({
   const matchedTopics = mentor.topics.filter((t) => seekerTopics.includes(t));
   const displayTopics = matchedTopics.length > 0 ? matchedTopics.slice(0, 2) : [mentor.topics[0]];
 
-  const shortReason = reason.split(".")[0] + ".";
+  
 
   return (
     <div
@@ -130,8 +130,8 @@ const MentorCard = ({
 
       {/* Footer row */}
       <div className="flex items-center justify-between gap-4">
-        <p className="text-[13px] text-muted-foreground leading-relaxed">
-          {boldKeywords(stripLevelCode(shortReason), [
+        <p className="text-[13px] text-muted-foreground leading-relaxed line-clamp-2 min-h-[2.6rem]">
+          {boldKeywords(stripLevelCode(reason), [
             stripLevelCode(mentor.seniorityLabel),
             mentor.industry,
             ...matchedTopics,
