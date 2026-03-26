@@ -89,14 +89,18 @@ const MentorProfile = () => {
             <div key={stat.label} className="bg-muted/50 rounded-lg p-3">
               <p className="text-xs text-muted-foreground mb-1">{stat.label}</p>
               {stat.isLink ? (
-                <a
-                  href={mentor.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[13px] font-medium text-primary hover:text-primary-hover transition-colors inline-flex items-center gap-1"
-                >
-                  View profile <ExternalLink className="w-3 h-3" />
-                </a>
+                mentor.linkedin ? (
+                  <a
+                    href={mentor.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[13px] font-medium text-primary hover:text-primary-hover transition-colors inline-flex items-center gap-1"
+                  >
+                    View profile <ExternalLink className="w-3 h-3" />
+                  </a>
+                ) : (
+                  <p className="text-[13px] font-medium text-muted-foreground">View profile</p>
+                )
               ) : (
                 <p className="text-[13px] font-medium text-foreground">{stat.value}</p>
               )}
