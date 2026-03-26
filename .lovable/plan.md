@@ -1,20 +1,19 @@
 
 
-## Plan: Fixed-height mentor cards with clamped reason text
+## Plan: Equal-height mentor cards with clamped reason text
 
-### Change (1 file)
+### Changes (1 file: `src/pages/Results.tsx`)
 
-**`src/pages/Results.tsx`**
+1. **Card container (line 71)**: Add `flex flex-col h-full` to make each card a flex column that stretches to fill its parent.
 
-1. **Line 71**: Add `min-h-[200px]` to the card's outer `div` className.
+2. **Footer row (line 132)**: Add `mt-auto` so the footer pins to the bottom of the card, ensuring consistent layout regardless of content length.
 
-2. **Line 133**: Add line-clamp styles to the match reason `<p>` tag. Change:
+3. **Parent list (line 204)**: Change `space-y-4` to a grid with `items-stretch`:
    ```
-   className="text-[13px] text-muted-foreground leading-relaxed"
+   grid grid-cols-1 gap-4 items-stretch
    ```
-   to:
-   ```
-   className="text-[13px] text-muted-foreground leading-relaxed overflow-hidden line-clamp-2"
-   ```
-   Tailwind's `line-clamp-2` applies `-webkit-line-clamp: 2`, `-webkit-box-orient: vertical`, and `display: -webkit-box` automatically.
+
+4. **Match reason text (line 133)**: Already has `overflow-hidden line-clamp-2`. No change needed — Tailwind's `line-clamp-2` already applies the required `-webkit-box` styles.
+
+These changes ensure all cards stretch to the same height within each row, the footer stays pinned at the bottom, and long match reasons are clamped to 2 lines.
 
