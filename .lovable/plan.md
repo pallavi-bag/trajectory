@@ -1,13 +1,21 @@
 
 
-## Plan: Fix LinkedIn link — show plain text when URL is missing
+## Plan: Normalize LinkedIn URL before rendering
 
 ### Change (1 file)
 
-**`src/pages/MentorProfile.tsx`** — In the stats grid rendering (around line 95-103), update the `isLink` branch to check `mentor.linkedin` at render time:
+**`src/pages/MentorProfile.tsx`** — Add a helper function and use it in the `href`:
 
-- If `mentor.linkedin` is truthy → render the existing `<a>` tag (already has `target="_blank"` and `rel="noopener noreferrer"`)
-- If `mentor.linkedin` is falsy → render `"View profile"` as a plain `<p>` with the same `text-[13px] font-medium` styling but muted color, no anchor tag
+```ts
+function normalizeLinkedIn(url: string): string {
+  if (url.startsWith("https://")) return url;
+  if (url.startsWith("http://")) return url.replace("http://", "https://");
+  if (url.startsWith("/in/")) return `https://www.linkedin.com${url}`;
+  if (url.startsWith("linkedin.com")) return `https://www.${url}`;
+  if (url.startsWith("www.linkedin.com")) return `https://${url}`;
+  return `https://${url}`;
+}
+```
 
-The stats array entry for LinkedIn stays as-is (always included). Only the render logic changes.
+Then on line 94, change `href={mentor.linkedin}` to `href={normalizeLinkedIn(mentor.linkedin)}`.
 
