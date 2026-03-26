@@ -68,7 +68,7 @@ const MentorCard = ({
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer rounded-2xl p-5 transition-shadow hover:shadow-md min-h-[200px] ${
+      className={`cursor-pointer rounded-2xl p-5 transition-shadow hover:shadow-md min-h-[200px] flex flex-col h-full ${
         isBest ? "bg-[#f7fdfb] border-[0.5px] border-[#9FE1CB]" : "bg-white border-[0.5px] border-border"
       }`}
     >
@@ -129,7 +129,7 @@ const MentorCard = ({
       <hr className="border-t border-[0.5px] border-border my-3" />
 
       {/* Footer row */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 mt-auto">
         <p className="text-[13px] text-muted-foreground leading-relaxed overflow-hidden line-clamp-2">
           {boldKeywords(stripLevelCode(shortReason), [
             stripLevelCode(mentor.seniorityLabel),
@@ -201,7 +201,7 @@ const Results = () => {
         )}
       </p>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-4 items-stretch">
         {matchResults.map((result, i) => (
           <MentorCard
             key={result.mentor.id}
