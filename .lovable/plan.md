@@ -1,18 +1,24 @@
 
 
-## Plan: Log seeker data in MentorProfile
-
-`seekerInput` is already destructured from `useAppState()` in `src/pages/MentorProfile.tsx` (line 18). The only change needed is adding a `console.log` inside the component body.
+## Plan: Prefill intro note textarea with seeker+mentor template
 
 ### Change (1 file)
 
-**`src/pages/MentorProfile.tsx`** — Add a console.log after the hook destructuring (around line 18-19):
+**`src/pages/MentorProfile.tsx`** — Add a `useEffect` that sets the intro note when the mentor is loaded and the note is empty:
 
 ```ts
-const { seekerInput, introNote, setIntroNote, seekerName, matchResults, mentorsList } = useAppState();
+useEffect(() => {
+  if (mentor && !introNote) {
+    const stage = seekerInput.careerStage?.split("(")[0]?.trim() || "product professional";
+    const seekerTopic = seekerInput.topics?.[0] || "growing in my career";
+    const mentorTopic = mentor.topics?.[0] || "your area of expertise";
 
-console.log("[MentorProfile] seekerInput:", seekerInput);
+    setIntroNote(
+      `Hi ${mentor.name},\n\nI came across your profile and it really resonated — ${mentor.bio}\n\nI'm currently a ${stage} and I'm focused on ${seekerTopic}. Your experience in ${mentorTopic} is exactly what I'm hoping to learn from.\n\nWould you be open to a conversation?`
+    );
+  }
+}, [mentor]);
 ```
 
-This will log the full `SeekerInput` object (`goal`, `topics`, `careerStage`, `industry`, `availability`) every render so you can confirm it's flowing through correctly.
+The textarea already uses `introNote` as its value and `setIntroNote` on change, so it will be prefilled but fully editable. No other UI changes.
 
