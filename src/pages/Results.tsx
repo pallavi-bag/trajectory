@@ -68,7 +68,7 @@ const MentorCard = ({
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer rounded-2xl p-5 transition-shadow hover:shadow-md ${
+      className={`cursor-pointer rounded-2xl p-5 transition-shadow hover:shadow-md min-h-[200px] ${
         isBest ? "bg-[#f7fdfb] border-[0.5px] border-[#9FE1CB]" : "bg-white border-[0.5px] border-border"
       }`}
     >
@@ -130,7 +130,7 @@ const MentorCard = ({
 
       {/* Footer row */}
       <div className="flex items-center justify-between gap-4">
-        <p className="text-[13px] text-muted-foreground leading-relaxed">
+        <p className="text-[13px] text-muted-foreground leading-relaxed overflow-hidden line-clamp-2">
           {boldKeywords(stripLevelCode(shortReason), [
             stripLevelCode(mentor.seniorityLabel),
             mentor.industry,
