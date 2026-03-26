@@ -362,7 +362,7 @@ const MentorPreferences = () => {
         <div className="space-y-8 animate-fade-in">
           <div>
             <h1 className="text-xl font-bold text-foreground mb-1">Tell your story</h1>
-            <p className="text-sm text-muted-foreground">This is what seekers will see when deciding to reach out</p>
+            <p className="text-sm text-muted-foreground">Help seekers understand who you are and how you can help them.</p>
           </div>
 
           <div>
