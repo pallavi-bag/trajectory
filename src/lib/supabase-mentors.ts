@@ -11,8 +11,8 @@ const ROLE_LEVEL_MAP: Record<string, { level: number; label: string }> = {
   "VP Product": { level: 6, label: "VP Product · Dir+" },
   "Head of Product": { level: 6, label: "Head of Product · Dir+" },
   "Chief Product Officer": { level: 6, label: "CPO · Dir+" },
-  "Founder": { level: 5, label: "Founder · IC5" },
-  "Other": { level: 3, label: "PM · IC3" },
+  Founder: { level: 5, label: "Founder · IC5" },
+  Other: { level: 3, label: "PM · IC3" },
 };
 
 function slugify(name: string): string {
@@ -24,10 +24,7 @@ function slugify(name: string): string {
 }
 
 export async function fetchMentors(): Promise<Mentor[]> {
-  const { data, error } = await supabase
-    .from("mentors")
-    .select("*")
-    .eq("open_to_mentoring", true);
+  const { data, error } = await supabase.from("mentors").select("*").eq("open_to_mentoring", true);
 
   if (error) {
     console.error("Failed to fetch mentors:", error);
@@ -48,15 +45,12 @@ export async function fetchMentors(): Promise<Mentor[]> {
     linkedin: row.linkedin ?? "",
     transitionNote: row.transition_note ?? "",
     createdAt: row.created_at,
+    maxMentees: row.max_mentees ?? "",
   }));
 }
 
 export async function fetchMentorById(id: string): Promise<Mentor | null> {
-  const { data, error } = await supabase
-    .from("mentors")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
+  const { data, error } = await supabase.from("mentors").select("*").eq("id", id).maybeSingle();
 
   if (error || !data) return null;
 
