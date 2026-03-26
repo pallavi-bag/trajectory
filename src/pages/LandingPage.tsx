@@ -299,7 +299,7 @@ const LandingPage = () => {
             We curate your mentor matches based on trajectory alignment and time commitment.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
-            Five key factors, one perfect match.
+            Five key factors, one perfect match. 
           </p>
 
           {/* Demo card */}
