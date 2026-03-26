@@ -135,6 +135,24 @@ const MentorProfile = () => {
           <label className="block text-sm font-medium text-foreground mb-1.5">
             Write an intro note
           </label>
+          <div className="flex gap-1.5 mb-2">
+            {(["warm", "direct", "curious"] as Tone[]).map((tone) => (
+              <button
+                key={tone}
+                onClick={() => {
+                  setActiveTone(tone);
+                  if (mentor) setIntroNote(generateNote(tone, mentor, seekerInput));
+                }}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  activeTone === tone
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-border text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {tone.charAt(0).toUpperCase() + tone.slice(1)}
+              </button>
+            ))}
+          </div>
           <textarea
             value={introNote}
             onChange={(e) => setIntroNote(e.target.value)}
