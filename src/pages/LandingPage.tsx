@@ -430,10 +430,10 @@ const LandingPage = () => {
                 For mentors
               </span>
               <h3 className="font-semibold text-foreground mb-2 text-sm">
-                Give back to the WIP community
+                Guide the next generation of WIP leaders
               </h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed bg-primary-foreground">
-                Share your time commitment and background to get matched with mentees who want your expertise.
+                Give back by supporting women navigate paths you’ve already mastered.
               </p>
               <button
                 onClick={() => navigate("/become-mentor")}
