@@ -21,6 +21,18 @@ const MentorProfile = () => {
     if (!mentor) navigate("/", { replace: true });
   }, [mentor, navigate]);
 
+  useEffect(() => {
+    if (mentor && !introNote) {
+      const stage = seekerInput.careerStage?.split("(")[0]?.trim() || "product professional";
+      const seekerTopic = seekerInput.topics?.[0] || "growing in my career";
+      const mentorTopic = mentor.topics?.[0] || "your area of expertise";
+
+      setIntroNote(
+        `Hi ${mentor.name},\n\nI came across your profile and it really resonated — ${mentor.bio}\n\nI'm currently a ${stage} and I'm focused on ${seekerTopic}. Your experience in ${mentorTopic} is exactly what I'm hoping to learn from.\n\nWould you be open to a conversation?`
+      );
+    }
+  }, [mentor]);
+
   if (!mentor) return null;
 
   const hasResults = matchResults.length > 0;
