@@ -33,6 +33,7 @@ const Landing = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const MAX_TOPICS = 4;
   const canSubmit = topics.length > 0 && stage;
 
   useEffect(() => {
