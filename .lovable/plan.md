@@ -1,23 +1,12 @@
 
 
-## Plan: Regenerate intro note when mentor changes
+## Plan: Clamp reason text in MentorCard
 
-### Change (1 file)
+### Changes (1 file)
 
-**`src/pages/MentorProfile.tsx`** — Update the `useEffect` on line 52-56:
+**`src/pages/Results.tsx`**
 
-- Remove the `!introNote` guard so the note always regenerates when the mentor changes
-- Reset `activeTone` to `"warm"` when mentor changes
-- Add `mentor.id` as the dependency (stable identifier) instead of the full `mentor` object
-
-```ts
-useEffect(() => {
-  if (mentor) {
-    setActiveTone("warm");
-    setIntroNote(generateNote("warm", mentor, seekerInput));
-  }
-}, [mentor?.id]);
-```
-
-This ensures navigating to a different mentor profile always generates a fresh intro note with the correct name and topics.
+1. **Delete line ~68**: `const shortReason = reason.split(".")[0] + ".";`
+2. **Update the `<p>` tag** (~line 111): Add `line-clamp-2 min-h-[2.6rem]` classes
+3. **Update the text reference**: Change `shortReason` → `reason` inside that `<p>` (and in the `boldKeywords` call)
 
