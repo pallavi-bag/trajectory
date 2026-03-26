@@ -157,7 +157,7 @@ const Landing = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">What do you need help with?</label>
-                  <p className="text-xs text-muted-foreground mb-1.5">Share your goal in your own words</p>
+                  <p className="text-xs text-muted-foreground mb-1.5">Mention any specific challenges, skills, or milestones you're working toward.</p>
                   <textarea
                     value={goal}
                     onChange={(e) => setGoal(e.target.value)}
