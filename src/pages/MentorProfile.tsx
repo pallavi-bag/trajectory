@@ -1,17 +1,36 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppState } from "@/lib/context";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import type { Mentor, SeekerInput } from "@/lib/data";
+
+type Tone = "warm" | "direct" | "curious";
 
 function stripLevelCode(text: string): string {
   return text.replace(/\s*·\s*(IC\d+|Dir\+)/gi, '').trim();
+}
+
+function generateNote(tone: Tone, mentor: Mentor, seekerInput: SeekerInput): string {
+  const stage = seekerInput.careerStage?.split("(")[0]?.trim() || "product professional";
+  const seekerTopic = seekerInput.topics?.[0] || "growing in my career";
+  const mentorTopic = mentor.topics?.[0] || "your area of expertise";
+
+  switch (tone) {
+    case "warm":
+      return `Hi ${mentor.name},\n\nI came across your profile and it really resonated — ${mentor.bio}\n\nI'm currently a ${stage} and I'm focused on ${seekerTopic}. Your experience in ${mentorTopic} is exactly what I'm hoping to learn from.\n\nThank you for sharing your time — it means a lot. Would you be open to a conversation?`;
+    case "direct":
+      return `Hi ${mentor.name},\n\nI'm a ${stage} looking for guidance on ${seekerTopic}. Your experience in ${mentorTopic} stood out to me.\n\nWould you be open to a 20-minute call?`;
+    case "curious":
+      return `Hi ${mentor.name},\n\nI've been thinking a lot about ${seekerTopic} lately, and one question I keep coming back to is how to navigate it at scale. Your background in ${mentorTopic} — especially ${mentor.bio} — makes me think you'd have a great perspective.\n\nI'm currently a ${stage}. Would love to hear how you'd approach it — open to a chat?`;
+  }
 }
 
 const MentorProfile = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { seekerInput, introNote, setIntroNote, seekerName, matchResults, mentorsList } = useAppState();
+  const [activeTone, setActiveTone] = useState<Tone>("warm");
 
   console.log("[MentorProfile] seekerInput:", seekerInput);
 
@@ -23,13 +42,7 @@ const MentorProfile = () => {
 
   useEffect(() => {
     if (mentor && !introNote) {
-      const stage = seekerInput.careerStage?.split("(")[0]?.trim() || "product professional";
-      const seekerTopic = seekerInput.topics?.[0] || "growing in my career";
-      const mentorTopic = mentor.topics?.[0] || "your area of expertise";
-
-      setIntroNote(
-        `Hi ${mentor.name},\n\nI came across your profile and it really resonated — ${mentor.bio}\n\nI'm currently a ${stage} and I'm focused on ${seekerTopic}. Your experience in ${mentorTopic} is exactly what I'm hoping to learn from.\n\nWould you be open to a conversation?`
-      );
+      setIntroNote(generateNote("warm", mentor, seekerInput));
     }
   }, [mentor]);
 
