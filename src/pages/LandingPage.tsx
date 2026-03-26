@@ -465,7 +465,7 @@ const LandingPage = () => {
             className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-6"
             style={{ color: "hsl(var(--gold))" }}
           >
-            TEAM KATHERINE JOHNSON · WIP WOMEN'S HISTORY HACKATHON 2026
+            TEAM KATHERINE JOHNSON · WIP WOMEN'S HISTORY MONTH HACKATHON 2026
           </p>
           <blockquote
             className="text-lg sm:text-xl text-nav-foreground italic leading-relaxed mb-4"
