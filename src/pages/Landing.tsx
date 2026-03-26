@@ -156,7 +156,7 @@ const Landing = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1">{"\n"}</label>
+                  <label className="block text-sm font-medium text-foreground mb-1">What do you need help with?</label>
                   <p className="text-xs text-muted-foreground mb-1.5">Share your goal in your own words</p>
                   <textarea
                     value={goal}
