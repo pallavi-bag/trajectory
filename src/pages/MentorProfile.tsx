@@ -13,6 +13,8 @@ const MentorProfile = () => {
   const navigate = useNavigate();
   const { seekerInput, introNote, setIntroNote, seekerName, matchResults, mentorsList } = useAppState();
 
+  console.log("[MentorProfile] seekerInput:", seekerInput);
+
   const mentor = mentorsList.find((m) => m.id === id);
 
   useEffect(() => {
