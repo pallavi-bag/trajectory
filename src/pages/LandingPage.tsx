@@ -296,7 +296,7 @@ const LandingPage = () => {
         >
           <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-3">The matching engine</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3" style={{ fontFamily: SERIF }}>
-            We curate your mentor matches based on trajectory alignment and availability.
+            We curate your mentor matches based on trajectory alignment and time commitment.
           </h2>
           <p className="text-muted-foreground text-sm sm:text-base mb-8 leading-relaxed max-w-lg">
             Five simple criteria help us match you to a fellow WIP mentor.
@@ -433,7 +433,7 @@ const LandingPage = () => {
                 Give back to the WIP community
               </h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed bg-primary-foreground">
-                Share your availability and background to get matched with mentees who want your expertise.
+                Share your time commitment and background to get matched with mentees who want your expertise.
               </p>
               <button
                 onClick={() => navigate("/become-mentor")}
