@@ -432,7 +432,7 @@ const LandingPage = () => {
               <span className="text-[20px] uppercase tracking-widest text-wip-purple font-semibold mb-2">
                 For mentors
               </span>
-              <h3 className="font-semibold text-foreground mb-2 text-sm">Give back to the WIP community</h3>
+              <h3 className="font-semibold text-foreground mb-2 text-sm">Guide the next generation of WIP leaders</h3>
               <p className="text-sm text-muted-foreground mb-6 flex-1 leading-relaxed bg-primary-foreground">
                 Give back by supporting women navigate paths you've already mastered.
               </p>
