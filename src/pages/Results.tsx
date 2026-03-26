@@ -8,32 +8,34 @@ function normalizeScore(raw: number): number {
   return Math.max(40, Math.min(Math.round(raw), 100));
 }
 
-function getScoreDots(score: number): Array<'filled' | 'partial' | 'weak'> {
-  if (score >= 90) return ['filled', 'filled', 'filled', 'filled', 'filled'];
-  if (score >= 80) return ['filled', 'filled', 'filled', 'filled', 'partial'];
-  if (score >= 70) return ['filled', 'filled', 'filled', 'partial', 'weak'];
-  if (score >= 60) return ['filled', 'filled', 'partial', 'weak', 'weak'];
-  if (score >= 50) return ['filled', 'partial', 'weak', 'weak', 'weak'];
-  return ['partial', 'weak', 'weak', 'weak', 'weak'];
+function getScoreDots(score: number): Array<"filled" | "partial" | "weak"> {
+  if (score >= 90) return ["filled", "filled", "filled", "filled", "filled"];
+  if (score >= 80) return ["filled", "filled", "filled", "filled", "partial"];
+  if (score >= 70) return ["filled", "filled", "filled", "partial", "weak"];
+  if (score >= 60) return ["filled", "filled", "partial", "weak", "weak"];
+  if (score >= 50) return ["filled", "partial", "weak", "weak", "weak"];
+  return ["partial", "weak", "weak", "weak", "weak"];
 }
 
 function stripLevelCode(text: string): string {
-  return text.replace(/\s*·\s*(IC\d+|Dir\+)/gi, '').trim();
+  return text.replace(/\s*·\s*(IC\d+|Dir\+)/gi, "").trim();
 }
 
 function boldKeywords(text: string, keywords: string[]): React.ReactNode {
   const unique = [...new Set(keywords.filter(Boolean))];
   unique.sort((a, b) => b.length - a.length);
-  const escaped = unique.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const escaped = unique.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   if (escaped.length === 0) return text;
-  const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
+  const regex = new RegExp(`(${escaped.join("|")})`, "gi");
   const parts = text.split(regex);
   return (
     <>
       {parts.map((part, i) => {
         const isMatch = unique.some((k) => k.toLowerCase() === part.toLowerCase());
         return isMatch ? (
-          <strong key={i} className="text-[#0F6E56] font-semibold">{part}</strong>
+          <strong key={i} className="text-[#0F6E56] font-semibold">
+            {part}
+          </strong>
         ) : (
           <span key={i}>{part}</span>
         );
@@ -59,9 +61,7 @@ const MentorCard = ({
   const dots = getScoreDots(displayScore);
 
   const matchedTopics = mentor.topics.filter((t) => seekerTopics.includes(t));
-  const displayTopics = matchedTopics.length > 0
-    ? matchedTopics.slice(0, 2)
-    : [mentor.topics[0]];
+  const displayTopics = matchedTopics.length > 0 ? matchedTopics.slice(0, 2) : [mentor.topics[0]];
 
   const shortReason = reason.split(".")[0] + ".";
 
@@ -69,9 +69,7 @@ const MentorCard = ({
     <div
       onClick={onClick}
       className={`cursor-pointer rounded-2xl p-5 transition-shadow hover:shadow-md ${
-        isBest
-          ? "bg-[#f7fdfb] border-[0.5px] border-[#9FE1CB]"
-          : "bg-white border-[0.5px] border-border"
+        isBest ? "bg-[#f7fdfb] border-[0.5px] border-[#9FE1CB]" : "bg-white border-[0.5px] border-border"
       }`}
     >
       {/* Best match badge */}
@@ -85,11 +83,16 @@ const MentorCard = ({
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
-            {mentor.name.split(" ").map((n) => n[0]).join("")}
+            {mentor.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")}
           </div>
           <div>
             <p className="font-semibold text-foreground text-sm">{mentor.name}</p>
-            <p className="text-muted-foreground text-xs">{stripLevelCode(mentor.seniorityLabel)} · {mentor.industry}</p>
+            <p className="text-muted-foreground text-xs">
+              {stripLevelCode(mentor.seniorityLabel)} · {mentor.industry}
+            </p>
           </div>
         </div>
         <div className="flex flex-col items-end shrink-0">
@@ -102,7 +105,7 @@ const MentorCard = ({
               <div
                 key={i}
                 className={`w-1.5 h-1.5 rounded-sm ${
-                  status === 'filled' ? 'bg-[#1D9E75]' : status === 'partial' ? 'bg-[#9FE1CB]' : 'bg-gray-200'
+                  status === "filled" ? "bg-[#1D9E75]" : status === "partial" ? "bg-[#9FE1CB]" : "bg-gray-200"
                 }`}
               />
             ))}
@@ -128,11 +131,13 @@ const MentorCard = ({
       {/* Footer row */}
       <div className="flex items-center justify-between gap-4">
         <p className="text-[13px] text-muted-foreground leading-relaxed">
-          {boldKeywords(stripLevelCode(shortReason), [stripLevelCode(mentor.seniorityLabel), mentor.industry, ...matchedTopics])}
+          {boldKeywords(stripLevelCode(shortReason), [
+            stripLevelCode(mentor.seniorityLabel),
+            mentor.industry,
+            ...matchedTopics,
+          ])}
         </p>
-        <span className="text-[11px] text-[#1D9E75] hover:underline shrink-0 cursor-pointer">
-          View profile →
-        </span>
+        <span className="text-[11px] text-[#1D9E75] hover:underline shrink-0 cursor-pointer">View profile →</span>
       </div>
     </div>
   );
@@ -179,9 +184,21 @@ const Results = () => {
       </button>
 
       <p className="text-sm text-muted-foreground mb-6">
-        Matches for:{" "}
-        <span className="font-medium text-foreground">{seekerInput.topics.join(", ")}</span> ·{" "}
+        Matches for: <span className="font-medium text-foreground">{seekerInput.topics.join(", ")}</span>
+        {" · "}
         <span className="font-medium text-foreground">{seekerInput.careerStage}</span>
+        {seekerInput.industry && (
+          <>
+            {" · "}
+            <span className="font-medium text-foreground">{seekerInput.industry}</span>
+          </>
+        )}
+        {seekerInput.availability && (
+          <>
+            {" · "}
+            <span className="font-medium text-foreground">{seekerInput.availability}</span>
+          </>
+        )}
       </p>
 
       <div className="space-y-4">
