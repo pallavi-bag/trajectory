@@ -47,7 +47,9 @@ const Landing = () => {
   }, []);
 
   const toggleTopic = (t: string) => {
-    setTopics((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
+    setTopics((prev) =>
+      prev.includes(t) ? prev.filter((x) => x !== t) : prev.length < MAX_TOPICS ? [...prev, t] : prev
+    );
   };
 
   const handleSubmit = () => {
