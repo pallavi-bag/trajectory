@@ -63,7 +63,7 @@ const MentorCard = ({
   const matchedTopics = mentor.topics.filter((t) => seekerTopics.includes(t));
   const displayTopics = matchedTopics.length > 0 ? matchedTopics.slice(0, 2) : [mentor.topics[0]];
 
-  const shortReason = reason.split(".")[0] + ".";
+  
 
   return (
     <div
