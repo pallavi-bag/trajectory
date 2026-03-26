@@ -130,8 +130,8 @@ const MentorCard = ({
 
       {/* Footer row */}
       <div className="flex items-center justify-between gap-4">
-        <p className="text-[13px] text-muted-foreground leading-relaxed">
-          {boldKeywords(stripLevelCode(shortReason), [
+        <p className="text-[13px] text-muted-foreground leading-relaxed line-clamp-2 min-h-[2.6rem]">
+          {boldKeywords(stripLevelCode(reason), [
             stripLevelCode(mentor.seniorityLabel),
             mentor.industry,
             ...matchedTopics,
