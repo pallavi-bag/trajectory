@@ -142,8 +142,9 @@ const Landing = () => {
                             key={t}
                             type="button"
                             onClick={() => toggleTopic(t)}
+                            disabled={!selected && topics.length >= MAX_TOPICS}
                             className={`w-full text-left px-3 py-2 text-sm transition-colors ${
-                              selected ? "bg-primary/10 text-primary font-medium" : "text-foreground hover:bg-accent"
+                              selected ? "bg-primary/10 text-primary font-medium" : topics.length >= MAX_TOPICS ? "text-muted-foreground cursor-not-allowed" : "text-foreground hover:bg-primary/5 hover:text-primary"
                             }`}
                           >
                             {t}
