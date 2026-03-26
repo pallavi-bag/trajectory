@@ -23,16 +23,15 @@ function stripLevelCode(text: string): string {
 function generateNote(tone: Tone, mentor: Mentor, seekerInput: SeekerInput): string {
   const stage = seekerInput.careerStage?.split("(")[0]?.trim() || "product professional";
   const seekerTopic = seekerInput.topics?.[0] || "growing in my career";
-  const mentorTopic = mentor.topics?.[0] || "your area of expertise";
-  const mentorTopic2 = mentor.topics?.[1] || mentorTopic;
+  const sharedTopic = mentor.topics.find(t => seekerInput.topics.includes(t)) ?? mentor.topics[0] ?? "your area of expertise";
 
   switch (tone) {
     case "warm":
-      return `Hi ${mentor.name},\n\nYour profile caught my attention — especially your work in ${mentorTopic} and ${mentorTopic2}.\n\nI'm a ${stage} looking to get better at ${seekerTopic}. I'd love to learn from someone who's been in the trenches with this.\n\nWould you be open to a short conversation? I'll keep it focused and respect your time.`;
+      return `Hi ${mentor.name},\n\nYour profile caught my attention — especially your focus on ${sharedTopic}.\n\nI'm a ${stage} looking to get better at ${seekerTopic}. I'd love to learn from someone who's been in the trenches with this.\n\nWould you be open to a short conversation? I'll keep it focused and respect your time.`;
     case "direct":
-      return `Hi ${mentor.name},\n\nI'm a ${stage} looking for guidance on ${seekerTopic}. Your experience in ${mentorTopic} stood out to me.\n\nWould you be open to a 20-minute call?`;
+      return `Hi ${mentor.name},\n\nI'm a ${stage} looking for guidance on ${seekerTopic}. Your experience in ${sharedTopic} stood out to me.\n\nWould you be open to a 20-minute call?`;
     case "curious":
-      return `Hi ${mentor.name},\n\nI've been thinking a lot about ${seekerTopic} lately, and one question I keep coming back to is how to navigate it at scale. Your background in ${mentorTopic} and ${mentorTopic2} makes me think you'd have a great perspective.\n\nI'm currently a ${stage}. Would love to hear how you'd approach it — open to a chat?`;
+      return `Hi ${mentor.name},\n\nI've been thinking a lot about ${seekerTopic} lately, and one question I keep coming back to is how to navigate it at scale. Your background in ${sharedTopic} makes me think you'd have a great perspective.\n\nI'm currently a ${stage}. Would love to hear how you'd approach it — open to a chat?`;
   }
 }
 
