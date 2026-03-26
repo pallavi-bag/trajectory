@@ -7,6 +7,15 @@ import type { Mentor, SeekerInput } from "@/lib/data";
 
 type Tone = "warm" | "direct" | "curious";
 
+function normalizeLinkedIn(url: string): string {
+  if (url.startsWith("https://")) return url;
+  if (url.startsWith("http://")) return url.replace("http://", "https://");
+  if (url.startsWith("/in/")) return `https://www.linkedin.com${url}`;
+  if (url.startsWith("linkedin.com")) return `https://www.${url}`;
+  if (url.startsWith("www.linkedin.com")) return `https://${url}`;
+  return `https://${url}`;
+}
+
 function stripLevelCode(text: string): string {
   return text.replace(/\s*·\s*(IC\d+|Dir\+)/gi, '').trim();
 }
@@ -91,7 +100,7 @@ const MentorProfile = () => {
               {stat.isLink ? (
                 mentor.linkedin ? (
                   <a
-                    href={mentor.linkedin}
+                    href={normalizeLinkedIn(mentor.linkedin!)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[13px] font-medium text-primary hover:text-primary-hover transition-colors inline-flex items-center gap-1"
