@@ -33,6 +33,7 @@ const Landing = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const MAX_TOPICS = 4;
   const canSubmit = topics.length > 0 && stage;
 
   useEffect(() => {
@@ -46,7 +47,9 @@ const Landing = () => {
   }, []);
 
   const toggleTopic = (t: string) => {
-    setTopics((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
+    setTopics((prev) =>
+      prev.includes(t) ? prev.filter((x) => x !== t) : prev.length < MAX_TOPICS ? [...prev, t] : prev
+    );
   };
 
   const handleSubmit = () => {
@@ -107,7 +110,7 @@ const Landing = () => {
                     className="w-full flex items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring min-h-[38px]"
                   >
                     <span className={topics.length === 0 ? "text-muted-foreground" : ""}>
-                      {topics.length === 0 ? "Select topics…" : `${topics.length} selected`}
+                      {topics.length === 0 ? "Select up to 4 topics…" : `${topics.length}/${MAX_TOPICS} selected`}
                     </span>
                     <ChevronDown
                       className={`w-4 h-4 text-muted-foreground transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
@@ -139,8 +142,9 @@ const Landing = () => {
                             key={t}
                             type="button"
                             onClick={() => toggleTopic(t)}
+                            disabled={!selected && topics.length >= MAX_TOPICS}
                             className={`w-full text-left px-3 py-2 text-sm transition-colors ${
-                              selected ? "bg-primary/10 text-primary font-medium" : "text-foreground hover:bg-accent"
+                              selected ? "bg-primary/10 text-primary font-medium" : topics.length >= MAX_TOPICS ? "text-muted-foreground cursor-not-allowed" : "text-foreground hover:bg-primary/5 hover:text-primary"
                             }`}
                           >
                             {t}
