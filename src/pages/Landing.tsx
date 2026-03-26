@@ -103,7 +103,7 @@ const Landing = () => {
               {/* Group 1 — What do you need help with */}
               <div className="space-y-4">
                 <div ref={dropdownRef}>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Focus Area</label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Focus Area(s)</label>
                   <button
                     type="button"
                     onClick={() => setDropdownOpen((o) => !o)}
