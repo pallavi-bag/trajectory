@@ -3,6 +3,19 @@ import { useAppState } from "@/lib/context";
 import { ArrowLeft } from "lucide-react";
 import type { MatchResult } from "@/lib/data";
 import { useEffect } from "react";
+import avatarRiya from "@/assets/avatar-riya.jpg";
+import avatarMaya from "@/assets/avatar-maya.jpg";
+import avatarSara from "@/assets/avatar-sara.jpg";
+import avatarPriya from "@/assets/avatar-priya.jpg";
+import avatarAnika from "@/assets/avatar-anika.jpg";
+
+const AVATAR_MAP: Record<string, string> = {
+  "riya-kapoor": avatarRiya,
+  "maya-johnson": avatarMaya,
+  "sara-lin": avatarSara,
+  "priya-nair": avatarPriya,
+  "anika-patel": avatarAnika,
+};
 
 function normalizeScore(raw: number): number {
   return Math.max(40, Math.min(Math.round(raw), 100));
@@ -82,12 +95,20 @@ const MentorCard = ({
       {/* Header row */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
-            {mentor.name
-              .split(" ")
-              .map((n) => n[0])
-              .join("")}
-          </div>
+          {AVATAR_MAP[mentor.id] ? (
+            <img
+              src={AVATAR_MAP[mentor.id]}
+              alt={mentor.name}
+              loading="lazy"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full object-cover shrink-0"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
+              {mentor.name.split(" ").map((n) => n[0]).join("")}
+            </div>
+          )}
           <div>
             <p className="font-semibold text-foreground text-sm">{mentor.name}</p>
             <p className="text-muted-foreground text-xs">
