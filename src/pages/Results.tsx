@@ -95,12 +95,20 @@ const MentorCard = ({
       {/* Header row */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
-            {mentor.name
-              .split(" ")
-              .map((n) => n[0])
-              .join("")}
-          </div>
+          {AVATAR_MAP[mentor.id] ? (
+            <img
+              src={AVATAR_MAP[mentor.id]}
+              alt={mentor.name}
+              loading="lazy"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full object-cover shrink-0"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-tint flex items-center justify-center text-primary font-semibold text-sm shrink-0">
+              {mentor.name.split(" ").map((n) => n[0]).join("")}
+            </div>
+          )}
           <div>
             <p className="font-semibold text-foreground text-sm">{mentor.name}</p>
             <p className="text-muted-foreground text-xs">
