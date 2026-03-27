@@ -4,19 +4,7 @@ import { useAppState } from "@/lib/context";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import type { Mentor, SeekerInput } from "@/lib/data";
-import avatarRiya from "@/assets/avatar-riya.jpg";
-import avatarMaya from "@/assets/avatar-maya.jpg";
-import avatarSara from "@/assets/avatar-sara.jpg";
-import avatarPriya from "@/assets/avatar-priya.jpg";
-import avatarAnika from "@/assets/avatar-anika.jpg";
-
-const AVATAR_MAP: Record<string, string> = {
-  "riya-kapoor": avatarRiya,
-  "maya-johnson": avatarMaya,
-  "sara-lin": avatarSara,
-  "priya-nair": avatarPriya,
-  "anika-patel": avatarAnika,
-};
+import { getMentorAvatar } from "@/lib/avatar-map";
 
 type Tone = "warm" | "direct" | "curious";
 

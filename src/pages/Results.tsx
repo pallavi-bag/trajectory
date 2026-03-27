@@ -83,9 +83,9 @@ const MentorCard = ({
       {/* Header row */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          {AVATAR_MAP[mentor.id] ? (
+          {getMentorAvatar(mentor.id) ? (
             <img
-              src={AVATAR_MAP[mentor.id]}
+              src={getMentorAvatar(mentor.id)}
               alt={mentor.name}
               loading="lazy"
               width={40}
