@@ -75,9 +75,9 @@ const MentorProfile = () => {
       <div className="bg-white rounded-2xl border-[0.5px] border-border p-5 mb-6">
         {/* Header */}
         <div className="flex items-center gap-3 mb-5">
-          {AVATAR_MAP[mentor.id] ? (
+          {getMentorAvatar(mentor.id) ? (
             <img
-              src={AVATAR_MAP[mentor.id]}
+              src={getMentorAvatar(mentor.id)}
               alt={mentor.name}
               loading="lazy"
               width={40}
