@@ -3,19 +3,7 @@ import { useAppState } from "@/lib/context";
 import { ArrowLeft } from "lucide-react";
 import type { MatchResult } from "@/lib/data";
 import { useEffect } from "react";
-import avatarRiya from "@/assets/avatar-riya.jpg";
-import avatarMaya from "@/assets/avatar-maya.jpg";
-import avatarSara from "@/assets/avatar-sara.jpg";
-import avatarPriya from "@/assets/avatar-priya.jpg";
-import avatarAnika from "@/assets/avatar-anika.jpg";
-
-const AVATAR_MAP: Record<string, string> = {
-  "riya-kapoor": avatarRiya,
-  "maya-johnson": avatarMaya,
-  "sara-lin": avatarSara,
-  "priya-nair": avatarPriya,
-  "anika-patel": avatarAnika,
-};
+import { getMentorAvatar } from "@/lib/avatar-map";
 
 function normalizeScore(raw: number): number {
   return Math.max(40, Math.min(Math.round(raw), 100));
